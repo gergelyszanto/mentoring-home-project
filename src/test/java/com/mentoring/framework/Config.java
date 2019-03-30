@@ -9,10 +9,10 @@ import java.util.Properties;
 @Slf4j
 public class Config {
 
-    private static final String CONFIG_PROPERTIES = "config.properties";
-    static final Browser BROWSER;
     public static final int LOAD_WAIT;
     public static final String BASE_URL = "http://localhost:8080";
+    static final Browser BROWSER;
+    private static final String CONFIG_PROPERTIES = "config.properties";
 
     static {
         Properties prop = loadProperties(CONFIG_PROPERTIES);
