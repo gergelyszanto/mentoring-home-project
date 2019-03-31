@@ -1,8 +1,6 @@
 package com.mentoring.framework;
 
 import com.mentoring.utils.LogUtils;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -19,9 +17,6 @@ import java.util.concurrent.TimeUnit;
 public class BasicTest {
 
     private static final short PAGE_LOAD_TIMEOUT = 60;
-
-    @Getter
-    @Setter
     protected WebDriver driver;
 
     @BeforeMethod(alwaysRun = true)
