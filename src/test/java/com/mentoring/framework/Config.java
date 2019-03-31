@@ -7,17 +7,21 @@ import java.io.IOException;
 import java.util.Properties;
 
 @Slf4j
-public class Config {
+public final class Config {
 
     public static final int LOAD_WAIT;
-    public static final String BASE_URL = "http://localhost:8080";
+    public static final String BASE_URL;
     static final Browser BROWSER;
-    private static final String CONFIG_PROPERTIES = "config.properties";
+    private static final String LOCALHOST_PROPERTIES = "localhost.properties";
 
     static {
-        Properties prop = loadProperties(CONFIG_PROPERTIES);
+        Properties prop = loadProperties(LOCALHOST_PROPERTIES);
         LOAD_WAIT = Integer.parseInt(prop.getProperty("load_wait"));
         BROWSER = Browser.parse(System.getenv("BROWSER"));
+        BASE_URL = prop.getProperty("base_url");
+    }
+
+    private Config() {
     }
 
     private static Properties loadProperties(String propertyFile) {

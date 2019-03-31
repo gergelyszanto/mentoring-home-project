@@ -2,9 +2,7 @@ package com.mentoring.pageobject;
 
 import com.mentoring.framework.Config;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class Page {
 
     private final String url;
-    private WebDriver driver;
+    WebDriver driver;
 
     Page(WebDriver driver, String path) {
         this.driver = driver;
@@ -35,6 +33,31 @@ public abstract class Page {
         WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(element)));
         return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    WebElement waitUntilClickable(WebElement element) {
+        return new WebDriverWait(driver, Config.LOAD_WAIT).until(ExpectedConditions.elementToBeClickable(element));
+    }
+
+    String getText(WebElement element) {
+        String elementText = "";
+        try {
+            elementText = waitUntilVisible(element).getText();
+        } catch (NoSuchElementException | TimeoutException e) {
+            log.error("Could not locate element", e);
+        }
+        return elementText;
+    }
+
+    boolean isElementDisplayed(WebElement element) {
+        boolean elementDisplayed = false;
+        try {
+            waitUntilVisible(element);
+            elementDisplayed = element.isDisplayed();
+        } catch (NoSuchElementException | TimeoutException exception) {
+            log.info("Element '{}' didn't appear", element);
+        }
+        return elementDisplayed;
     }
 
     public abstract void waitUntilPageLoads();
