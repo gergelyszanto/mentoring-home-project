@@ -11,14 +11,23 @@ public class MainPage extends Page {
     @FindBy(id = "reg-username")
     private WebElement registrationUsername;
 
+    @FindBy(id = "invalid-username")
+    private WebElement invalidUsername;
+
     @FindBy(id = "reg-password")
     private WebElement registrationPassword;
+
+    @FindBy(id = "invalid-password")
+    private WebElement invalidPassword;
 
     @FindBy(id = "reg-confirm-password")
     private WebElement registrationConfirmPassword;
 
     @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
+
+    @FindBy(id = "invalid-email")
+    private WebElement invalidEmail;
 
     @FindBy(id = "registration-button")
     private WebElement submitRegistrationButton;
@@ -63,5 +72,21 @@ public class MainPage extends Page {
 
     @Override
     public void waitUntilPageLoads() {
+    }
+
+    public boolean invalidUserName() {
+        return isElementDisplayed(invalidUsername);
+    }
+
+    public boolean invalidPassword() {
+        return isElementDisplayed(invalidPassword);
+    }
+
+    public boolean invalidEmailAddress() {
+        return isElementDisplayed(invalidEmail);
+    }
+
+    public boolean isSubmitButtonEnabled() {
+        return submitRegistrationButton.isEnabled();
     }
 }
