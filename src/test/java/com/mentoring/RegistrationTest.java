@@ -17,7 +17,6 @@ public class RegistrationTest extends BasicTest {
     @BeforeMethod(alwaysRun = true)
     private void setup() {
         softAssertion = new SoftAssertions();
-        driver.get(Config.BASE_URL);
     }
 
     @Test(groups = "smoke")
