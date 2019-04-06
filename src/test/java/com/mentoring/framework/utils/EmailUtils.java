@@ -3,7 +3,12 @@ package com.mentoring.framework.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 
-import javax.mail.*;
+import javax.mail.BodyPart;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.ArrayList;
