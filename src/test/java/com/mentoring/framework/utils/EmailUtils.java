@@ -50,12 +50,12 @@ public class EmailUtils {
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
                 if (message.getSubject().contains(SUBJECT)) {
-                    log.info("\n---------------------------------" +
-                            "\nEmail Number: " + (i+1) +
-                            "\nSubject: " + message.getSubject() +
-                            "\nFrom: " + message.getFrom()[0] +
-                            "\nSent Date: " + message.getSentDate() +
-                            "\nMessage: " + getTextFromMessage(message));
+                    log.info("\n---------------------------------"
+                            + "\nEmail Number: " + (i + 1)
+                            + "\nSubject: " + message.getSubject()
+                            + "\nFrom: " + message.getFrom()[0]
+                            + "\nSent Date: " + message.getSentDate()
+                            + "\nMessage: " + getTextFromMessage(message));
                     emailContentList.add(getTextFromMessage(message));
                 }
             }

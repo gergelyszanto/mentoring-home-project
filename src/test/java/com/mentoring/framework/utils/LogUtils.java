@@ -2,7 +2,8 @@ package com.mentoring.framework.utils;
 
 public final class LogUtils {
 
-    private LogUtils() {}
+    private LogUtils() {
+    }
 
     public static String createMessageWithBorder(String message, String pattern) {
         StringBuilder border = new StringBuilder();
