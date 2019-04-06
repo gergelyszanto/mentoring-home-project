@@ -1,6 +1,6 @@
 package com.mentoring.framework;
 
-import com.mentoring.framework.utils.LogUtils;
+import com.mentoring.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
@@ -28,9 +28,8 @@ public class BasicTest {
     private void setupBrowser() {
         try {
             initializeDriver();
-            log.info("URL is: {}", Config.APPLICATION_URL);
             driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-            driver.get(Config.APPLICATION_URL);
+            driver.get(Config.BASE_URL);
             resizeBrowser(driver);
         } catch (Exception e) {
             log.error("Error at setup: ", e);

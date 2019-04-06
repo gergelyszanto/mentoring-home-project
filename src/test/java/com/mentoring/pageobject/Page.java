@@ -16,7 +16,7 @@ public abstract class Page {
     Page(WebDriver driver, String path) {
         this.driver = driver;
         PageFactory.initElements(driver, this);
-        url = Config.APPLICATION_URL + path;
+        url = Config.BASE_URL + path;
     }
 
     void type(WebElement input, String text) {
