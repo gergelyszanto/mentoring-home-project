@@ -1,4 +1,4 @@
-package com.mentoring.utils;
+package com.mentoring.framework.utils;
 
 public final class LogUtils {
 
