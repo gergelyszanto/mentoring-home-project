@@ -3,7 +3,12 @@ package com.mentoring.framework.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 
-import javax.mail.*;
+import javax.mail.BodyPart;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,12 +55,12 @@ public class EmailUtils {
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
                 if (message.getSubject().contains(SUBJECT)) {
-                    log.info("\n---------------------------------" +
-                            "\nEmail Number: " + (i+1) +
-                            "\nSubject: " + message.getSubject() +
-                            "\nFrom: " + message.getFrom()[0] +
-                            "\nSent Date: " + message.getSentDate() +
-                            "\nMessage: " + getTextFromMessage(message));
+                    log.info("\n---------------------------------"
+                            + "\nEmail Number: " + (i + 1)
+                            + "\nSubject: " + message.getSubject()
+                            + "\nFrom: " + message.getFrom()[0]
+                            + "\nSent Date: " + message.getSentDate()
+                            + "\nMessage: " + getTextFromMessage(message));
                     emailContentList.add(getTextFromMessage(message));
                 }
             }

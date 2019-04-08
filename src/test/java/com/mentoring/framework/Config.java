@@ -30,7 +30,7 @@ public final class Config {
         PORT = prop.getProperty("port");
         if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_REMOTE)) {
             //TODO: Replace static IP address with dynamic get from emails
-            BASE_URL = ("http://").concat("62.165.192.145");
+            BASE_URL = "http://".concat("62.165.192.145");
         } else {
             BASE_URL = prop.getProperty("base_url");
         }
@@ -72,8 +72,8 @@ public final class Config {
                 validEnvironmentName = validEnvironmentConfigurationNames[i];
                 break;
             } else if (i == validEnvironmentConfigurationNames.length - 1) {
-                log.error("Failed loading environment configuration. Given environment name '{}' is not valid." +
-                        " Please choose from: {}", currentEnvironment, Arrays.toString(validEnvironmentConfigurationNames));
+                log.error("Failed loading environment configuration. Given environment name '{}' is not valid."
+                        + " Please choose from: {}", currentEnvironment, Arrays.toString(validEnvironmentConfigurationNames));
                 System.exit(1);
             }
         }
