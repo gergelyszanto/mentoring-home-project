@@ -20,7 +20,7 @@ public final class Config {
 
     private static final String BASE_URL;
     private static final String PORT;
-    private static final String ENVIRONMENT = "ENVIRONMENT";
+    public static final String ENVIRONMENT = "ENVIRONMENT";
     private static String[] validEnvironmentConfigurationNames = {SKY_XPLORE_LOCALHOST, SKY_XPLORE_REMOTE};
 
     static {

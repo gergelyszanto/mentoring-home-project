@@ -4,7 +4,6 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.PageFactory;
-import com.mentoring.pageobject.MainPage;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

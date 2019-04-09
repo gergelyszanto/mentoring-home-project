@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 public class PageFactory {
 
     public MainPage getMainPage(WebDriver driver) {
-        if (System.getenv().equals(Config.SKY_XPLORE_LOCALHOST)) {
+        if (System.getenv(Config.ENVIRONMENT).equals(Config.SKY_XPLORE_LOCALHOST)) {
             return new MainPageNew(driver);
         } else {
             return new MainPageOld(driver);
@@ -14,7 +14,7 @@ public class PageFactory {
     }
 
     public CharacterSelectionPage getCharacterSelectionPage(WebDriver driver) {
-        if (System.getenv().equals(Config.SKY_XPLORE_LOCALHOST)) {
+        if (System.getenv(Config.ENVIRONMENT).equals(Config.SKY_XPLORE_LOCALHOST)) {
             return new CharacterSelectionPageNew(driver);
         } else {
             return new CharacterSelectionPageOld(driver);
