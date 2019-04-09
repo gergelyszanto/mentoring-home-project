@@ -15,7 +15,7 @@ public final class Config {
     public static final String APPLICATION_URL;
     static final Browser BROWSER;
 
-    private static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
+    public static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
     private static final String SKY_XPLORE_REMOTE = "skyxplore-remote";
 
     private static final String BASE_URL;

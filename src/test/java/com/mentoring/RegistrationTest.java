@@ -1,9 +1,9 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.framework.Config;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
+import com.mentoring.pageobject.PageFactory;
 import com.mentoring.pageobject.MainPage;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
@@ -21,7 +21,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void successfulRegistration() {
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, User.generateRandomEmail())
                 .submitRegistration();
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
