@@ -23,6 +23,9 @@ public class MainPage extends Page {
     @FindBy(id = "reg-confirm-password")
     private WebElement registrationConfirmPassword;
 
+    @FindBy(id = "invalid-confirm-password")
+    private WebElement invalidConfirmPassword;
+
     @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
 
@@ -40,6 +43,14 @@ public class MainPage extends Page {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(password);
+        enterRegistrationEmailAddress(emailAddress);
+        return this;
+    }
+
+    public MainPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
+        enterRegistrationUsername(username);
+        enterRegistrationPassword(password);
+        enterRegistrationConfirmPassword(confirmPassword);
         enterRegistrationEmailAddress(emailAddress);
         return this;
     }
@@ -74,12 +85,17 @@ public class MainPage extends Page {
     public void waitUntilPageLoads() {
     }
 
+
     public boolean invalidUserName() {
         return isElementDisplayed(invalidUsername);
     }
 
     public boolean invalidPassword() {
         return isElementDisplayed(invalidPassword);
+    }
+
+    public boolean invalidConfirmPassword() {
+        return isElementDisplayed(invalidConfirmPassword);
     }
 
     public boolean invalidEmailAddress() {
