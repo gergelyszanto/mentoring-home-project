@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 @Slf4j
 public abstract class Page {
 
-    private final String url;
     WebDriver driver;
+    private final String url;
 
     Page(WebDriver driver, String path) {
         this.driver = driver;
