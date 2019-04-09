@@ -4,14 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class CharacterSelectionPageNew extends Page implements CharacterSelectionPage {
+public class CharacterSelectionPageDev extends Page implements CharacterSelectionPage {
 
     private static final String PATH = "characterselect";
 
     @FindBy(id = "logout-button")
     private WebElement logoutButton;
 
-    CharacterSelectionPageNew(WebDriver driver) {
+    CharacterSelectionPageDev(WebDriver driver) {
         super(driver, PATH);
     }
 

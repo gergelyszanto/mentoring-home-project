@@ -6,29 +6,29 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Slf4j
-public class MainPageOld extends Page implements MainPage {
+public class MainPageDev extends Page implements MainPage {
 
-    @FindBy(id = "registration_username")
+    @FindBy(id = "reg-username")
     private WebElement registrationUsername;
 
-    @FindBy(id = "registration_password")
+    @FindBy(id = "reg-password")
     private WebElement registrationPassword;
 
-    @FindBy(id = "registration_confirm_password")
+    @FindBy(id = "reg-confirm-password")
     private WebElement registrationConfirmPassword;
 
-    @FindBy(id = "registration_email")
+    @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
 
-    @FindBy(id = "registration_button")
+    @FindBy(id = "registration-button")
     private WebElement submitRegistrationButton;
 
-    MainPageOld(WebDriver driver) {
+    public MainPageDev(WebDriver driver) {
         super(driver, "");
     }
 
     @Override
-    public MainPageOld fillRegistrationForm(String username, String password, String emailAddress) {
+    public MainPageDev fillRegistrationForm(String username, String password, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(password);
@@ -36,10 +36,10 @@ public class MainPageOld extends Page implements MainPage {
         return this;
     }
 
-    public CharacterSelectionPageOld submitRegistration() {
+    public CharacterSelectionPageDev submitRegistration() {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
-        return new CharacterSelectionPageOld(driver);
+        return new CharacterSelectionPageDev(driver);
     }
 
     private void enterRegistrationUsername(String username) {
