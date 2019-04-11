@@ -28,7 +28,7 @@ public class NotificationContainer extends Page {
     public void waitUntilPageLoads() {
     }
 
-    public boolean isButtonExist() {
+    public boolean isButtonVisible() {
         // TODO: implement
         return false;
     }

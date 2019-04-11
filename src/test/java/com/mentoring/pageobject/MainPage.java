@@ -61,22 +61,22 @@ public class MainPage extends Page {
         return new CharacterSelectionPage(driver);
     }
 
-    private void enterRegistrationUsername(String username) {
+    public void enterRegistrationUsername(String username) {
         log.info("Entering registration username: '{}'", username);
         type(registrationUsername, username);
     }
 
-    private void enterRegistrationPassword(String password) {
+    public void enterRegistrationPassword(String password) {
         log.info("Entering registration password: '{}'", password);
         type(registrationPassword, password);
     }
 
-    private void enterRegistrationConfirmPassword(String confirmPassword) {
+    public void enterRegistrationConfirmPassword(String confirmPassword) {
         log.info("Entering registration confirm password: '{}'", confirmPassword);
         type(registrationConfirmPassword, confirmPassword);
     }
 
-    private void enterRegistrationEmailAddress(String emailAddress) {
+    public void enterRegistrationEmailAddress(String emailAddress) {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
     }
@@ -86,19 +86,19 @@ public class MainPage extends Page {
     }
 
 
-    public boolean invalidUserName() {
+    public boolean isUserNameInvalid() {
         return isElementDisplayed(invalidUsername);
     }
 
-    public boolean invalidPassword() {
+    public boolean isPasswordInvalid() {
         return isElementDisplayed(invalidPassword);
     }
 
-    public boolean invalidConfirmPassword() {
+    public boolean isConfirmPasswordInvalid() {
         return isElementDisplayed(invalidConfirmPassword);
     }
 
-    public boolean invalidEmailAddress() {
+    public boolean isEmailAddressInvalid() {
         return isElementDisplayed(invalidEmail);
     }
 
