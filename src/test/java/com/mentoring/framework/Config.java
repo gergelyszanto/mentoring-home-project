@@ -14,21 +14,20 @@ public final class Config {
     public static final int LOAD_WAIT;
     public static final String APPLICATION_URL;
     static final Browser BROWSER;
-
     private static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
-    private static final String SKY_XPLORE_REMOTE = "skyxplore-remote";
+    private static final String SKY_XPLORE_PROD = "skyxplore-prod";
 
     private static final String BASE_URL;
     private static final String PORT;
     private static final String ENVIRONMENT = "ENVIRONMENT";
-    private static String[] validEnvironmentConfigurationNames = {SKY_XPLORE_LOCALHOST, SKY_XPLORE_REMOTE};
+    private static String[] validEnvironmentConfigurationNames = {SKY_XPLORE_LOCALHOST, SKY_XPLORE_PROD};
 
     static {
         Properties prop = loadProperties();
         LOAD_WAIT = Integer.parseInt(prop.getProperty("load_wait"));
         BROWSER = Browser.parse(System.getenv("BROWSER"));
         PORT = prop.getProperty("port");
-        if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_REMOTE)) {
+        if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_PROD)) {
             //TODO: Replace static IP address with dynamic get from emails
             BASE_URL = "http://".concat("62.165.192.145");
         } else {
@@ -78,5 +77,9 @@ public final class Config {
             }
         }
         return validEnvironmentName;
+    }
+
+    public static boolean isLocalEnvironmentUsed() {
+        return System.getenv(Config.ENVIRONMENT).equals(Config.SKY_XPLORE_LOCALHOST);
     }
 }

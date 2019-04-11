@@ -2,14 +2,15 @@ package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.model.User;
-import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.MainPage;
+import com.mentoring.pageobject.*;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+@Slf4j
 public class RegistrationTest extends BasicTest {
 
     private static final String VALID_PASSWORD = "Test1234!";
@@ -31,7 +32,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void successfulRegistration() {
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, User.generateRandomEmail())
                 .submitRegistration();
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
@@ -69,7 +70,7 @@ public class RegistrationTest extends BasicTest {
     @Test(groups = "smoke")
     public void alreadyRegisteredUserName() {
         String validUserName = User.generateRandomUsername();
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(validUserName, VALID_PASSWORD, User.generateRandomEmail())
                 .submitRegistration()
                 .logout()
@@ -82,7 +83,7 @@ public class RegistrationTest extends BasicTest {
     @Test(groups = "smoke")
     public void alreadyRegisteredEmail() {
         String validEmail = User.generateRandomEmail();
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, validEmail)
                 .submitRegistration()
                 .logout()
@@ -94,7 +95,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void insufficientRegistration() {
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
         // empty username:
         mainPage.enterRegistrationUsername("");
@@ -122,7 +123,7 @@ public class RegistrationTest extends BasicTest {
     @Test(groups = "smoke", dataProvider = "wrongEmailAddressData")
     public void wrongEmailAddress(String email) {
         String username = User.generateRandomUsername();
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(username, VALID_PASSWORD, email);
         hardAssertion.assertThat(mainPage.isEmailAddressInvalid())
                 .as(X_ICON_MESSAGE + "username.")
@@ -134,7 +135,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void tooShortFields() {
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
         // short username:
         mainPage.enterRegistrationUsername(TOO_SHORT_USERNAME);
@@ -151,7 +152,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void tooLongFields() {
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
         // long username:
         mainPage.enterRegistrationUsername(TOO_LONG_USERNAME);
@@ -168,7 +169,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     public void wrongConfirmPassword() {
-        MainPage mainPage = new MainPage(driver)
+        MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, VALID_PASSWORD + "a", User.generateRandomEmail());
         softAssertion.assertThat(mainPage.isConfirmPasswordInvalid())
                 .as(X_ICON_MESSAGE + "confirm password.")

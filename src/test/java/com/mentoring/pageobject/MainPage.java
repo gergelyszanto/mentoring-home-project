@@ -1,108 +1,28 @@
 package com.mentoring.pageobject;
 
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+public interface MainPage {
 
-@Slf4j
-public class MainPage extends Page {
+    MainPage fillRegistrationForm(String username, String password, String emailAddress);
 
-    @FindBy(id = "reg-username")
-    private WebElement registrationUsername;
+    MainPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress);
 
-    @FindBy(id = "invalid-username")
-    private WebElement invalidUsername;
+    void enterRegistrationUsername(String username);
 
-    @FindBy(id = "reg-password")
-    private WebElement registrationPassword;
+    void enterRegistrationPassword(String password);
 
-    @FindBy(id = "invalid-password")
-    private WebElement invalidPassword;
+    void enterRegistrationConfirmPassword(String confirmPassword);
 
-    @FindBy(id = "reg-confirm-password")
-    private WebElement registrationConfirmPassword;
+    void enterRegistrationEmailAddress(String emailAddress);
 
-    @FindBy(id = "invalid-confirm-password")
-    private WebElement invalidConfirmPassword;
+    boolean isUserNameInvalid();
 
-    @FindBy(id = "reg-email")
-    private WebElement registrationEmailAddress;
+    boolean isPasswordInvalid();
 
-    @FindBy(id = "invalid-email")
-    private WebElement invalidEmail;
+    boolean isConfirmPasswordInvalid();
 
-    @FindBy(id = "registration-button")
-    private WebElement submitRegistrationButton;
+    boolean isEmailAddressInvalid();
 
-    public MainPage(WebDriver driver) {
-        super(driver, "");
-    }
+    boolean isSubmitButtonEnabled();
 
-    public MainPage fillRegistrationForm(String username, String password, String emailAddress) {
-        enterRegistrationUsername(username);
-        enterRegistrationPassword(password);
-        enterRegistrationConfirmPassword(password);
-        enterRegistrationEmailAddress(emailAddress);
-        return this;
-    }
-
-    public MainPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
-        enterRegistrationUsername(username);
-        enterRegistrationPassword(password);
-        enterRegistrationConfirmPassword(confirmPassword);
-        enterRegistrationEmailAddress(emailAddress);
-        return this;
-    }
-
-    public CharacterSelectionPage submitRegistration() {
-        log.info("Submitting registration...");
-        waitUntilClickable(submitRegistrationButton).click();
-        return new CharacterSelectionPage(driver);
-    }
-
-    public void enterRegistrationUsername(String username) {
-        log.info("Entering registration username: '{}'", username);
-        type(registrationUsername, username);
-    }
-
-    public void enterRegistrationPassword(String password) {
-        log.info("Entering registration password: '{}'", password);
-        type(registrationPassword, password);
-    }
-
-    public void enterRegistrationConfirmPassword(String confirmPassword) {
-        log.info("Entering registration confirm password: '{}'", confirmPassword);
-        type(registrationConfirmPassword, confirmPassword);
-    }
-
-    public void enterRegistrationEmailAddress(String emailAddress) {
-        log.info("Entering registration email address: '{}'", emailAddress);
-        type(registrationEmailAddress, emailAddress);
-    }
-
-    @Override
-    public void waitUntilPageLoads() {
-    }
-
-
-    public boolean isUserNameInvalid() {
-        return isElementDisplayed(invalidUsername);
-    }
-
-    public boolean isPasswordInvalid() {
-        return isElementDisplayed(invalidPassword);
-    }
-
-    public boolean isConfirmPasswordInvalid() {
-        return isElementDisplayed(invalidConfirmPassword);
-    }
-
-    public boolean isEmailAddressInvalid() {
-        return isElementDisplayed(invalidEmail);
-    }
-
-    public boolean isSubmitButtonEnabled() {
-        return submitRegistrationButton.isEnabled();
-    }
+    CharacterSelectionPage submitRegistration();
 }
