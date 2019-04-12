@@ -4,7 +4,7 @@ public interface MainPage {
 
     MainPage fillLoginForm(String username, String password);
 
-    void submitLogin();
+    void clickLoginButton();
 
     MainPage fillRegistrationForm(String username, String password, String emailAddress);
 

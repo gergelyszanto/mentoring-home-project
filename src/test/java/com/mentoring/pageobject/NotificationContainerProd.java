@@ -25,6 +25,7 @@ public class NotificationContainerProd extends Page implements NotificationConta
     }
 
     public boolean isAButtonLabelEqualsTo(String label) {
+        sleepForSeconds(1);
         for (WebElement button : buttons) {
             if (button.getText().equals(label)) {
                 return true;

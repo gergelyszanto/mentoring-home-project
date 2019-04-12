@@ -7,5 +7,7 @@ public final class Messages {
 
     public static final String NOTIFICATION_BUTTON_ASSERTION_MESSAGE = "Notification button should be visible.";
 
+    private Messages() {
+    }
 
 }

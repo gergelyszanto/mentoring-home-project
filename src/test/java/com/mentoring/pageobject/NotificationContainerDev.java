@@ -25,6 +25,7 @@ public class NotificationContainerDev extends Page implements NotificationContai
     }
 
     public boolean isAButtonLabelEqualsTo(String label) {
+        sleepForSeconds(1);
         // TODO: remove after hotfix of LoginTest.wrongPassword()
         log.debug("debug1: button counter=" + buttons.size());
         for (WebElement button : buttons) {
