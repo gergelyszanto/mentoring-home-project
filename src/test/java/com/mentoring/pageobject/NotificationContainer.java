@@ -1,36 +1,7 @@
 package com.mentoring.pageobject;
 
-import java.util.List;
-import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
+public interface NotificationContainer {
 
-@Slf4j
-public class NotificationContainer extends Page {
-
-    @FindBy(id = "notificationcontainer")
-    private WebElement notificationContainer;
-
-/*
-    @FindAll( {
-            @FindBy(css = "#notificationcontainer div.button")
-    })
-    */
-    @FindBy(css = "#notificationcontainer div.button")
-    private List<WebElement> buttons;
-
-    public NotificationContainer(WebDriver driver) {
-        super(driver, "");
-    }
-
-    @Override
-    public void waitUntilPageLoads() {
-    }
-
-    public boolean isButtonVisible() {
-        // TODO: implement
-        return false;
-    }
+    boolean isAButtonLabelEqualsTo(String label);
 }
 

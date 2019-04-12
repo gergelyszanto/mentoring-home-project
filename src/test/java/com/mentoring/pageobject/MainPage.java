@@ -2,6 +2,10 @@ package com.mentoring.pageobject;
 
 public interface MainPage {
 
+    MainPage fillLoginForm(String username, String password);
+
+    void submitLogin();
+
     MainPage fillRegistrationForm(String username, String password, String emailAddress);
 
     MainPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress);

@@ -8,6 +8,15 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class MainPageDev extends Page implements MainPage {
 
+    @FindBy (id = "login-username")
+    private WebElement loginUsername;
+
+    @FindBy (id = "login-password")
+    private WebElement loginPassword;
+
+    @FindBy (id = "login-button")
+    private WebElement submitLoginButton;
+
     @FindBy(id = "reg-username")
     private WebElement registrationUsername;
 
@@ -37,6 +46,28 @@ public class MainPageDev extends Page implements MainPage {
 
     public MainPageDev(WebDriver driver) {
         super(driver, "");
+    }
+
+    @Override
+    public MainPageDev fillLoginForm(String username, String password) {
+        enterLoginUsername(username);
+        enterLoginPassword(password);
+        return this;
+    }
+
+    public void enterLoginUsername(String username) {
+        log.info("Entering login username: '{}'", username);
+        type(loginUsername, username);
+    }
+
+    public void enterLoginPassword(String password) {
+        log.info("Entering login password: '{}'", password);
+        type(loginPassword, password);
+    }
+
+    public void submitLogin() {
+        log.info("Submitting login...");
+        waitUntilClickable(submitLoginButton).click();
     }
 
     @Override

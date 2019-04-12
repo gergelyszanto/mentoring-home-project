@@ -8,23 +8,66 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class MainPageProd extends Page implements MainPage {
 
+    @FindBy (id = "login-username")
+    private WebElement loginUsername;
+
+    @FindBy (id = "login-password")
+    private WebElement loginPassword;
+
+    @FindBy (id = "login-button")
+    private WebElement submitLoginButton;
+
     @FindBy(id = "registration_username")
     private WebElement registrationUsername;
+
+    @FindBy(id = "invalid-username")
+    private WebElement invalidUsername;
 
     @FindBy(id = "registration_password")
     private WebElement registrationPassword;
 
+    @FindBy(id = "invalid-password")
+    private WebElement invalidPassword;
+
     @FindBy(id = "registration_confirm_password")
     private WebElement registrationConfirmPassword;
 
+    @FindBy(id = "invalid-confirm-password")
+    private WebElement invalidConfirmPassword;
+
     @FindBy(id = "registration_email")
     private WebElement registrationEmailAddress;
+
+    @FindBy(id = "invalid-email")
+    private WebElement invalidEmail;
 
     @FindBy(id = "registration_button")
     private WebElement submitRegistrationButton;
 
     MainPageProd(WebDriver driver) {
         super(driver, "");
+    }
+
+    @Override
+    public MainPageProd fillLoginForm(String username, String password) {
+        enterLoginUsername(username);
+        enterLoginPassword(password);
+        return this;
+    }
+
+    public void enterLoginUsername(String username) {
+        log.info("Entering login username: '{}'", username);
+        type(loginUsername, username);
+    }
+
+    public void enterLoginPassword(String password) {
+        log.info("Entering login password: '{}'", password);
+        type(loginPassword, password);
+    }
+
+    public void submitLogin() {
+        log.info("Submitting login...");
+        waitUntilClickable(submitLoginButton).click();
     }
 
     @Override
@@ -82,32 +125,27 @@ public class MainPageProd extends Page implements MainPage {
 
     @Override
     public boolean isUserNameInvalid() {
-        // TODO: implement
-        return false;
+        return isElementDisplayed(invalidUsername);
     }
 
     @Override
     public boolean isPasswordInvalid() {
-        // TODO: implement
-        return false;
+        return isElementDisplayed(invalidPassword);
     }
 
     @Override
     public boolean isConfirmPasswordInvalid() {
-        // TODO: implement
-        return false;
+        return isElementDisplayed(invalidConfirmPassword);
     }
 
     @Override
     public boolean isEmailAddressInvalid() {
-        // TODO: implement
-        return false;
+        return isElementDisplayed(invalidEmail);
     }
 
     @Override
     public boolean isSubmitButtonEnabled() {
-        // TODO: implement
-        return false;
+        return submitRegistrationButton.isEnabled();
     }
 
 }
