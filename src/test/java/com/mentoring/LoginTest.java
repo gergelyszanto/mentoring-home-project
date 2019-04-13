@@ -39,7 +39,7 @@ public class LoginTest extends BasicTest {
         String validUserName = User.generateRandomUsername();
         registrationAndLogout(validUserName, VALID_PASSWORD)
                 .fillLoginForm(validUserName, VALID_PASSWORD)
-                .submitLogin();
+                .clickLoginButton();
         CharacterSelectionPage characterSelectionPage = new PageFactory().getCharacterSelectionPage(driver);
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
@@ -52,7 +52,7 @@ public class LoginTest extends BasicTest {
         String validUserName = User.generateRandomUsername();
         registrationAndLogout(validUserName, VALID_PASSWORD)
                 .fillLoginForm(User.generateRandomUsername(), VALID_PASSWORD)
-                .submitLogin();
+                .clickLoginButton();
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
         softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.BAD_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
@@ -60,13 +60,12 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    // FIXME: something goes wrong. The assertion is not waiting for the appearance of BAD_CREDENTIALS, it runs before it.
     @Test(groups = "smoke")
     public void wrongPassword() {
         String validUserName = User.generateRandomUsername();
         registrationAndLogout(validUserName, VALID_PASSWORD)
                 .fillLoginForm(validUserName, WRONG_PASSWORD)
-                .submitLogin();
+                .clickLoginButton();
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
         softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.BAD_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
@@ -79,7 +78,7 @@ public class LoginTest extends BasicTest {
         String validUserName = User.generateRandomUsername();
         new PageFactory().getMainPage(driver)
                 .fillLoginForm(validUserName, "")
-                .submitLogin();
+                .clickLoginButton();
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
         softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
@@ -91,7 +90,7 @@ public class LoginTest extends BasicTest {
     public void emptyPassword() {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", VALID_PASSWORD)
-                .submitLogin();
+                .clickLoginButton();
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
         softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
@@ -103,7 +102,7 @@ public class LoginTest extends BasicTest {
     public void emptyFields() {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", "")
-                .submitLogin();
+                .clickLoginButton();
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
         softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)

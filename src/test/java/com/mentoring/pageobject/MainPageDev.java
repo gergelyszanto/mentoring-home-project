@@ -65,8 +65,8 @@ public class MainPageDev extends Page implements MainPage {
         type(loginPassword, password);
     }
 
-    public void submitLogin() {
-        log.info("Submitting login...");
+    public void clickLoginButton() {
+        log.info("Clicking on login button...");
         waitUntilClickable(submitLoginButton).click();
     }
 
