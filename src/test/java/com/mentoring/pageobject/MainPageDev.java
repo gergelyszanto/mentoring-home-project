@@ -8,6 +8,18 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class MainPageDev extends Page implements MainPage {
 
+    @FindBy(id = "reg-username")
+    private WebElement registrationUsername;
+
+    @FindBy(id = "reg-password")
+    private WebElement registrationPassword;
+
+    @FindBy(id = "reg-confirm-password")
+    private WebElement registrationConfirmPassword;
+
+    @FindBy(id = "reg-email")
+    private WebElement registrationEmailAddress;
+
     @FindBy (id = "login-username")
     private WebElement loginUsername;
 
@@ -17,26 +29,14 @@ public class MainPageDev extends Page implements MainPage {
     @FindBy (id = "login-button")
     private WebElement submitLoginButton;
 
-    @FindBy(id = "reg-username")
-    private WebElement registrationUsername;
-
     @FindBy(id = "invalid-username")
     private WebElement invalidUsername;
-
-    @FindBy(id = "reg-password")
-    private WebElement registrationPassword;
 
     @FindBy(id = "invalid-password")
     private WebElement invalidPassword;
 
-    @FindBy(id = "reg-confirm-password")
-    private WebElement registrationConfirmPassword;
-
     @FindBy(id = "invalid-confirm-password")
     private WebElement invalidConfirmPassword;
-
-    @FindBy(id = "reg-email")
-    private WebElement registrationEmailAddress;
 
     @FindBy(id = "invalid-email")
     private WebElement invalidEmail;

@@ -24,6 +24,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
 
     @Override
     public void waitUntilPageLoads() {
+
     }
 
     @Override
@@ -32,5 +33,4 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
         waitUntilClickable(logoutButton).click();
         return new MainPageDev(driver);
     }
-
 }

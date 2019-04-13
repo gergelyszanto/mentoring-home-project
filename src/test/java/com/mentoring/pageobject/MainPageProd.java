@@ -120,10 +120,6 @@ public class MainPageProd extends Page implements MainPage {
     }
 
     @Override
-    public void waitUntilPageLoads() {
-    }
-
-    @Override
     public boolean isUserNameInvalid() {
         return isElementDisplayed(invalidUsername);
     }
@@ -148,4 +144,7 @@ public class MainPageProd extends Page implements MainPage {
         return submitRegistrationButton.isEnabled();
     }
 
+    @Override
+    public void waitUntilPageLoads() {
+    }
 }

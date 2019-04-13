@@ -3,7 +3,10 @@ package com.mentoring;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.Messages;
 import com.mentoring.model.User;
-import com.mentoring.pageobject.*;
+import com.mentoring.pageobject.CharacterSelectionPage;
+import com.mentoring.pageobject.MainPage;
+import com.mentoring.pageobject.NotificationContainer;
+import com.mentoring.pageobject.PageFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -23,7 +26,6 @@ public class RegistrationTest extends BasicTest {
     private static final String USER_NAME = User.generateRandomUsername();
     private static final String EMAIL = User.generateRandomEmail();
 
-    private Assertions hardAssertion;
     private SoftAssertions softAssertion;
 
     @BeforeMethod(alwaysRun = true)
@@ -129,10 +131,10 @@ public class RegistrationTest extends BasicTest {
         String username = User.generateRandomUsername();
         MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(username, VALID_PASSWORD, email);
-        hardAssertion.assertThat(mainPage.isEmailAddressInvalid())
+        Assertions.assertThat(mainPage.isEmailAddressInvalid())
                 .as(X_ICON_ASSERTION_MESSAGE + "username.")
                 .isTrue();
-        hardAssertion.assertThat(!mainPage.isSubmitButtonEnabled())
+        Assertions.assertThat(!mainPage.isSubmitButtonEnabled())
                 .as("Submit button should be disabled.")
                 .isTrue();
     }
