@@ -62,11 +62,11 @@ public abstract class Page {
 
     public abstract void waitUntilPageLoads();
 
-    void sleepForSeconds(int sec) {
+    void waitForMilliSec(int milliSec) {
         try {
-            Thread.sleep(1000 * sec);
+            Thread.sleep(milliSec);
         } catch (InterruptedException e) {
-            log.error(e.getStackTrace().toString());
+            log.error("Thread sleep failed.", e);
         }
     }
 
