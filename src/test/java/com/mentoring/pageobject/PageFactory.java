@@ -12,4 +12,8 @@ public class PageFactory {
     public CharacterSelectionPage getCharacterSelectionPage(WebDriver driver) {
         return Config.isLocalEnvironmentUsed() ? new CharacterSelectionPageDev(driver) : new CharacterSelectionPageProd(driver);
     }
+
+    public NotificationContainer getNotificationContainer(WebDriver driver) {
+        return Config.isLocalEnvironmentUsed() ? new NotificationContainerDev(driver) : new NotificationContainerProd(driver);
+    }
 }

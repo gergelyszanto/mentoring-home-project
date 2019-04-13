@@ -1,9 +1,11 @@
 package com.mentoring.pageobject;
 
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+@Slf4j
 public class CharacterSelectionPageProd extends Page implements CharacterSelectionPage {
 
     private static final String PATH = "characterselect";
@@ -22,6 +24,12 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     @Override
     public void waitUntilPageLoads() {
+    }
 
+    @Override
+    public MainPage logout() {
+        log.info("Log out...");
+        waitUntilClickable(logoutButton).click();
+        return new MainPageProd(driver);
     }
 }
