@@ -41,10 +41,15 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
                 .isTrue();
+
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.REGISTRATION_SUCCESSFUL))
+        boolean hasButtonsListErrorText = notificationContainer.getButtonsText()
+                .stream()
+                .anyMatch(s -> s.equals(Messages.REGISTRATION_SUCCESSFUL));
+        softAssertion.assertThat(hasButtonsListErrorText)
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
+
         softAssertion.assertAll();
     }
 

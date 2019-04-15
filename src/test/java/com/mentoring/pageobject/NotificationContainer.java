@@ -1,7 +1,9 @@
 package com.mentoring.pageobject;
 
+import java.util.List;
+
 public interface NotificationContainer {
 
-    boolean isAButtonLabelEqualsTo(String label);
+    List<String> getButtonsText();
 }
 
