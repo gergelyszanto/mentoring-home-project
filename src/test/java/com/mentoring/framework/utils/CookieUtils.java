@@ -8,13 +8,15 @@ import org.openqa.selenium.WebDriver;
 public final class CookieUtils {
 
     private static final String VALIDATION_AND_ANIMATION_DELAY = "0";
+    private static final String SEARCH_RESULT_DELAY = "search-result-timeout";
+    private static final String VALIDATION_DELAY = "validation-timeout";
 
     private CookieUtils() {
     }
 
     public static void setTestCookies(WebDriver driver) {
-        setCookie(driver, "search-result-timeout", VALIDATION_AND_ANIMATION_DELAY);
-        setCookie(driver, "validation-timeout", VALIDATION_AND_ANIMATION_DELAY);
+        setCookie(driver, SEARCH_RESULT_DELAY, VALIDATION_AND_ANIMATION_DELAY);
+        setCookie(driver, VALIDATION_DELAY, VALIDATION_AND_ANIMATION_DELAY);
     }
 
     private static void setCookie(WebDriver driver, String name, String value) {
