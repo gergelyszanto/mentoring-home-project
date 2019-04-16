@@ -1,6 +1,7 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.CommonAssertions;
 import com.mentoring.framework.Messages;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
@@ -43,10 +44,7 @@ public class RegistrationTest extends BasicTest {
                 .isTrue();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        boolean hasButtonsListErrorText = notificationContainer.getButtonsText()
-                .stream()
-                .anyMatch(s -> s.equals(Messages.REGISTRATION_SUCCESSFUL));
-        softAssertion.assertThat(hasButtonsListErrorText)
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.REGISTRATION_SUCCESSFUL))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
 

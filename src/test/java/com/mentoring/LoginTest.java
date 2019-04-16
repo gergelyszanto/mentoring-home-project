@@ -2,6 +2,7 @@ package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.Messages;
+import com.mentoring.framework.CommonAssertions;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
@@ -34,12 +35,6 @@ public class LoginTest extends BasicTest {
         return mainPage;
     }
 
-    private boolean hasButtonsListErrorText(NotificationContainer notificationContainer, String errorMessage) {
-        return notificationContainer.getButtonsText()
-                .stream()
-                .anyMatch(s -> s.equals(errorMessage));
-    }
-
     @Test(groups = "smoke")
     public void successfulLogin() {
         String validUserName = User.generateRandomUsername();
@@ -64,7 +59,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(hasButtonsListErrorText(notificationContainer, Messages.BAD_CREDENTIALS))
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.BAD_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
         softAssertion.assertAll();
@@ -79,7 +74,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(hasButtonsListErrorText(notificationContainer, Messages.BAD_CREDENTIALS))
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.BAD_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
         softAssertion.assertAll();
@@ -94,7 +89,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
         softAssertion.assertAll();
@@ -107,7 +102,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
         softAssertion.assertAll();
@@ -120,7 +115,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
+        softAssertion.assertThat(CommonAssertions.hasButtonsListErrorText(notificationContainer, Messages.EMPTY_CREDENTIALS))
                 .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
                 .isTrue();
         softAssertion.assertAll();
