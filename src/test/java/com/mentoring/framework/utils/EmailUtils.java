@@ -11,9 +11,9 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 public class EmailUtils {
@@ -25,12 +25,28 @@ public class EmailUtils {
     private static final String USERNAME = "learn.ta.2019@gmail.com";
     private static final String PASSWORD = "Test1234!";
 
-    public static List<String> checkEmailsForIpChanges() {
-        return getListOfEmailContent(HOST, MAIL_STORE_TYPE, USERNAME, PASSWORD);
+    public static String checkLastEmailForIpChanges() {
+        return getLastEmailContent(HOST, MAIL_STORE_TYPE, USERNAME, PASSWORD);
     }
 
-    private static List<String> getListOfEmailContent(String host, String storeType, String user,
-                                                      String password) {
+    public static String getIpAddressFromEmail() {
+        String emailContent = checkLastEmailForIpChanges();
+        String ipAddress = "";
+
+        // find the ip address right after 'SkyXplore: http://'
+        Pattern pattern = Pattern.compile("(?<=SkyXplore: )http(s)*:\\/\\/(\\d{2,3}\\.){3}\\d{2,3}");
+        Matcher matcher = pattern.matcher(emailContent);
+
+        if (matcher.find()) {
+            ipAddress = matcher.group();
+            log.info("SkyXplore IP address in mail: " + matcher.group());
+        }
+
+        return ipAddress;
+    }
+
+    private static String getLastEmailContent(String host, String storeType, String user,
+                                              String password) {
         try {
             //create properties field
             Properties properties = new Properties();
@@ -47,27 +63,15 @@ public class EmailUtils {
             Folder emailFolder = store.getFolder(FOLDER);
             emailFolder.open(Folder.READ_ONLY);
 
-            // retrieve the messages from the folder in an array and print it
-            Message[] messages = emailFolder.getMessages();
-            List<String> emailContentList = new ArrayList<>();
-            log.info("Number of messages found with '{}' subject: {}", SUBJECT, messages.length);
+            // retrieve the last message from the folder
+            Message message = emailFolder.getMessages(emailFolder.getMessageCount(), emailFolder.getMessageCount())[0];
 
-            for (int i = 0, n = messages.length; i < n; i++) {
-                Message message = messages[i];
-                if (message.getSubject().contains(SUBJECT)) {
-                    log.info("\n---------------------------------"
-                            + "\nEmail Number: " + (i + 1)
-                            + "\nSubject: " + message.getSubject()
-                            + "\nFrom: " + message.getFrom()[0]
-                            + "\nSent Date: " + message.getSentDate()
-                            + "\nMessage: " + getTextFromMessage(message));
-                    emailContentList.add(getTextFromMessage(message));
-                }
-            }
+            String latestMessageBody = getTextFromMessage(message);
+
             //close the store and folder objects
             emailFolder.close(false);
             store.close();
-            return emailContentList;
+            return latestMessageBody;
         } catch (Exception e) {
             log.error("Error happened during reading emails.", e);
             throw new RuntimeException("Failed to get application IP address from emails.");
