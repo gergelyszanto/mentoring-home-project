@@ -32,12 +32,10 @@ public final class InitData {
             postRequest.setEntity(input);
 
             client.execute(postRequest);
-        } catch (UnsupportedEncodingException e) {
-            log.error("Error happened during user registration (Unsupported Encoding Exception).", e);
-        } catch (ClientProtocolException e) {
-            log.error("Error happened during user registration (Client Protocol Exception).", e);
+        } catch (ClientProtocolException | UnsupportedEncodingException e) {
+            log.error("Error happened during user registration.", e);
         } catch (IOException e) {
-            log.error("Error happened during user registration (IO Exception).", e);
+            log.error("Error happened during user registration.", e);
         }
 
     }
