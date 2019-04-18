@@ -25,16 +25,12 @@ public class EmailUtils {
     private static final String USERNAME = "learn.ta.2019@gmail.com";
     private static final String PASSWORD = "Test1234!";
 
-    public static String checkLastEmailForIpChanges() {
-        return getLastEmailContent(HOST, MAIL_STORE_TYPE, USERNAME, PASSWORD);
-    }
-
     public static String getIpAddressFromEmail() {
-        String emailContent = checkLastEmailForIpChanges();
+        String emailContent = getLastEmailContent(HOST, MAIL_STORE_TYPE, USERNAME, PASSWORD);
         String ipAddress = "";
 
         // find the ip address right after 'SkyXplore: http://'
-        Pattern pattern = Pattern.compile("(?<=SkyXplore: )http(s)*:\\/\\/(\\d{2,3}\\.){3}\\d{2,3}");
+        Pattern pattern = Pattern.compile("(?<=SkyXplore: )http(s)*:\\/\\/(\\d{1,3}\\.){3}\\d{1,3}");
         Matcher matcher = pattern.matcher(emailContent);
 
         if (matcher.find()) {
