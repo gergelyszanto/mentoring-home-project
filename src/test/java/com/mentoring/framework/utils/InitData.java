@@ -1,15 +1,14 @@
 package com.mentoring.framework.utils;
 
 import com.mentoring.framework.Config;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClientBuilder;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.restassured.RestAssured.given;
 
 @Slf4j
 public final class InitData {
@@ -18,25 +17,19 @@ public final class InitData {
     }
 
     public static void registerUser(String username, String password, String email) {
-        try {
-            HttpClient client = HttpClientBuilder.create().build();
+        Map<String,String> regData = new HashMap<>();
+        regData.put("username", username);
+        regData.put("password", password);
+        regData.put("email", email);
 
-            HttpPost postRequest = new HttpPost(Config.getApplicationUrl() + "/user");
-
-            StringEntity input = new StringEntity(
-                    "{\"username\":\""+ username +"\"" +
-                    ", \"password\":\""+ password +"\"" +
-                    ", \"email\": \""+ email +"\"}");
-
-            input.setContentType("application/json");
-            postRequest.setEntity(input);
-
-            client.execute(postRequest);
-        } catch (ClientProtocolException | UnsupportedEncodingException e) {
-            log.error("Error happened during user registration.", e);
-        } catch (IOException e) {
-            log.error("Error happened during user registration.", e);
-        }
-
+        RestAssured.baseURI = Config.getApplicationUrl();
+        given()
+            .urlEncodingEnabled(true)
+            .contentType(ContentType.JSON)
+            .body(regData)
+            .when()
+            .post("/user")
+            .then()
+            .statusCode(200);
     }
 }

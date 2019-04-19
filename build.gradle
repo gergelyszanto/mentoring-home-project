@@ -38,6 +38,7 @@ dependencies {
     compile group: 'javax.mail', name: 'mail', version: '1.4.7'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     compile group: 'javax.activation', name: 'activation', version: '1.1'
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.8'
+    compile 'io.rest-assured:rest-assured:3.3.0'
+    Compile 'com.google.code.gson:gson:2.6.2'
 
 }

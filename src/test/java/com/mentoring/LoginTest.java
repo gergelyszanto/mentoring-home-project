@@ -4,7 +4,6 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.Messages;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.pageobject.PageFactory;
 import lombok.extern.slf4j.Slf4j;
