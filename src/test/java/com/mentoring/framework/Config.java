@@ -82,4 +82,8 @@ public final class Config {
     public static boolean isLocalEnvironmentUsed() {
         return System.getenv(Config.ENVIRONMENT).equals(Config.SKY_XPLORE_LOCALHOST);
     }
+
+    public static String getApplicationUrl() {
+        return APPLICATION_URL;
+    }
 }
