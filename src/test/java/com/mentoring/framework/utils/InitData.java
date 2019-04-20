@@ -17,7 +17,7 @@ public final class InitData {
     }
 
     public static void registerUser(String username, String password, String email) {
-        Map<String,String> regData = new HashMap<>();
+        Map<String, String> regData = new HashMap<>();
         regData.put("username", username);
         regData.put("password", password);
         regData.put("email", email);

@@ -1,7 +1,8 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.framework.Messages;
+import com.mentoring.util.Messages;
+import com.mentoring.util.CommonAssertions;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.NotificationContainer;
@@ -56,9 +57,7 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.BAD_CREDENTIALS))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.BAD_CREDENTIALS);
         softAssertion.assertAll();
     }
 
@@ -74,22 +73,20 @@ public class LoginTest extends BasicTest {
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.BAD_CREDENTIALS))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.BAD_CREDENTIALS);
         softAssertion.assertAll();
     }
 
     @Test(groups = "smoke")
     public void emptyUsername() {
         String validUserName = User.generateRandomUsername();
+
         new PageFactory().getMainPage(driver)
                 .fillLoginForm(validUserName, "")
                 .clickLoginButton();
+
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
         softAssertion.assertAll();
     }
 
@@ -98,10 +95,9 @@ public class LoginTest extends BasicTest {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", VALID_PASSWORD)
                 .clickLoginButton();
+
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
         softAssertion.assertAll();
     }
 
@@ -110,11 +106,9 @@ public class LoginTest extends BasicTest {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", "")
                 .clickLoginButton();
+
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.EMPTY_CREDENTIALS))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
         softAssertion.assertAll();
     }
-
 }

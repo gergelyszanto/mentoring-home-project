@@ -1,7 +1,8 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.framework.Messages;
+import com.mentoring.util.CommonAssertions;
+import com.mentoring.util.Messages;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
@@ -41,10 +42,9 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
                 .isTrue();
+
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        softAssertion.assertThat(notificationContainer.isAButtonLabelEqualsTo(Messages.REGISTRATION_SUCCESSFUL))
-                .as(Messages.NOTIFICATION_BUTTON_ASSERTION_MESSAGE)
-                .isTrue();
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.REGISTRATION_SUCCESSFUL);
         softAssertion.assertAll();
     }
 

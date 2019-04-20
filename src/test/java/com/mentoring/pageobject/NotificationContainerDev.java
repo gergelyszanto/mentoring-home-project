@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class NotificationContainerDev extends Page implements NotificationContainer {
@@ -24,18 +25,11 @@ public class NotificationContainerDev extends Page implements NotificationContai
     public void waitUntilPageLoads() {
     }
 
-    public boolean isAButtonLabelEqualsTo(String label) {
+    public List<String> getButtonsText() {
         waitForMilliSec(1000);
-        // TODO: remove after hotfix of LoginTest.wrongPassword()
-        log.debug("debug1: button counter=" + buttons.size());
-        for (WebElement button : buttons) {
-            // TODO: remove after hotfix of LoginTest.wrongPassword()
-            log.debug("debug2: button label=" + button.getText());
-            if (button.getText().equals(label)) {
-                return true;
-            }
-        }
-        return false;
+        return buttons.stream()
+                .map(webElement -> webElement.getText())
+                .collect(Collectors.toList());
     }
 }
 
