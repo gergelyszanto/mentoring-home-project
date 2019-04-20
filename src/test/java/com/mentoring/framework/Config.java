@@ -1,5 +1,6 @@
 package com.mentoring.framework;
 
+import com.mentoring.framework.utils.EmailUtils;
 import com.mentoring.model.Browser;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,8 +29,7 @@ public final class Config {
         BROWSER = Browser.parse(System.getenv("BROWSER"));
         PORT = prop.getProperty("port");
         if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_PROD)) {
-            //TODO: Replace static IP address with dynamic get from emails
-            BASE_URL = "http://".concat("62.165.192.145");
+            BASE_URL = EmailUtils.getIpAddressFromEmail();
         } else {
             BASE_URL = prop.getProperty("base_url");
         }
@@ -81,5 +81,9 @@ public final class Config {
 
     public static boolean isLocalEnvironmentUsed() {
         return System.getenv(Config.ENVIRONMENT).equals(Config.SKY_XPLORE_LOCALHOST);
+    }
+
+    public static String getApplicationUrl() {
+        return APPLICATION_URL;
     }
 }

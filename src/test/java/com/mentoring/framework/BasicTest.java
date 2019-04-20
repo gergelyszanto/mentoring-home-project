@@ -1,5 +1,6 @@
 package com.mentoring.framework;
 
+import com.mentoring.framework.utils.CookieUtils;
 import com.mentoring.framework.utils.LogUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -32,6 +33,7 @@ public class BasicTest {
             driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
             driver.get(Config.APPLICATION_URL);
             resizeBrowser(driver);
+            CookieUtils.setTestCookies(driver);
         } catch (Exception e) {
             log.error("Error at setup: ", e);
         }
