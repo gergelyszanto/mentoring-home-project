@@ -28,7 +28,7 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     @Override
     public MainPage logout() {
-        log.info("Log out...");
+        log.info("Logging out...");
         waitUntilClickable(logoutButton).click();
         return new MainPageProd(driver);
     }
