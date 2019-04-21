@@ -1,6 +1,7 @@
 package com.mentoring.framework.utils;
 
-import com.mentoring.framework.Config;
+import com.mentoring.framework.Config;;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ public final class InitData {
     private InitData() {
     }
 
+    @Step("Posting user registration...")
     public static void registerUser(String username, String password, String email) {
         Map<String, String> regData = new HashMap<>();
         regData.put("username", username);

@@ -1,6 +1,7 @@
 package com.mentoring.pageobject;
 
 import com.mentoring.framework.Config;
+import com.mentoring.framework.utils.AllureLogger;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
@@ -17,6 +18,15 @@ public abstract class Page {
         this.driver = driver;
         PageFactory.initElements(driver, this);
         url = Config.APPLICATION_URL + path;
+        logPageLoadToAllure();
+    }
+
+    private void logPageLoadToAllure() {
+        try {
+            AllureLogger.logToAllure("Loading page object: '" + getClass().getSimpleName() + "'...");
+        } catch (Exception e) {
+            log.warn("Error logging page load, but page loaded successfully", e);
+        }
     }
 
     void type(WebElement input, String text) {

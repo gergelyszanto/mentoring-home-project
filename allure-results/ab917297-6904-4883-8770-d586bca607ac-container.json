@@ -1,0 +1,1 @@
+{"uuid":"ab917297-6904-4883-8770-d586bca607ac","name":"com.mentoring.framework.BasicTest.beforeTestMethod","description":"","start":1555886555263,"stop":1555886563768,"children":["430cf85d-7f39-4b38-99c0-b570e9f804ba"],"befores":[{"name":"beforeTestMethod","status":"passed","stage":"finished","description":"","start":1555886555265,"stop":1555886563766}]}

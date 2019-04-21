@@ -8,14 +8,18 @@ import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.pageobject.PageFactory;
+import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import static com.mentoring.model.Features.REGISTRATION;
 
 @Slf4j
 public class RegistrationTest extends BasicTest {
@@ -38,6 +42,7 @@ public class RegistrationTest extends BasicTest {
 
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
+    @Feature(REGISTRATION)
     public void successfulRegistration() {
         CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, User.generateRandomEmail())
@@ -75,8 +80,9 @@ public class RegistrationTest extends BasicTest {
                 .isFalse();
     }
 
-
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(REGISTRATION)
     public void alreadyRegisteredUserName() {
         String validUserName = User.generateRandomUsername();
         MainPage mainPage = new PageFactory().getMainPage(driver)
@@ -90,6 +96,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(REGISTRATION)
     public void alreadyRegisteredEmail() {
         String validEmail = User.generateRandomEmail();
         MainPage mainPage = new PageFactory().getMainPage(driver)
@@ -103,6 +111,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.CRITICAL)
+    @Feature(REGISTRATION)
     public void insufficientRegistration() {
         MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
@@ -130,6 +140,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke", dataProvider = "wrongEmailAddressData")
+    @Severity(SeverityLevel.CRITICAL)
+    @Feature(REGISTRATION)
     public void wrongEmailAddress(String email) {
         String username = User.generateRandomUsername();
         MainPage mainPage = new PageFactory().getMainPage(driver)
@@ -143,6 +155,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.NORMAL)
+    @Feature(REGISTRATION)
     public void tooShortFields() {
         MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
@@ -160,6 +174,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.NORMAL)
+    @Feature(REGISTRATION)
     public void tooLongFields() {
         MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
@@ -177,6 +193,8 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.NORMAL)
+    @Feature(REGISTRATION)
     public void wrongConfirmPassword() {
         MainPage mainPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, VALID_PASSWORD + "a", User.generateRandomEmail());

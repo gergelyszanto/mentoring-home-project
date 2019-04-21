@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -55,16 +56,19 @@ public class MainPageProd extends Page implements MainPage {
         return this;
     }
 
+    @Step("Entering login username.")
     public void enterLoginUsername(String username) {
         log.info("Entering login username: '{}'", username);
         type(loginUsername, username);
     }
 
+    @Step("Entering login password.")
     public void enterLoginPassword(String password) {
         log.info("Entering login password: '{}'", password);
         type(loginPassword, password);
     }
 
+    @Step("Click login.")
     public void clickLoginButton() {
         log.info("Clicking on login button...");
         waitUntilClickable(submitLoginButton).click();
@@ -89,31 +93,32 @@ public class MainPageProd extends Page implements MainPage {
     }
 
     @Override
+    @Step("Submit registration.")
     public CharacterSelectionPageProd submitRegistration() {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
         return new CharacterSelectionPageProd(driver);
     }
 
-    @Override
+    @Step("Entering registration username.")
     public void enterRegistrationUsername(String username) {
         log.info("Entering registration username: '{}'", username);
         type(registrationUsername, username);
     }
 
-    @Override
+    @Step("Entering registration password.")
     public void enterRegistrationPassword(String password) {
         log.info("Entering registration password: '{}'", password);
         type(registrationPassword, password);
     }
 
-    @Override
+    @Step("Entering registration confirm password.")
     public void enterRegistrationConfirmPassword(String confirmPassword) {
         log.info("Entering registration confirm password: '{}'", confirmPassword);
         type(registrationConfirmPassword, confirmPassword);
     }
 
-    @Override
+    @Step("Entering registration email address.")
     public void enterRegistrationEmailAddress(String emailAddress) {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
