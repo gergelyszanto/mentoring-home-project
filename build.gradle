@@ -29,7 +29,7 @@ allure {
     autoconfigure = true
 
     resultsDir = file('/allure-results')
-    reportDir = file('reports/allure-report')
+    reportDir = file('/allure-report')
 
     useTestNG {
         version = '2.0-BETA10'
@@ -63,6 +63,7 @@ task smokeTest(type: Test){
 }
 
 task smokeTestAndReport(type: GradleBuild) {
+    startParameter.continueOnFailure = true
     tasks = ['smokeTest', 'allureReport']
 }
 
