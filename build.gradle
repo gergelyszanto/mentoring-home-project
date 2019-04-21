@@ -1,17 +1,53 @@
 group 'com.mentoring.ta'
 version '1.0-SNAPSHOT'
 
+buildscript {
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.7.0"
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'io.qameta.allure'
+
 compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 
 repositories {
+    jcenter()
     mavenCentral()
+}
+
+allure {
+    version = '2.7.0'
+    aspectjweaver = true
+    autoconfigure = true
+
+    resultsDir = file('/allure-results')
+    reportDir = file('reports/allure-report')
+
+    useTestNG {
+        version = '2.0-BETA10'
+    }
+
+    downloadLink = 'https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.7.0/allure-2.7.0.zip'
+}
+
+import io.qameta.allure.gradle.task.AllureReport
+
+task allureAggregatedReport(type: AllureReport) {
+    resultsDirs = subprojects.allure.resultsDir
 }
 
 task smokeTest(type: Test){
     useTestNG() {
         environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-prod"
         suites "src/test/resources/testng.xml"
         configFailurePolicy 'continue'
         includeGroups 'smoke'
@@ -20,6 +56,10 @@ task smokeTest(type: Test){
     reports.junitXml.outputPerTestCase=false
     reports.junitXml.destination="$buildDir/reports"
     systemProperties System.properties
+}
+
+task smokeTestAndReport(type: GradleBuild) {
+    tasks = ['smokeTest', 'allureReport']
 }
 
 dependencies {
@@ -39,4 +79,7 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     compile group: 'javax.activation', name: 'activation', version: '1.1'
     compile 'io.rest-assured:rest-assured:3.3.0'
+    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
+    compile 'io.qameta.allure:allure-gradle:2.7.0'
 }

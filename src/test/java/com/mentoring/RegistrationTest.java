@@ -8,6 +8,8 @@ import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.pageobject.PageFactory;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -35,6 +37,7 @@ public class RegistrationTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
     public void successfulRegistration() {
         CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
                 .fillRegistrationForm(User.generateRandomUsername(), VALID_PASSWORD, User.generateRandomEmail())

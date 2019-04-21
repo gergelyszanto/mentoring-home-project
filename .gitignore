@@ -167,3 +167,6 @@ gradle-app.setting
 
 helper-scripts/Gemfile.lock
 **/.DS_Store
+
+### Allure ###
+allure-results
