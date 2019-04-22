@@ -1,1 +1,0 @@
-{"uuid":"75f8525b-89e4-4ec3-9e3f-d13f6f1ab87f","name":"com.mentoring.LoginTest","start":1555886555201,"stop":1555886571558,"children":["430cf85d-7f39-4b38-99c0-b570e9f804ba"],"afters":[{"name":"teardown","status":"passed","stage":"finished","description":"","start":1555886571555,"stop":1555886571555}]}

@@ -1,1 +1,0 @@
-{"uuid":"a07b8f8c-357b-43b1-9808-41b9b1e11537","name":"com.mentoring.framework.BasicTest.postMethodActions","description":"","start":1555886570839,"stop":1555886571552,"children":["430cf85d-7f39-4b38-99c0-b570e9f804ba"],"afters":[{"name":"postMethodActions","status":"passed","stage":"finished","description":"","start":1555886570840,"stop":1555886571552}]}

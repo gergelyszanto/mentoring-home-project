@@ -170,3 +170,4 @@ helper-scripts/Gemfile.lock
 
 ### Allure ###
 .allure
+allure-results

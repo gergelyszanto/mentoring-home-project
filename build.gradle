@@ -87,4 +87,5 @@ dependencies {
     compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
     compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
     compile 'io.qameta.allure:allure-gradle:2.7.0'
+    compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
 }
