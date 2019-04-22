@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.LocalFileDetector;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -30,8 +31,11 @@ class DriverProvider {
                 browserVersion = remoteWebDriver.getCapabilities().getVersion();
                 return remoteWebDriver;
             case FIREFOX:
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
                 System.setProperty("webdriver.gecko.driver", "drivers/firefox/geckodriver.exe");
-                return new FirefoxDriver();
+                FirefoxDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
+                browserVersion = firefoxDriver.getCapabilities().getVersion();
+                return firefoxDriver;
             case CHROME:
             default:
                 ChromeOptions capabilityChrome = new ChromeOptions();
