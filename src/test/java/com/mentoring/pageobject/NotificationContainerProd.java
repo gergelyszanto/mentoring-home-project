@@ -25,8 +25,7 @@ public class NotificationContainerProd extends Page implements NotificationConta
     public void waitUntilPageLoads() {
     }
 
-    public List<String> getButtonsText() {
-        waitForMilliSec(1000);
+    public List<String> getNotificationMessages() {
         return buttons.stream()
                 .map(webElement -> webElement.getText())
                 .collect(Collectors.toList());

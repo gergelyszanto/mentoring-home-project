@@ -7,12 +7,16 @@ import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.pageobject.PageFactory;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.mentoring.framework.utils.InitData.registerUser;
+import static com.mentoring.model.Features.LOGIN;
 
 @Slf4j
 public class LoginTest extends BasicTest {
@@ -28,6 +32,8 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(LOGIN)
     public void successfulLogin() {
         String validUserName = User.generateRandomUsername();
         String validEmail = User.generateRandomEmail();
@@ -46,6 +52,8 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(LOGIN)
     public void wrongUserName() {
         String validUserName = User.generateRandomUsername();
         String validEmail = User.generateRandomEmail();
@@ -62,6 +70,8 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(LOGIN)
     public void wrongPassword() {
         String validUserName = User.generateRandomUsername();
         String validEmail = User.generateRandomEmail();
@@ -78,8 +88,12 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
-    public void emptyUsername() {
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(LOGIN)
+    public void emptyPassword() {
         String validUserName = User.generateRandomUsername();
+        String validEmail = User.generateRandomEmail();
+        registerUser(validUserName, VALID_PASSWORD, validEmail);
 
         new PageFactory().getMainPage(driver)
                 .fillLoginForm(validUserName, "")
@@ -91,7 +105,9 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
-    public void emptyPassword() {
+    @Severity(SeverityLevel.BLOCKER)
+    @Feature(LOGIN)
+    public void emptyUsername() {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", VALID_PASSWORD)
                 .clickLoginButton();
@@ -102,6 +118,8 @@ public class LoginTest extends BasicTest {
     }
 
     @Test(groups = "smoke")
+    @Severity(SeverityLevel.NORMAL)
+    @Feature(LOGIN)
     public void emptyFields() {
         new PageFactory().getMainPage(driver)
                 .fillLoginForm("", "")

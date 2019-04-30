@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface NotificationContainer {
 
-    List<String> getButtonsText();
+    List<String> getNotificationMessages();
 }
 
