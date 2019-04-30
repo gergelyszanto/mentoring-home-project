@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -8,37 +9,37 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class MainPageProd extends Page implements MainPage {
 
-    @FindBy (id = "login-username")
+    @FindBy (id = "login_username")
     private WebElement loginUsername;
 
-    @FindBy (id = "login-password")
+    @FindBy (id = "login_password")
     private WebElement loginPassword;
 
-    @FindBy (id = "login-button")
+    @FindBy (id = "login_button")
     private WebElement submitLoginButton;
 
     @FindBy(id = "registration_username")
     private WebElement registrationUsername;
 
-    @FindBy(id = "invalid-username")
+    @FindBy(id = "invalid_username")
     private WebElement invalidUsername;
 
     @FindBy(id = "registration_password")
     private WebElement registrationPassword;
 
-    @FindBy(id = "invalid-password")
+    @FindBy(id = "invalid_password")
     private WebElement invalidPassword;
 
     @FindBy(id = "registration_confirm_password")
     private WebElement registrationConfirmPassword;
 
-    @FindBy(id = "invalid-confirm-password")
+    @FindBy(id = "invalid_confirm_password")
     private WebElement invalidConfirmPassword;
 
     @FindBy(id = "registration_email")
     private WebElement registrationEmailAddress;
 
-    @FindBy(id = "invalid-email")
+    @FindBy(id = "invalid_email")
     private WebElement invalidEmail;
 
     @FindBy(id = "registration_button")
@@ -55,16 +56,19 @@ public class MainPageProd extends Page implements MainPage {
         return this;
     }
 
+    @Step("Entering login username.")
     public void enterLoginUsername(String username) {
         log.info("Entering login username: '{}'", username);
         type(loginUsername, username);
     }
 
+    @Step("Entering login password.")
     public void enterLoginPassword(String password) {
         log.info("Entering login password: '{}'", password);
         type(loginPassword, password);
     }
 
+    @Step("Click login.")
     public void clickLoginButton() {
         log.info("Clicking on login button...");
         waitUntilClickable(submitLoginButton).click();
@@ -89,31 +93,32 @@ public class MainPageProd extends Page implements MainPage {
     }
 
     @Override
+    @Step("Submit registration.")
     public CharacterSelectionPageProd submitRegistration() {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
         return new CharacterSelectionPageProd(driver);
     }
 
-    @Override
+    @Step("Entering registration username.")
     public void enterRegistrationUsername(String username) {
         log.info("Entering registration username: '{}'", username);
         type(registrationUsername, username);
     }
 
-    @Override
+    @Step("Entering registration password.")
     public void enterRegistrationPassword(String password) {
         log.info("Entering registration password: '{}'", password);
         type(registrationPassword, password);
     }
 
-    @Override
+    @Step("Entering registration confirm password.")
     public void enterRegistrationConfirmPassword(String confirmPassword) {
         log.info("Entering registration confirm password: '{}'", confirmPassword);
         type(registrationConfirmPassword, confirmPassword);
     }
 
-    @Override
+    @Step("Entering registration email address.")
     public void enterRegistrationEmailAddress(String emailAddress) {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
