@@ -17,4 +17,5 @@ public interface CharacterSelectionPage {
 
     void renameCharacter(String newCharacterName);
 
+    void acceptAlert();
 }

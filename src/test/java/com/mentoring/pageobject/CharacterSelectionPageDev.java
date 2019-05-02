@@ -74,7 +74,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
         waitUntilClickable(createCharacterButton).click();
     }
 
-    @Override
+    @Step("Creating new character.")
     public void createNewCharacter(String characterName) {
         enterCharacterName(characterName);
         clickCreateCharacterButton();
@@ -92,6 +92,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
         waitUntilClickable(renameCharacterButton).click();
     }
 
+    @Step("Renaming the character name.")
     public void renameCharacter(String newCharacterName) {
         enterRenamedCharacter(newCharacterName);
         clickRenameCharacterButton();
@@ -106,11 +107,13 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
                 .collect(Collectors.toList());
     }
 
+    @Step("Clicking on Rename character button.")
     public void clickForRenameCharacterButtonInList() {
         log.info("Clicking on Rename character button in the list...");
         waitUntilClickable(characterButtons.get(0)).click();
     }
 
+    @Step("Clicking on Delete character button.")
     public void clickForDeleteCharacterButtonInList() {
         log.info("Clicking on Delete character button in the list...");
         waitUntilClickable(characterButtons.get(1)).click();
