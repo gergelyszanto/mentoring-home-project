@@ -84,7 +84,6 @@ dependencies {
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     compile group: 'javax.activation', name: 'activation', version: '1.1'
     compile 'io.rest-assured:rest-assured:3.3.0'
-    compile 'com.google.code.gson:gson:2.6.2'
     compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
     compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
     compile 'io.qameta.allure:allure-gradle:2.7.0'
