@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import com.mentoring.model.User;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -56,14 +57,21 @@ public class MainPageProd extends Page implements MainPage {
         return this;
     }
 
+    @Override
+    public CharacterSelectionPageProd login(User user) {
+        fillLoginForm(user.getUserName(), user.getPassword());
+        clickLoginButton();
+        return new CharacterSelectionPageProd(driver);
+    }
+
     @Step("Entering login username.")
-    public void enterLoginUsername(String username) {
+    private void enterLoginUsername(String username) {
         log.info("Entering login username: '{}'", username);
         type(loginUsername, username);
     }
 
     @Step("Entering login password.")
-    public void enterLoginPassword(String password) {
+    private void enterLoginPassword(String password) {
         log.info("Entering login password: '{}'", password);
         type(loginPassword, password);
     }

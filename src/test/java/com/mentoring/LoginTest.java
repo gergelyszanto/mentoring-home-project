@@ -1,9 +1,10 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
+import com.mentoring.model.User;
 import com.mentoring.util.Messages;
 import com.mentoring.util.CommonAssertions;
-import com.mentoring.model.User;
+import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.pageobject.PageFactory;
@@ -15,7 +16,6 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.mentoring.framework.utils.InitData.registerUser;
 import static com.mentoring.model.Features.LOGIN;
 
 @Slf4j
@@ -35,16 +35,10 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void successfulLogin() {
-        String validUserName = User.generateRandomUsername();
-        String validEmail = User.generateRandomEmail();
+        User user = new User();
+        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
+                .login(user);
 
-        registerUser(validUserName, VALID_PASSWORD, validEmail);
-
-        new PageFactory().getMainPage(driver)
-                .fillLoginForm(validUserName, VALID_PASSWORD)
-                .clickLoginButton();
-
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getCharacterSelectionPage(driver);
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
                 .isTrue();
@@ -55,13 +49,9 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongUserName() {
-        String validUserName = User.generateRandomUsername();
-        String validEmail = User.generateRandomEmail();
-
-        registerUser(validUserName, VALID_PASSWORD, validEmail);
-
+        User user = new User();
         new PageFactory().getMainPage(driver)
-                .fillLoginForm(User.generateRandomUsername(), VALID_PASSWORD)
+                .fillLoginForm(UserUtils.generateRandomUsername(), VALID_PASSWORD)
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
@@ -73,13 +63,9 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongPassword() {
-        String validUserName = User.generateRandomUsername();
-        String validEmail = User.generateRandomEmail();
-
-        registerUser(validUserName, VALID_PASSWORD, validEmail);
-
+        User user = new User();
         new PageFactory().getMainPage(driver)
-                .fillLoginForm(validUserName, WRONG_PASSWORD)
+                .fillLoginForm(user.getUserName(), WRONG_PASSWORD)
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
@@ -91,12 +77,9 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyPassword() {
-        String validUserName = User.generateRandomUsername();
-        String validEmail = User.generateRandomEmail();
-        registerUser(validUserName, VALID_PASSWORD, validEmail);
-
+        User user = new User();
         new PageFactory().getMainPage(driver)
-                .fillLoginForm(validUserName, "")
+                .fillLoginForm(user.getUserName(), "")
                 .clickLoginButton();
 
         NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
