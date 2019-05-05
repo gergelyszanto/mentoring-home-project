@@ -6,6 +6,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 public class CharacterSelectionPageProd extends Page implements CharacterSelectionPage {
 
@@ -15,6 +18,27 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     @FindBy(css = "[onclick='authService.logout()']")
     private WebElement logoutButton;
+
+    @FindBy(id = "newcharactername")
+    private WebElement createCharacterName;
+
+    @FindBy(id = "invalid_newcharactername")
+    private WebElement invalidCreateCharacterName;
+
+    @FindBy(id = "newcharacterbutton")
+    private WebElement createCharacterButton;
+
+    @FindBy(css = "tbody#characters .cursorpointer")
+    private List<WebElement> characterNames;
+
+    @FindBy(css = "tbody#characters .textaligncenter:nth-child(2)")
+    private List<WebElement> characterButtons;
+
+    @FindBy(id = "renamecharacterid")
+    private WebElement renameCharacterLabel;
+
+    @FindBy(id = "renamecharacterbutton")
+    private WebElement renameCharacterButton;
 
     CharacterSelectionPageProd(WebDriver driver) {
         super(driver, PATH);
@@ -35,5 +59,62 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
         log.info(LOGGING_OUT);
         waitUntilClickable(logoutButton).click();
         return new MainPageProd(driver);
+    }
+
+    // ************* create new character *************
+
+    private void enterCharacterName(String characterName) {
+        log.info("Creating new character: '{}'", characterName);
+        type(createCharacterName, characterName);
+    }
+
+    private void clickCreateCharacterButton() {
+        log.info("Clicking on Create character button...");
+        waitUntilClickable(createCharacterButton).click();
+    }
+
+    @Step("Creating new character.")
+    public void createNewCharacter(String characterName) {
+        enterCharacterName(characterName);
+        clickCreateCharacterButton();
+    }
+
+    // ************* rename character *************
+
+    private void enterRenamedCharacter(String newCharacterName) {
+        log.info("Entering the new name of the existing character: '{}'", newCharacterName);
+        type(renameCharacterLabel, newCharacterName);
+    }
+
+    private void clickRenameCharacterButton() {
+        log.info("Clicking on Rename character button...");
+        waitUntilClickable(renameCharacterButton).click();
+    }
+
+    @Step("Renaming the character name.")
+    public void renameCharacter(String newCharacterName) {
+        enterCharacterName(newCharacterName);
+        clickRenameCharacterButton();
+    }
+
+    // ************* methods for the character list *************
+
+    public List<String> getCharacterNamesText() {
+        waitForMilliSec(1000);
+        return characterNames.stream()
+                .map(webElement -> webElement.getText())
+                .collect(Collectors.toList());
+    }
+
+    @Step("Clicking on Rename character button.")
+    public void clickForRenameCharacterButtonInList() {
+        log.info("Clicking on Rename character button in the list...");
+        waitUntilClickable(characterButtons.get(0)).click();
+    }
+
+    @Step("Clicking on Delete character button.")
+    public void clickForDeleteCharacterButtonInList() {
+        log.info("Clicking on Delete character button in the list...");
+        waitUntilClickable(characterButtons.get(1)).click();
     }
 }
