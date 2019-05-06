@@ -1,8 +1,12 @@
 package com.mentoring.pageobject;
 
+import com.mentoring.model.User;
+
 public interface MainPage {
 
     MainPage fillLoginForm(String username, String password);
+
+    CharacterSelectionPage login(User user);
 
     void clickLoginButton();
 

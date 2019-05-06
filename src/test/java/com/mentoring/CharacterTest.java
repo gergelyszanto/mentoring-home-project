@@ -1,6 +1,7 @@
 package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.PageFactory;
@@ -11,12 +12,9 @@ import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.mentoring.framework.utils.InitData.registerUser;
 import static com.mentoring.model.Features.CHARACTER;
 
 public class CharacterTest extends BasicTest {
-
-    private static final String VALID_PASSWORD = "Test1234!";
 
     private SoftAssertions softAssertion;
 
@@ -29,20 +27,13 @@ public class CharacterTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void createReadUpdateDeleteCharacter() {
-        String validUserName = User.generateRandomUsername();
-        String validEmail = User.generateRandomEmail();
-        String validCharacterName = User.generateRandomCharacterName();
+        String validCharacterName = UserUtils.generateRandomCharacterName();
         String updatedCharacterName = validCharacterName + "a";
 
-        // register a random user
-        registerUser(validUserName, VALID_PASSWORD, validEmail);
-
-        // login with this user
-        new PageFactory().getMainPage(driver)
-                .fillLoginForm(validUserName, VALID_PASSWORD)
-                .clickLoginButton();
-
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getCharacterSelectionPage(driver);
+        // register a random user and login with it
+        User user = new User();
+        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
+                .login(user);
 
         // create new character
         characterSelectionPage.createNewCharacter(validCharacterName);
