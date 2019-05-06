@@ -80,4 +80,7 @@ public abstract class Page {
         }
     }
 
+    public void acceptAlert() {
+        driver.switchTo().alert().accept();
+    }
 }

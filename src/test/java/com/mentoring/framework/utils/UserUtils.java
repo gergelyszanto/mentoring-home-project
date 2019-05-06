@@ -12,6 +12,10 @@ public class UserUtils {
         return "User-" + generateRandomNumber();
     }
 
+    public static String generateRandomCharacterName() {
+        return "Char-" + generateRandomNumber();
+    }
+
     private static int generateRandomNumber() {
         return new Random().nextInt(900000) + 100000;
     }
