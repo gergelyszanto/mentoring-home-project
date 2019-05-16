@@ -37,6 +37,9 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
     @FindBy(id = "rename-character-label")
     private WebElement renameCharacterLabel;
 
+    @FindBy(id = "invalid-new-character-name")
+    private WebElement invalidNewCharacterName;
+
     @FindBy(id = "rename-character-button")
     private WebElement renameCharacterButton;
 
@@ -64,7 +67,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
 
     // ************* create new character *************
 
-    private void enterCharacterName(String characterName) {
+    public void enterCharacterName(String characterName) {
         log.info("Entering character name: '{}'", characterName);
         type(createCharacterName, characterName);
     }
@@ -82,7 +85,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
 
     // ************* rename character *************
 
-    private void enterRenamedCharacter(String newCharacterName) {
+    public void enterRenamedCharacter(String newCharacterName) {
         log.info("Entering the new name of the existing character: '{}'", newCharacterName);
         type(renameCharacterLabel, newCharacterName);
     }
@@ -109,6 +112,8 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
 
     @Step("Clicking on Rename character button.")
     public void clickForRenameCharacterButtonInList() {
+        if (characterButtons.size() == 0)
+            waitForMilliSec(200);
         log.info("Clicking on Rename character button in the list...");
         waitUntilClickable(characterButtons.get(0)).click();
     }
@@ -117,5 +122,25 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
     public void clickForDeleteCharacterButtonInList() {
         log.info("Clicking on Delete character button in the list...");
         waitUntilClickable(characterButtons.get(1)).click();
+    }
+
+    @Override
+    public boolean isCreateCharacterNameInvalid() {
+        return isElementDisplayed(invalidCreateCharacterName);
+    }
+
+    @Override
+    public boolean isCreateCharacterButtonEnabled() {
+        return createCharacterButton.isEnabled();
+    }
+
+    @Override
+    public boolean isRenameNewCharacterNameInvalid() {
+        return isElementDisplayed(invalidNewCharacterName);
+    }
+
+    @Override
+    public boolean isRenameCharacterButtonEnabled() {
+        return renameCharacterButton.isEnabled();
     }
 }

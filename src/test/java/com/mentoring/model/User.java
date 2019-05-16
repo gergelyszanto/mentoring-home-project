@@ -60,7 +60,7 @@ public class User {
             .post(getRegistrationPath())
             .then()
             .statusCode(200);
-        log.info("UserUtils registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
+        log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
     }
 
     private static String getRegistrationPath() {
