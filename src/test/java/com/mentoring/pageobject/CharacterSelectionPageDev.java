@@ -113,7 +113,7 @@ public class CharacterSelectionPageDev extends Page implements CharacterSelectio
     @Step("Clicking on Rename character button.")
     public void clickForRenameCharacterButtonInList() {
         if (characterButtons.size() == 0)
-            waitForMilliSec(200);
+            waitUntilWebElementListVisible(characterButtons);
         log.info("Clicking on Rename character button in the list...");
         waitUntilClickable(characterButtons.get(0)).click();
     }
