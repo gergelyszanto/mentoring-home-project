@@ -7,6 +7,8 @@ public interface CharacterSelectionPage {
 
     MainPage logout();
 
+    void enterCharacterName(String characterName);
+
     void createNewCharacter(String characterName);
 
     List<String> getCharacterNamesText();
@@ -15,7 +17,17 @@ public interface CharacterSelectionPage {
 
     void clickForDeleteCharacterButtonInList();
 
+    void enterRenamedCharacter(String newCharacterName);
+
     void renameCharacter(String newCharacterName);
 
     void acceptAlert();
+
+    boolean isCreateCharacterNameInvalid();
+
+    boolean isCreateCharacterButtonEnabled();
+
+    boolean isRenameNewCharacterNameInvalid();
+
+    boolean isRenameCharacterButtonEnabled();
 }

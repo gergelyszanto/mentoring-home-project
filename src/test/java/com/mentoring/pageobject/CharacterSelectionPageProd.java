@@ -37,6 +37,9 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
     @FindBy(id = "renamecharacterid")
     private WebElement renameCharacterLabel;
 
+    @FindBy(id = "invalid-new-character-name")
+    private WebElement invalidNewCharacterName;
+
     @FindBy(id = "renamecharacterbutton")
     private WebElement renameCharacterButton;
 
@@ -63,7 +66,7 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     // ************* create new character *************
 
-    private void enterCharacterName(String characterName) {
+    public void enterCharacterName(String characterName) {
         log.info("Creating new character: '{}'", characterName);
         type(createCharacterName, characterName);
     }
@@ -81,7 +84,7 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     // ************* rename character *************
 
-    private void enterRenamedCharacter(String newCharacterName) {
+    public void enterRenamedCharacter(String newCharacterName) {
         log.info("Entering the new name of the existing character: '{}'", newCharacterName);
         type(renameCharacterLabel, newCharacterName);
     }
@@ -93,7 +96,7 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     @Step("Renaming the character name.")
     public void renameCharacter(String newCharacterName) {
-        enterCharacterName(newCharacterName);
+        enterRenamedCharacter(newCharacterName);
         clickRenameCharacterButton();
     }
 
@@ -108,6 +111,8 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     @Step("Clicking on Rename character button.")
     public void clickForRenameCharacterButtonInList() {
+        if (characterButtons.size() == 0)
+            waitUntilWebElementListVisible(characterButtons);
         log.info("Clicking on Rename character button in the list...");
         waitUntilClickable(characterButtons.get(0)).click();
     }
@@ -116,5 +121,25 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
     public void clickForDeleteCharacterButtonInList() {
         log.info("Clicking on Delete character button in the list...");
         waitUntilClickable(characterButtons.get(1)).click();
+    }
+
+    @Override
+    public boolean isCreateCharacterNameInvalid() {
+        return isElementDisplayed(invalidCreateCharacterName);
+    }
+
+    @Override
+    public boolean isCreateCharacterButtonEnabled() {
+        return createCharacterButton.isEnabled();
+    }
+
+    @Override
+    public boolean isRenameNewCharacterNameInvalid() {
+        return isElementDisplayed(invalidNewCharacterName);
+    }
+
+    @Override
+    public boolean isRenameCharacterButtonEnabled() {
+        return renameCharacterButton.isEnabled();
     }
 }

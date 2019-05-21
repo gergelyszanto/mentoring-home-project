@@ -8,6 +8,8 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.List;
+
 @Slf4j
 public abstract class Page {
 
@@ -39,10 +41,15 @@ public abstract class Page {
         waitUntilVisible(input).sendKeys(Keys.CONTROL, "a", Keys.BACK_SPACE);
     }
 
-    private WebElement waitUntilVisible(WebElement element) {
+    public WebElement waitUntilVisible(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(element)));
         return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void waitUntilWebElementListVisible(List<WebElement> elements) {
+        WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
+        wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
 
     WebElement waitUntilClickable(WebElement element) {
