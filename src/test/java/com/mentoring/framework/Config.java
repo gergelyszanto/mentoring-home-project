@@ -22,6 +22,8 @@ public final class Config {
     private static final String PORT;
     private static final String ENVIRONMENT = "ENVIRONMENT";
     private static String[] validEnvironmentConfigurationNames = {SKY_XPLORE_LOCALHOST, SKY_XPLORE_PROD};
+    private static final String DATABASE_NAME;
+    public static final String JDBC;
 
     static {
         Properties prop = loadProperties();
@@ -34,7 +36,13 @@ public final class Config {
             BASE_URL = prop.getProperty("base_url");
         }
         APPLICATION_URL = BASE_URL.concat(":").concat(PORT);
-
+        DATABASE_NAME = prop.getProperty("database_name");
+        if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_LOCALHOST)) {
+            JDBC = "jdbc:mysql://localhost/" + DATABASE_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        } else {
+            // What should we do on prod? Do we have rights to connect to Prod database?
+            JDBC = "";
+        }
     }
 
     private Config() {
