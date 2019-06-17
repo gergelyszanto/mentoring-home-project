@@ -18,7 +18,7 @@ public class User {
 
     private static final String PASSWORD = "Test1234!";
     private static final String REGISTRATION_PATH_DEV = "/user";
-    private static final String REGISTRATION_PATH_PROD = "/user/register";
+    private static final String REGISTRATION_PATH_PROD = "/user";
 
     @Getter
     private String userName;
@@ -47,9 +47,6 @@ public class User {
         regData.put("username", username);
         regData.put("password", password);
         regData.put("email", email);
-        if (!Config.isLocalEnvironmentUsed()) {
-            regData.put("confirmPassword", password);
-        }
 
         RestAssured.baseURI = Config.getApplicationUrl();
         given()

@@ -16,31 +16,31 @@ public class CharacterSelectionPageProd extends Page implements CharacterSelecti
 
     private static final String LOGGING_OUT = "Logging out.";
 
-    @FindBy(css = "[onclick='authService.logout()']")
+    @FindBy(id = "logout-button")
     private WebElement logoutButton;
 
-    @FindBy(id = "newcharactername")
+    @FindBy(id = "create-character-name")
     private WebElement createCharacterName;
 
-    @FindBy(id = "invalid_newcharactername")
+    @FindBy(id = "invalid-create-character-name")
     private WebElement invalidCreateCharacterName;
 
-    @FindBy(id = "newcharacterbutton")
+    @FindBy(id = "create-character-button")
     private WebElement createCharacterButton;
 
-    @FindBy(css = "tbody#characters .cursorpointer")
+    @FindBy(css = "tbody#characters .character-name-cell")
     private List<WebElement> characterNames;
 
-    @FindBy(css = "tbody#characters .textaligncenter:nth-child(2)")
+    @FindBy(css = "tbody#characters .character-operations button")
     private List<WebElement> characterButtons;
 
-    @FindBy(id = "renamecharacterid")
+    @FindBy(id = "rename-character-label")
     private WebElement renameCharacterLabel;
 
     @FindBy(id = "invalid-new-character-name")
     private WebElement invalidNewCharacterName;
 
-    @FindBy(id = "renamecharacterbutton")
+    @FindBy(id = "rename-character-button")
     private WebElement renameCharacterButton;
 
     CharacterSelectionPageProd(WebDriver driver) {
