@@ -10,40 +10,40 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class MainPageProd extends Page implements MainPage {
 
-    @FindBy (id = "login_username")
+    @FindBy (id = "login-username")
     private WebElement loginUsername;
 
-    @FindBy (id = "login_password")
+    @FindBy (id = "login-password")
     private WebElement loginPassword;
 
-    @FindBy (id = "login_button")
+    @FindBy (id = "login-button")
     private WebElement submitLoginButton;
 
-    @FindBy(id = "registration_username")
+    @FindBy(id = "reg-username")
     private WebElement registrationUsername;
 
-    @FindBy(id = "invalid_username")
+    @FindBy(id = "invalid-username")
     private WebElement invalidUsername;
 
-    @FindBy(id = "registration_password")
+    @FindBy(id = "reg-password")
     private WebElement registrationPassword;
 
-    @FindBy(id = "invalid_password")
+    @FindBy(id = "invalid-password")
     private WebElement invalidPassword;
 
-    @FindBy(id = "registration_confirm_password")
+    @FindBy(id = "reg-confirm-password")
     private WebElement registrationConfirmPassword;
 
-    @FindBy(id = "invalid_confirm_password")
+    @FindBy(id = "invalid-confirm-password")
     private WebElement invalidConfirmPassword;
 
-    @FindBy(id = "registration_email")
+    @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
 
-    @FindBy(id = "invalid_email")
+    @FindBy(id = "invalid-email")
     private WebElement invalidEmail;
 
-    @FindBy(id = "registration_button")
+    @FindBy(id = "registration-button")
     private WebElement submitRegistrationButton;
 
     MainPageProd(WebDriver driver) {
