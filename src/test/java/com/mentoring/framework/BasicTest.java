@@ -32,9 +32,9 @@ public class BasicTest {
     private void setupBrowser() {
         try {
             initializeDriver();
-            log.info("URL is: {}", Config.APPLICATION_URL);
+            log.info("URL is: {}", Config.getApplicationUrl());
             driver.manage().timeouts().pageLoadTimeout(PAGE_LOAD_TIMEOUT, TimeUnit.SECONDS);
-            driver.get(Config.APPLICATION_URL);
+            driver.get(Config.getApplicationUrl());
             resizeBrowser(driver);
             CookieUtils.setTestCookies(driver);
         } catch (Exception e) {

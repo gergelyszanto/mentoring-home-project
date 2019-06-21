@@ -15,10 +15,9 @@ public class Database {
 
     public Database() {
         try {
-            // TODO: user/password to properties and Config.java
-            connection = DriverManager.getConnection(Config.JDBC, "root", "");
+            connection = DriverManager.getConnection(Config.getJBDC(), Config.getDbUser(), Config.getDbPassword());
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error("Cannot connect to Database: " + e.getMessage());
             throw new IllegalStateException("Cannot connect to Database.", e);
         }
     }
@@ -27,7 +26,7 @@ public class Database {
         try {
             connection.close();
         } catch (SQLException e) {
-            log.error(e.getMessage());
+            log.error("Cannot disconnect from Database: " + e.getMessage());
             throw new IllegalStateException("Cannot disconnect from Database.", e);
         }
     }

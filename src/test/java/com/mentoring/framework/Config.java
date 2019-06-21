@@ -13,7 +13,7 @@ import java.util.Properties;
 public final class Config {
 
     public static final int LOAD_WAIT;
-    public static final String APPLICATION_URL;
+    private static final String APPLICATION_URL;
     static final Browser BROWSER;
     private static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
     private static final String SKY_XPLORE_PROD = "skyxplore-prod";
@@ -23,7 +23,10 @@ public final class Config {
     private static final String ENVIRONMENT = "ENVIRONMENT";
     private static String[] validEnvironmentConfigurationNames = {SKY_XPLORE_LOCALHOST, SKY_XPLORE_PROD};
     private static final String DATABASE_NAME;
-    public static final String JDBC;
+    private static final String JDBC;
+    private static final String DB_USER;
+    private static final String DB_PASSWORD;
+
 
     static {
         Properties prop = loadProperties();
@@ -43,6 +46,8 @@ public final class Config {
             // What should we do on prod? Do we have rights to connect to Prod database?
             JDBC = "";
         }
+        DB_USER = prop.getProperty("db_user");
+        DB_PASSWORD = prop.getProperty("db_password");
     }
 
     private Config() {
@@ -93,5 +98,17 @@ public final class Config {
 
     public static String getApplicationUrl() {
         return APPLICATION_URL;
+    }
+
+    public static String getJBDC() {
+        return JDBC;
+    }
+
+    public static String getDbUser() {
+        return DB_USER;
+    }
+
+    public static String getDbPassword() {
+        return DB_PASSWORD;
     }
 }
