@@ -17,7 +17,7 @@ public class Database {
         try {
             connection = DriverManager.getConnection(Config.getJBDC(), Config.getDbUser(), Config.getDbPassword());
         } catch (SQLException e) {
-            log.error("Cannot connect to Database: " + e.getMessage());
+            log.error("Cannot connect to Database. ", e);
             throw new IllegalStateException("Cannot connect to Database.", e);
         }
     }
@@ -26,7 +26,7 @@ public class Database {
         try {
             connection.close();
         } catch (SQLException e) {
-            log.error("Cannot disconnect from Database: " + e.getMessage());
+            log.error("Cannot disconnect from Database. ", e);
             throw new IllegalStateException("Cannot disconnect from Database.", e);
         }
     }
@@ -43,7 +43,7 @@ public class Database {
             statement.close();
             return result;
         } catch (SQLException e) {
-            log.error("Error running database query: ");
+            log.error("Error running database query: " + queryString);
             throw new AssertionError(e);
         }
     }
