@@ -19,6 +19,12 @@ public class User {
     private static final String PASSWORD = "Test1234!";
     private static final String REGISTRATION_PATH_DEV = "/user";
     private static final String REGISTRATION_PATH_PROD = "/user";
+    private static final String LOGIN_PATH_DEV = "/login";
+    private static final String LOGIN_PATH_PROD = "/login";
+    private static final String CHARACTER_PATH_DEV = "/character";
+    private static final String CHARACTER_PATH_PROD = "/character";
+    private static final String LOGOUT_PATH_DEV = "/logout";
+    private static final String LOGOUT_PATH_PROD = "/logout";
 
     @Getter
     private String userName;
@@ -60,7 +66,69 @@ public class User {
         log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
     }
 
+    public void loginUser(String userName, String password) {
+        Map<String, String> loginData = new HashMap<>();
+        loginData.put("userName", userName);
+        loginData.put("password", password);
+
+        RestAssured.baseURI = Config.getApplicationUrl();
+        given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .body(loginData)
+                .when()
+                .post(getLoginPath())
+                .then()
+                .statusCode(200);
+        log.info("User logged in:\n\tUsername: {}\n\tPassword: {}", userName, password);
+    }
+
+    public void createCharacter(String characterName, String accessToken, String userId) {
+        Map<String, String> characterData = new HashMap<>();
+        characterData.put("characterName", characterName);
+
+        RestAssured.baseURI = Config.getApplicationUrl();
+        given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .body(characterData)
+                .cookie("domain", accessToken)
+                .cookie("userid", userId)
+                .when()
+                .post(getCharacterPath())
+                .then()
+                .statusCode(200);
+        log.info("User character created:\n\tCharacter name: {}", characterName);
+    }
+
+    public void logoutUser(String userName, String accessToken, String userId) {
+        RestAssured.baseURI = Config.getApplicationUrl();
+        given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .cookie("domain", accessToken)
+                .cookie("userid", userId)
+                .when()
+                .post(getLogoutPath())
+                .then()
+                .statusCode(200);
+        log.info("User logged out: {}", userName);
+
+    }
+
     private static String getRegistrationPath() {
         return Config.isLocalEnvironmentUsed() ? REGISTRATION_PATH_DEV : REGISTRATION_PATH_PROD;
+    }
+
+    private static String getLoginPath() {
+        return Config.isLocalEnvironmentUsed() ? LOGIN_PATH_DEV : LOGIN_PATH_PROD;
+    }
+
+    private static String getCharacterPath() {
+        return Config.isLocalEnvironmentUsed() ? CHARACTER_PATH_DEV : CHARACTER_PATH_PROD;
+    }
+
+    private static String getLogoutPath() {
+        return Config.isLocalEnvironmentUsed() ? LOGOUT_PATH_DEV : LOGOUT_PATH_PROD;
     }
 }
