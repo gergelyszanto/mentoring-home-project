@@ -62,6 +62,24 @@ task smokeTest(type: Test){
     systemProperties System.properties
 }
 
+task regressionTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'regression'
+        options {
+            parallel 'classes'
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
 task smokeTestAndReport(type: GradleBuild) {
     startParameter.continueOnFailure = true
     tasks = ['smokeTest', 'allureReport']
@@ -89,5 +107,5 @@ dependencies {
     compile 'io.qameta.allure:allure-gradle:2.7.0'
     compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-
+    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
 }

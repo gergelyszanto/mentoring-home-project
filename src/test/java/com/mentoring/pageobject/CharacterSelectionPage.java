@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import com.mentoring.framework.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -7,12 +8,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static org.awaitility.Awaitility.*;
 
 @Slf4j
 public class CharacterSelectionPage extends Page {
 
-    private static final String PATH = "characterselect";
+    private static final String PAGE_PATH = "/characterselect";
 
     private static final String LOGGING_OUT = "Logging out.";
 
@@ -43,15 +47,25 @@ public class CharacterSelectionPage extends Page {
     @FindBy(id = "rename-character-button")
     private WebElement renameCharacterButton;
 
+    @FindBy(css = "#characters tr:nth-of-type(1) .character-name-cell")
+    private WebElement firstCharacterOnTheList;
+
     CharacterSelectionPage(WebDriver driver) {
-        super(driver, PATH);
+        super(driver, PAGE_PATH);
+    }
+
+    @Override
+    CharacterSelectionPage waitUntilPageLoads() {
+        waitUntilVisible(createCharacterButton);
+        return this;
+    }
+
+    public static String getPageUrl() {
+        return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
     public boolean isLogOutButtonVisible() {
         return isElementDisplayed(logoutButton);
-    }
-
-    public void waitUntilPageLoads() {
     }
 
     @Step(LOGGING_OUT)
@@ -71,6 +85,9 @@ public class CharacterSelectionPage extends Page {
 
     private void clickCreateCharacterButton() {
         log.info("Clicking on Create character button...");
+        await().atMost(3, TimeUnit.SECONDS)
+                .pollInterval(100, TimeUnit.MILLISECONDS)
+                .until(this::isCreateCharacterButtonEnabled);
         waitUntilClickable(createCharacterButton).click();
     }
 
@@ -106,6 +123,12 @@ public class CharacterSelectionPage extends Page {
         return characterNames.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    @Step("Selecting the first character on the characters list.")
+    public OverviewPage selectFirstCharacter() {
+        waitUntilVisible(firstCharacterOnTheList).click();
+        return new OverviewPage(driver).waitUntilPageLoads();
     }
 
     @Step("Clicking on Rename character button.")

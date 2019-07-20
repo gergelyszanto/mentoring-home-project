@@ -22,16 +22,18 @@ public class NotificationContainer extends Page {
         super(driver, "");
     }
 
-    @Override
-    public void waitUntilPageLoads() {
-    }
-
     @Step("Getting list of toast notifications appeared.")
     public List<String> getNotificationMessages() {
         waitForMilliSec(1000);
         return buttons.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    NotificationContainer waitUntilPageLoads() {
+        waitUntilVisible(notificationContainer);
+        return this;
     }
 }
 

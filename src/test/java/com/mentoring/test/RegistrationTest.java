@@ -1,24 +1,23 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
-import com.mentoring.util.CommonAssertions;
+import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.util.Messages;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static com.mentoring.model.Features.REGISTRATION;
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 public class RegistrationTest extends BasicTest {

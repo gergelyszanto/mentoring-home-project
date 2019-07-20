@@ -1,4 +1,4 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.utils.Database;
 import com.mentoring.framework.utils.DbSelects;

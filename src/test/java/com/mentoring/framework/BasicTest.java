@@ -3,19 +3,21 @@ package com.mentoring.framework;
 import com.google.common.collect.ImmutableMap;
 import com.mentoring.framework.utils.CookieUtils;
 import com.mentoring.framework.utils.LogUtils;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.*;
-
-import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
+
+import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
 
 @Slf4j
 public class BasicTest {
@@ -29,6 +31,7 @@ public class BasicTest {
         setupBrowser();
     }
 
+    @Step("Initializing driver and opening URL: {Config.getApplicationUrl()}")
     private void setupBrowser() {
         try {
             initializeDriver();

@@ -1,4 +1,4 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.utils.UserUtils;

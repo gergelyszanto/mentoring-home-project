@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import com.mentoring.framework.Config;
 import com.mentoring.model.User;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,8 @@ import org.openqa.selenium.support.FindBy;
 
 @Slf4j
 public class MainPage extends Page {
+
+    private static final String PAGE_PATH = "/";
 
     @FindBy(id = "reg-username")
     private WebElement registrationUsername;
@@ -47,7 +50,17 @@ public class MainPage extends Page {
     private WebElement submitRegistrationButton;
 
     public MainPage(WebDriver driver) {
-        super(driver, "");
+        super(driver, PAGE_PATH);
+    }
+
+    @Override
+    public MainPage waitUntilPageLoads() {
+        waitUntilVisible(submitLoginButton);
+        return this;
+    }
+
+    public static String getPageUrl() {
+        return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
     public MainPage fillLoginForm(String username, String password) {
@@ -60,7 +73,7 @@ public class MainPage extends Page {
     public CharacterSelectionPage login(User user) {
         fillLoginForm(user.getUserName(), user.getPassword());
         clickLoginButton();
-        return new CharacterSelectionPage(driver);
+        return new CharacterSelectionPage(driver).waitUntilPageLoads();
     }
 
     @Step("Entering login username.")
@@ -103,7 +116,7 @@ public class MainPage extends Page {
     public CharacterSelectionPage submitRegistration() {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
-        return new CharacterSelectionPage(driver);
+        return new CharacterSelectionPage(driver).waitUntilPageLoads();
     }
 
     @Step("Entering registration username.")
@@ -132,9 +145,6 @@ public class MainPage extends Page {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
         return this;
-    }
-
-    public void waitUntilPageLoads() {
     }
 
     @Step("Asserting if user name is marked as invalid.")

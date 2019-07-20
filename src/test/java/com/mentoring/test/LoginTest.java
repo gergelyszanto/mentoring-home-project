@@ -1,11 +1,11 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.util.Messages;
-import com.mentoring.util.CommonAssertions;
+import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import io.qameta.allure.Feature;

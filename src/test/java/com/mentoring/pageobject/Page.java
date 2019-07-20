@@ -2,8 +2,13 @@ package com.mentoring.pageobject;
 
 import com.mentoring.framework.Config;
 import com.mentoring.framework.utils.AllureLogger;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.*;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,14 +18,26 @@ import java.util.List;
 @Slf4j
 public abstract class Page {
 
-    WebDriver driver;
+    private final String pagePath;
     private final String url;
+    WebDriver driver;
 
-    Page(WebDriver driver, String path) {
+    Page(WebDriver driver, String pagePath) {
         this.driver = driver;
+        this.pagePath = pagePath;
         PageFactory.initElements(driver, this);
-        url = Config.getApplicationUrl() + path;
+        url = Config.getApplicationUrl() + pagePath;
         logPageLoadToAllure();
+    }
+
+    /**
+     * Waiter method to be customized for all pages. Should return the specific page always.
+     * @return
+     */
+    abstract Page waitUntilPageLoads();
+
+    public String getUrl() {
+        return url;
     }
 
     private void logPageLoadToAllure() {
@@ -41,13 +58,13 @@ public abstract class Page {
         waitUntilVisible(input).sendKeys(Keys.CONTROL, "a", Keys.BACK_SPACE);
     }
 
-    public WebElement waitUntilVisible(WebElement element) {
+    WebElement waitUntilVisible(WebElement element) {
         WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(element)));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void waitUntilWebElementListVisible(List<WebElement> elements) {
+    void waitUntilWebElementListVisible(List<WebElement> elements) {
         WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
         wait.until(ExpectedConditions.visibilityOfAllElements(elements));
     }
@@ -77,8 +94,6 @@ public abstract class Page {
         return elementDisplayed;
     }
 
-    public abstract void waitUntilPageLoads();
-
     void waitForMilliSec(int milliSec) {
         try {
             Thread.sleep(milliSec);
@@ -89,5 +104,10 @@ public abstract class Page {
 
     public void acceptAlert() {
         driver.switchTo().alert().accept();
+    }
+
+    @Step("Opening URL: {url}")
+    public void openUrl(String url) {
+        driver.get(url);
     }
 }
