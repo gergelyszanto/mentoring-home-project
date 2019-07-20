@@ -62,11 +62,12 @@ public class PageRedirectRulesTest extends BasicTest {
 
     @Test(groups = "regression", dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserInTheLobby(String pageUrl) {
+        String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
         LobbyPage lobbyPage = new MainPage(driver)
                 .login(user)
-                .createNewCharacter(UserUtils.generateRandomCharacterName())
-                .selectFirstCharacter()
+                .createNewCharacter(characterName)
+                .selectFirstCharacter(characterName)
                 .openHangarPage()
                 .selectArcadeMode();
         lobbyPage.openUrl(pageUrl);
@@ -76,10 +77,11 @@ public class PageRedirectRulesTest extends BasicTest {
     @Test(groups = "regression", dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserInMatchmaking(String pageUrl) {
         User user = new User();
+        String characterName = UserUtils.generateRandomCharacterName();
         LobbyQueuePage queuePage = new MainPage(driver)
                 .login(user)
-                .createNewCharacter(UserUtils.generateRandomCharacterName())
-                .selectFirstCharacter()
+                .createNewCharacter(characterName)
+                .selectFirstCharacter(characterName)
                 .openHangarPage()
                 .selectArcadeMode()
                 .clickReadyButton()
@@ -91,10 +93,11 @@ public class PageRedirectRulesTest extends BasicTest {
     @Test(groups = "regression", dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserWithCharacterSelected(String pageUrl) {
         User user = new User();
+        String characterName = UserUtils.generateRandomCharacterName();
         OverviewPage overviewPage = new MainPage(driver)
                 .login(user)
-                .createNewCharacter(UserUtils.generateRandomCharacterName())
-                .selectFirstCharacter();
+                .createNewCharacter(characterName)
+                .selectFirstCharacter(characterName);
         overviewPage.openUrl(pageUrl);
         if (pageUrl.equals(CommunityPage.getPageUrl())) {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), CommunityPage.getPageUrl());

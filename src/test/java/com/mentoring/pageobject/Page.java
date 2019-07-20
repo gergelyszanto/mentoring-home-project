@@ -4,6 +4,7 @@ import com.mentoring.framework.Config;
 import com.mentoring.framework.utils.AllureLogger;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -62,6 +63,11 @@ public abstract class Page {
         WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(element)));
         return wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    WebElement waitUntilVisible(By element) {
+        return new WebDriverWait(driver, Config.LOAD_WAIT)
+                .until(ExpectedConditions.visibilityOfElementLocated(element));
     }
 
     void waitUntilWebElementListVisible(List<WebElement> elements) {

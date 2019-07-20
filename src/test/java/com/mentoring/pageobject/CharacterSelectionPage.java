@@ -3,6 +3,7 @@ package com.mentoring.pageobject;
 import com.mentoring.framework.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -16,6 +17,7 @@ import static org.awaitility.Awaitility.*;
 @Slf4j
 public class CharacterSelectionPage extends Page {
 
+    private static final String CHARACTER_BY_NAME_SELECTOR_TEMPLATE = "//td[contains(text(),'%1$s')]";
     private static final String PAGE_PATH = "/characterselect";
 
     private static final String LOGGING_OUT = "Logging out.";
@@ -46,9 +48,6 @@ public class CharacterSelectionPage extends Page {
 
     @FindBy(id = "rename-character-button")
     private WebElement renameCharacterButton;
-
-    @FindBy(css = "#characters tr:nth-of-type(1) .character-name-cell")
-    private WebElement firstCharacterOnTheList;
 
     CharacterSelectionPage(WebDriver driver) {
         super(driver, PAGE_PATH);
@@ -85,10 +84,10 @@ public class CharacterSelectionPage extends Page {
 
     private void clickCreateCharacterButton() {
         log.info("Clicking on Create character button...");
-        await().atMost(3, TimeUnit.SECONDS)
+        await().atMost(5, TimeUnit.SECONDS)
                 .pollInterval(100, TimeUnit.MILLISECONDS)
-                .until(this::isCreateCharacterButtonEnabled);
-        waitUntilClickable(createCharacterButton).click();
+                .until(() -> createCharacterButton.isEnabled());
+        createCharacterButton.click();
     }
 
     @Step("Creating new character.")
@@ -126,8 +125,8 @@ public class CharacterSelectionPage extends Page {
     }
 
     @Step("Selecting the first character on the characters list.")
-    public OverviewPage selectFirstCharacter() {
-        waitUntilVisible(firstCharacterOnTheList).click();
+    public OverviewPage selectFirstCharacter(String characterName) {
+        waitUntilVisible(By.xpath(String.format(CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName))).click();
         return new OverviewPage(driver).waitUntilPageLoads();
     }
 
