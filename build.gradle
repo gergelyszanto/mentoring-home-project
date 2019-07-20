@@ -53,7 +53,7 @@ task smokeTest(type: Test){
         includeGroups 'smoke'
         options {
             parallel 'classes'
-            threadCount 2
+            threadCount 3
         }
     }
     reports.junitXml.enabled=true

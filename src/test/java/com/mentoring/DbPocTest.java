@@ -34,7 +34,6 @@ public class DbPocTest {
     public void testUserNameByEmail() throws SQLException {
         String userName = DbSelects.getUserNameByEmailAddress(database, "tesztfix@tesztfix.com");
         log.info("User name is: {}", userName);
-
     }
 
     @Test

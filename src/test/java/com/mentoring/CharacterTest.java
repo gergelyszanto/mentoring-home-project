@@ -4,7 +4,7 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.PageFactory;
+import com.mentoring.pageobject.MainPage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -27,8 +27,6 @@ public class CharacterTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    /* **************** CRUD test **************** */
-
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
@@ -36,34 +34,23 @@ public class CharacterTest extends BasicTest {
         String validCharacterName = UserUtils.generateRandomCharacterName();
         String updatedCharacterName = validCharacterName + "a";
 
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
-
-        // create new character
-        characterSelectionPage.createNewCharacter(validCharacterName);
-
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+                .login(user)
+                .createNewCharacter(validCharacterName);
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(validCharacterName))
                 .as("New character should be on the list.")
                 .isTrue();
 
-        // choose the character from the list and push the rename button
-        characterSelectionPage.clickForRenameCharacterButtonInList();
-
-        // rename the character
-        characterSelectionPage.renameCharacter(updatedCharacterName);
-
+        characterSelectionPage
+                .clickForRenameCharacterButtonInList()
+                .renameCharacter(updatedCharacterName);
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(updatedCharacterName))
                 .as("Updated character should be on the list.")
                 .isTrue();
 
-        // delete the character
         characterSelectionPage.clickForDeleteCharacterButtonInList();
-
-        // OK on confirmation dialog box
         characterSelectionPage.acceptAlert();
-
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(updatedCharacterName))
                 .as("Deleted character should not be on the list.")
                 .isFalse();
@@ -71,23 +58,18 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    /* **************** Negative cases **************** */
-
-    /* ********* Create character ********* */
-
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void tooShortCharacterName() {
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
 
-        characterSelectionPage.enterCharacterName(TOO_SHORT_CHARACTER_NAME);
-
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+                .login(user)
+                .enterCharacterName(TOO_SHORT_CHARACTER_NAME);
         assertInvalidUserName(characterSelectionPage);
         assertCreateCharacterButtonDisabled(characterSelectionPage);
+
         softAssertion.assertAll();
     }
 
@@ -95,15 +77,14 @@ public class CharacterTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void tooLongCharacterName() {
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
 
-        characterSelectionPage.enterCharacterName(TOO_LONG_CHARACTER_NAME);
-
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+                .login(user)
+                .enterCharacterName(TOO_LONG_CHARACTER_NAME);
         assertInvalidUserName(characterSelectionPage);
         assertCreateCharacterButtonDisabled(characterSelectionPage);
+
         softAssertion.assertAll();
     }
 
@@ -113,23 +94,17 @@ public class CharacterTest extends BasicTest {
     public void alreadyRegisteredCharacter() {
         String validCharacterName = UserUtils.generateRandomCharacterName();
 
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+                .login(user)
+                .createNewCharacter(validCharacterName);
 
-        // create new character
-        characterSelectionPage.createNewCharacter(validCharacterName);
-
-        // create new character with the same name
         characterSelectionPage.enterCharacterName(validCharacterName);
-
         assertInvalidUserName(characterSelectionPage);
         assertCreateCharacterButtonDisabled(characterSelectionPage);
+
         softAssertion.assertAll();
     }
-
-    /* ********* Update character ********* */
 
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
@@ -137,24 +112,17 @@ public class CharacterTest extends BasicTest {
     public void renameCharacterToTheSameName() {
         String validCharacterName = UserUtils.generateRandomCharacterName();
 
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
-
-        // create new character
-        characterSelectionPage.createNewCharacter(validCharacterName);
-
-        // choose the character from the list and push the rename button
-        characterSelectionPage.clickForRenameCharacterButtonInList();
-
-        // rename the first character with the same name
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver).login(user);
+        characterSelectionPage.
+                createNewCharacter(validCharacterName)
+                .clickForRenameCharacterButtonInList();
         characterSelectionPage.enterRenamedCharacter(validCharacterName);
 
         assertInvalidRenameCharacterName(characterSelectionPage);
         assertRenameCharacterButtonDisabled(characterSelectionPage);
-        softAssertion.assertAll();
 
+        softAssertion.assertAll();
     }
 
     @Test(groups = "smoke")
@@ -163,26 +131,20 @@ public class CharacterTest extends BasicTest {
     public void renameCharacterToAnExistingName() {
         String validCharacterName = UserUtils.generateRandomCharacterName();
         String validCharacterName2 = UserUtils.generateRandomCharacterName();
-
-        // register a random user and login with it
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
-                .login(user);
 
-        // create new character
-        characterSelectionPage.createNewCharacter(validCharacterName);
-
-        // create new character2
-        characterSelectionPage.createNewCharacter(validCharacterName2);
-
-        // choose the first character from the list and push the rename button
-        characterSelectionPage.clickForRenameCharacterButtonInList();
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+                .login(user)
+                .createNewCharacter(validCharacterName)
+                .createNewCharacter(validCharacterName2)
+                .clickForRenameCharacterButtonInList();
 
         // rename the first character with the second name
         characterSelectionPage.enterRenamedCharacter(validCharacterName2);
 
         assertInvalidRenameCharacterName(characterSelectionPage);
         assertRenameCharacterButtonDisabled(characterSelectionPage);
+
         softAssertion.assertAll();
     }
 
@@ -211,6 +173,4 @@ public class CharacterTest extends BasicTest {
                 .as("Rename Character button should be disabled.")
                 .isFalse();
     }
-
-
 }

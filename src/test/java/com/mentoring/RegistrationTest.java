@@ -2,12 +2,11 @@ package com.mentoring;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.utils.UserUtils;
-import com.mentoring.util.CommonAssertions;
-import com.mentoring.util.Messages;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.MainPage;
 import com.mentoring.pageobject.NotificationContainer;
-import com.mentoring.pageobject.PageFactory;
+import com.mentoring.util.CommonAssertions;
+import com.mentoring.util.Messages;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -19,6 +18,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static com.mentoring.model.Features.REGISTRATION;
+import static org.assertj.core.api.Assertions.*;
 
 @Slf4j
 public class RegistrationTest extends BasicTest {
@@ -43,15 +43,20 @@ public class RegistrationTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(REGISTRATION)
     public void successfulRegistration() {
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
                 .fillRegistrationForm(UserUtils.generateRandomUsername(), VALID_PASSWORD, UserUtils.generateRandomEmail())
                 .submitRegistration();
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
                 .isTrue();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
-        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.REGISTRATION_SUCCESSFUL);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
+        CommonAssertions.assertNotificationMessageIsCorrect(
+                softAssertion,
+                notificationContainer,
+                Messages.REGISTRATION_SUCCESSFUL
+        );
+
         softAssertion.assertAll();
     }
 
@@ -84,13 +89,14 @@ public class RegistrationTest extends BasicTest {
     @Feature(REGISTRATION)
     public void alreadyRegisteredUserName() {
         String validUserName = UserUtils.generateRandomUsername();
-        MainPage mainPage = new PageFactory().getMainPage(driver)
+        MainPage mainPage = new MainPage(driver)
                 .fillRegistrationForm(validUserName, VALID_PASSWORD, UserUtils.generateRandomEmail())
                 .submitRegistration()
                 .logout()
                 .fillRegistrationForm(validUserName, VALID_PASSWORD, UserUtils.generateRandomEmail());
         assertInvalidUserName(mainPage);
         assertSubmitButtonDisabled(mainPage);
+
         softAssertion.assertAll();
     }
 
@@ -99,13 +105,14 @@ public class RegistrationTest extends BasicTest {
     @Feature(REGISTRATION)
     public void alreadyRegisteredEmail() {
         String validEmail = UserUtils.generateRandomEmail();
-        MainPage mainPage = new PageFactory().getMainPage(driver)
+        MainPage mainPage = new MainPage(driver)
                 .fillRegistrationForm(UserUtils.generateRandomUsername(), VALID_PASSWORD, validEmail)
                 .submitRegistration()
                 .logout()
                 .fillRegistrationForm(UserUtils.generateRandomUsername(), VALID_PASSWORD, validEmail);
         assertInvalidEmail(mainPage);
         assertSubmitButtonDisabled(mainPage);
+
         softAssertion.assertAll();
     }
 
@@ -113,20 +120,18 @@ public class RegistrationTest extends BasicTest {
     @Severity(SeverityLevel.CRITICAL)
     @Feature(REGISTRATION)
     public void insufficientRegistration() {
-        MainPage mainPage = new PageFactory().getMainPage(driver)
-                .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
-        // empty username:
-        mainPage.enterRegistrationUsername("");
+        MainPage mainPage = new MainPage(driver)
+                .fillRegistrationForm("", VALID_PASSWORD, EMAIL);
         assertInvalidUserName(mainPage);
         assertSubmitButtonDisabled(mainPage);
-        mainPage.enterRegistrationUsername(USER_NAME);
-        // empty password:
-        mainPage.enterRegistrationPassword("");
+
+        mainPage.enterRegistrationUsername(USER_NAME)
+                .enterRegistrationPassword("");
         assertInvalidPassword(mainPage);
         assertSubmitButtonDisabled(mainPage);
-        mainPage.enterRegistrationPassword(VALID_PASSWORD);
-        // empty email:
-        mainPage.enterRegistrationEmailAddress("");
+
+        mainPage.enterRegistrationPassword(VALID_PASSWORD)
+                .enterRegistrationEmailAddress("");
         assertInvalidEmail(mainPage);
         assertSubmitButtonDisabled(mainPage);
 
@@ -143,12 +148,12 @@ public class RegistrationTest extends BasicTest {
     @Feature(REGISTRATION)
     public void wrongEmailAddress(String email) {
         String username = UserUtils.generateRandomUsername();
-        MainPage mainPage = new PageFactory().getMainPage(driver)
+        MainPage mainPage = new MainPage(driver)
                 .fillRegistrationForm(username, VALID_PASSWORD, email);
-        Assertions.assertThat(mainPage.isEmailAddressInvalid())
+        assertThat(mainPage.isEmailAddressInvalid())
                 .as(X_ICON_ASSERTION_MESSAGE + "username.")
                 .isTrue();
-        Assertions.assertThat(!mainPage.isSubmitButtonEnabled())
+        assertThat(!mainPage.isSubmitButtonEnabled())
                 .as("Submit button should be disabled.")
                 .isTrue();
     }
@@ -157,18 +162,17 @@ public class RegistrationTest extends BasicTest {
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void tooShortFields() {
-        MainPage mainPage = new PageFactory().getMainPage(driver)
-                .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
-        // short username:
-        mainPage.enterRegistrationUsername(TOO_SHORT_USERNAME);
+        MainPage mainPage = new MainPage(driver)
+                .fillRegistrationForm(TOO_SHORT_USERNAME, VALID_PASSWORD, EMAIL);
         assertInvalidUserName(mainPage);
         assertSubmitButtonDisabled(mainPage);
-        mainPage.enterRegistrationUsername(USER_NAME);
-        // short password:
-        mainPage.enterRegistrationPassword(TOO_SHORT_PASSWORD);
-        mainPage.enterRegistrationConfirmPassword(TOO_SHORT_PASSWORD);
+
+        mainPage.enterRegistrationUsername(USER_NAME)
+                .enterRegistrationPassword(TOO_SHORT_PASSWORD)
+                .enterRegistrationConfirmPassword(TOO_SHORT_PASSWORD);
         assertInvalidPassword(mainPage);
         assertSubmitButtonDisabled(mainPage);
+
         softAssertion.assertAll();
     }
 
@@ -176,18 +180,17 @@ public class RegistrationTest extends BasicTest {
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void tooLongFields() {
-        MainPage mainPage = new PageFactory().getMainPage(driver)
-                .fillRegistrationForm(USER_NAME, VALID_PASSWORD, EMAIL);
-        // long username:
-        mainPage.enterRegistrationUsername(TOO_LONG_USERNAME);
+        MainPage mainPage = new MainPage(driver)
+                .fillRegistrationForm(TOO_LONG_USERNAME, VALID_PASSWORD, EMAIL);
         assertInvalidUserName(mainPage);
         assertSubmitButtonDisabled(mainPage);
-        mainPage.enterRegistrationUsername(USER_NAME);
-        // long password:
-        mainPage.enterRegistrationPassword(TOO_LONG_PASSWORD);
-        mainPage.enterRegistrationConfirmPassword(TOO_LONG_PASSWORD);
+
+        mainPage.enterRegistrationUsername(USER_NAME)
+                .enterRegistrationPassword(TOO_LONG_PASSWORD)
+                .enterRegistrationConfirmPassword(TOO_LONG_PASSWORD);
         assertInvalidPassword(mainPage);
         assertSubmitButtonDisabled(mainPage);
+
         softAssertion.assertAll();
     }
 
@@ -195,11 +198,17 @@ public class RegistrationTest extends BasicTest {
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void wrongConfirmPassword() {
-        MainPage mainPage = new PageFactory().getMainPage(driver)
-                .fillRegistrationForm(UserUtils.generateRandomUsername(), VALID_PASSWORD, VALID_PASSWORD + "a", UserUtils.generateRandomEmail());
+        MainPage mainPage = new MainPage(driver)
+                .fillRegistrationForm(
+                        UserUtils.generateRandomUsername(),
+                        VALID_PASSWORD,
+                        VALID_PASSWORD + "a",
+                        UserUtils.generateRandomEmail()
+                );
         softAssertion.assertThat(mainPage.isConfirmPasswordInvalid())
                 .as(X_ICON_ASSERTION_MESSAGE + "confirm password.")
                 .isTrue();
+
         softAssertion.assertAll();
     }
 }
