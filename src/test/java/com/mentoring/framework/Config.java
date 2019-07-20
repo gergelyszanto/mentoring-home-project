@@ -17,6 +17,7 @@ public final class Config {
     static final Browser BROWSER;
     private static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
     private static final String SKY_XPLORE_PROD = "skyxplore-prod";
+    private static final String PATH_WEB_EXTENSION = "/web";
 
     private static final String BASE_URL;
     private static final String PORT;
@@ -97,6 +98,10 @@ public final class Config {
     }
 
     public static String getApplicationUrl() {
+        return isLocalEnvironmentUsed()? APPLICATION_URL + PATH_WEB_EXTENSION : APPLICATION_URL;
+    }
+
+    public static String getBaseUrl() {
         return APPLICATION_URL;
     }
 
