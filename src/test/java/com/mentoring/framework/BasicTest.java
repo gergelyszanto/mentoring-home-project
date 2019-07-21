@@ -72,7 +72,7 @@ public class BasicTest {
         }
     }
 
-    public void skipTestIfNotLocalEnvironmentUsed() {
+    protected void skipTestIfNotLocalEnvironmentUsed() {
         if (!Config.isLocalEnvironmentUsed()) {
             throw new EnvironmentNotSupportedException("Only local environment is supported for this test. " +
                     "Skipping test...");
