@@ -43,13 +43,13 @@ public class CharacterTest extends BasicTest {
                 .isTrue();
 
         characterSelectionPage
-                .clickForRenameCharacterButtonInList()
+                .clickRenameCharacter(validCharacterName)
                 .renameCharacter(updatedCharacterName);
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(updatedCharacterName))
                 .as("Updated character should be on the list.")
                 .isTrue();
 
-        characterSelectionPage.clickForDeleteCharacterButtonInList();
+        characterSelectionPage.clickForDeleteCharacterButtonInList(updatedCharacterName);
         characterSelectionPage.acceptAlert();
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(updatedCharacterName))
                 .as("Deleted character should not be on the list.")
@@ -116,7 +116,7 @@ public class CharacterTest extends BasicTest {
         CharacterSelectionPage characterSelectionPage = new MainPage(driver).login(user);
         characterSelectionPage.
                 createNewCharacter(validCharacterName)
-                .clickForRenameCharacterButtonInList();
+                .clickRenameCharacter(validCharacterName);
         characterSelectionPage.enterRenamedCharacter(validCharacterName);
 
         assertInvalidRenameCharacterName(characterSelectionPage);
@@ -137,9 +137,8 @@ public class CharacterTest extends BasicTest {
                 .login(user)
                 .createNewCharacter(validCharacterName)
                 .createNewCharacter(validCharacterName2)
-                .clickForRenameCharacterButtonInList();
+                .clickRenameCharacter(validCharacterName);
 
-        // rename the first character with the second name
         characterSelectionPage.enterRenamedCharacter(validCharacterName2);
 
         assertInvalidRenameCharacterName(characterSelectionPage);

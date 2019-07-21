@@ -12,12 +12,16 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static org.awaitility.Awaitility.*;
+import static org.awaitility.Awaitility.await;
 
 @Slf4j
 public class CharacterSelectionPage extends Page {
 
     private static final String CHARACTER_BY_NAME_SELECTOR_TEMPLATE = "//td[contains(text(),'%1$s')]";
+    private static final String RENAME_CHARACTER_BY_NAME_SELECTOR_TEMPLATE =
+            "//td[contains(text(),'%1$s')]/following-sibling::td/button[contains(text(),'Átnevezés')]";
+    private static final String DELETE_CHARACTER_BY_NAME_SELECTOR_TEMPLATE =
+            "//td[contains(text(),'%1$s')]/following-sibling::td/button[contains(text(),'Törlés')]";
     private static final String PAGE_PATH = "/characterselect";
 
     private static final String LOGGING_OUT = "Logging out.";
@@ -37,9 +41,6 @@ public class CharacterSelectionPage extends Page {
     @FindBy(css = "tbody#characters .character-name-cell")
     private List<WebElement> characterNames;
 
-    @FindBy(css = "tbody#characters .character-operations button")
-    private List<WebElement> characterButtons;
-
     @FindBy(id = "rename-character-label")
     private WebElement renameCharacterLabel;
 
@@ -53,14 +54,14 @@ public class CharacterSelectionPage extends Page {
         super(driver, PAGE_PATH);
     }
 
+    public static String getPageUrl() {
+        return Config.getApplicationUrl().concat(PAGE_PATH);
+    }
+
     @Override
     CharacterSelectionPage waitUntilPageLoads() {
         waitUntilVisible(createCharacterButton);
         return this;
-    }
-
-    public static String getPageUrl() {
-        return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
     public boolean isLogOutButtonVisible() {
@@ -125,25 +126,23 @@ public class CharacterSelectionPage extends Page {
     }
 
     @Step("Selecting the first character on the characters list.")
-    public OverviewPage selectFirstCharacter(String characterName) {
-        waitUntilVisible(By.xpath(String.format(CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName))).click();
+    public OverviewPage selectCharacterByCharacterName(String characterName) {
+        waitUntilVisible(By.xpath(String.format(CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))
+                .click();
         return new OverviewPage(driver).waitUntilPageLoads();
     }
 
-    @Step("Clicking on Rename character button.")
-    public CharacterSelectionPage clickForRenameCharacterButtonInList() {
-        if (characterButtons.size() == 0) {
-            waitUntilWebElementListVisible(characterButtons);
-        }
-        log.info("Clicking on Rename character button in the list...");
-        waitUntilClickable(characterButtons.get(0)).click();
+    @Step("Clicking on Rename character button for character: {characterName}.")
+    public CharacterSelectionPage clickRenameCharacter(String characterName) {
+        waitUntilVisible(By.xpath(String.format(RENAME_CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))
+                .click();
         return this;
     }
 
-    @Step("Clicking on Delete character button.")
-    public void clickForDeleteCharacterButtonInList() {
-        log.info("Clicking on Delete character button in the list...");
-        waitUntilClickable(characterButtons.get(1)).click();
+    @Step("Deleting character: {characterName}.")
+    public void clickForDeleteCharacterButtonInList(String characterName) {
+        waitUntilVisible(By.xpath(String.format(DELETE_CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))
+                .click();
     }
 
     @Step("Asserting if character name is marked as invalid.")

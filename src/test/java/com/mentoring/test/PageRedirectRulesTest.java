@@ -67,7 +67,7 @@ public class PageRedirectRulesTest extends BasicTest {
         LobbyPage lobbyPage = new MainPage(driver)
                 .login(user)
                 .createNewCharacter(characterName)
-                .selectFirstCharacter(characterName)
+                .selectCharacterByCharacterName(characterName)
                 .openHangarPage()
                 .selectArcadeMode();
         lobbyPage.openUrl(pageUrl);
@@ -81,7 +81,7 @@ public class PageRedirectRulesTest extends BasicTest {
         LobbyQueuePage queuePage = new MainPage(driver)
                 .login(user)
                 .createNewCharacter(characterName)
-                .selectFirstCharacter(characterName)
+                .selectCharacterByCharacterName(characterName)
                 .openHangarPage()
                 .selectArcadeMode()
                 .clickReadyButton()
@@ -97,7 +97,7 @@ public class PageRedirectRulesTest extends BasicTest {
         OverviewPage overviewPage = new MainPage(driver)
                 .login(user)
                 .createNewCharacter(characterName)
-                .selectFirstCharacter(characterName);
+                .selectCharacterByCharacterName(characterName);
         overviewPage.openUrl(pageUrl);
         if (pageUrl.equals(CommunityPage.getPageUrl())) {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), CommunityPage.getPageUrl());
