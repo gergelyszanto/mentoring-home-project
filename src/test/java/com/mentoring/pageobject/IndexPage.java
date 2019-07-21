@@ -171,4 +171,9 @@ public class IndexPage extends Page {
     public boolean isSubmitButtonEnabled() {
         return submitRegistrationButton.isEnabled();
     }
+
+    @Step("Asserting index page has loaded.")
+    public boolean isIndexPageLoaded() {
+        return isElementDisplayed(submitLoginButton);
+    }
 }

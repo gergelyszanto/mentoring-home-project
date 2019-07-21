@@ -1,6 +1,9 @@
 package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.Config;
+import com.mentoring.framework.database.Database;
+import com.mentoring.framework.database.DbUpdates;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.AccountPage;
@@ -10,26 +13,31 @@ import com.mentoring.pageobject.EquipmentPage;
 import com.mentoring.pageobject.FactoryPage;
 import com.mentoring.pageobject.GamePage;
 import com.mentoring.pageobject.HangarPage;
+import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.LobbyPage;
 import com.mentoring.pageobject.LobbyQueuePage;
-import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.OverviewPage;
 import com.mentoring.pageobject.ShopPage;
 import com.mentoring.test.assertionsteps.UrlAssertions;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
+import io.qameta.allure.Issue;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.mentoring.model.Features.*;
+import java.sql.SQLException;
+
+import static com.mentoring.model.Features.PAGE_REDIRECTS;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class PageRedirectRulesTest extends BasicTest {
 
-    private SoftAssertions softAssertion;
+    private static final String GOOGLE = "https://www.google.com";
+    private Database database;
 
     @DataProvider(name = "pageUrls")
     public static Object[][] pageUrls() {
@@ -41,9 +49,18 @@ public class PageRedirectRulesTest extends BasicTest {
         };
     }
 
-    @BeforeMethod(alwaysRun = true)
-    private void setup() {
-        softAssertion = new SoftAssertions();
+    @BeforeClass(alwaysRun = true)
+    private void setupDatabase() {
+        if (Config.isLocalEnvironmentUsed()) {
+            database = new Database();
+        }
+    }
+
+    @AfterClass(alwaysRun = true)
+    private void closeDatabase() {
+        if (Config.isLocalEnvironmentUsed()) {
+            database.disconnectFromDb();
+        }
     }
 
     @Description("User shouldn't be able to reach pages without login.")
@@ -134,5 +151,30 @@ public class PageRedirectRulesTest extends BasicTest {
         } else {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), overviewPage.getUrl());
         }
+    }
+
+    @Issue("2")
+    @Description("User should be redirected to the index page after leaving the application " +
+            "form overview page and opening the application root url with expired access token")
+    @Feature(PAGE_REDIRECTS)
+    @Severity(SeverityLevel.CRITICAL)
+    @Test(groups = {REGRESSION, REDIRECT_RULES})
+    public void userLeavesApplicationOnOverviewPageAndComesBackWithExpiredSession() {
+        skipTestIfNotLocalEnvironmentUsed();
+        User user = new User();
+        String characterName = UserUtils.generateRandomCharacterName();
+        OverviewPage overviewPage = new IndexPage(driver)
+                .login(user)
+                .createNewCharacter(characterName)
+                .selectCharacter(characterName);
+
+        overviewPage.openUrl(GOOGLE);
+
+        DbUpdates.setLastAccessValueByEmailAddress(database, user.getEmail(), 0);
+        driver.get(Config.getApplicationUrl());
+        IndexPage indexPage = new IndexPage(driver);
+        assertThat(indexPage.isIndexPageLoaded())
+                .as("Index page should have loaded and login button should be visible.")
+                .isTrue();
     }
 }

@@ -1,6 +1,7 @@
 package com.mentoring.framework;
 
 import com.google.common.collect.ImmutableMap;
+import com.mentoring.framework.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.utils.CookieUtils;
 import com.mentoring.framework.utils.LogUtils;
 import io.qameta.allure.Step;
@@ -68,6 +69,13 @@ public class BasicTest {
         } catch (MalformedURLException exception) {
             log.error("Error at driver initialization...", exception);
             throw new AssertionError("Exception Caught during initializeDriver");
+        }
+    }
+
+    public void skipTestIfNotLocalEnvironmentUsed() {
+        if (!Config.isLocalEnvironmentUsed()) {
+            throw new EnvironmentNotSupportedException("Only local environment is supported for this test. " +
+                    "Skipping test...");
         }
     }
 

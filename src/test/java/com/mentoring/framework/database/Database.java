@@ -1,4 +1,4 @@
-package com.mentoring.framework.utils;
+package com.mentoring.framework.database;
 
 import com.mentoring.framework.Config;
 import java.sql.*;
@@ -17,7 +17,7 @@ public class Database {
         try {
             connection = DriverManager.getConnection(Config.getJBDC(), Config.getDbUser(), Config.getDbPassword());
         } catch (SQLException e) {
-            log.error("Cannot connect to Database. ", e);
+            log.error("Cannot connect to Database.", e);
             throw new IllegalStateException("Cannot connect to Database.", e);
         }
     }
@@ -48,10 +48,33 @@ public class Database {
         }
     }
 
+    void runUpdateLongColumnValue(String queryString, Consumer<PreparedStatement> stringMapper, Consumer<PreparedStatement> intMapper, TableColumn resultColumn) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(queryString);
+            stringMapper.accept(statement);
+            intMapper.accept(statement);
+            statement.executeUpdate();
+            statement.close();
+        } catch (SQLException e) {
+            log.error("Error running database query: " + queryString);
+            throw new AssertionError(e);
+        }
+    }
+
     Consumer<PreparedStatement> getSingleStringMapper(int paramIndex, String value){
         return statement -> {
             try {
                 statement.setString(paramIndex, value);
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Cannot map statement parameter " + paramIndex + " with value " + value, e);
+            }
+        };
+    }
+
+    Consumer<PreparedStatement> getSingleDoubleMapper(int paramIndex, double value){
+        return statement -> {
+            try {
+                statement.setDouble(paramIndex, value);
             } catch (SQLException e) {
                 throw new IllegalArgumentException("Cannot map statement parameter " + paramIndex + " with value " + value, e);
             }
