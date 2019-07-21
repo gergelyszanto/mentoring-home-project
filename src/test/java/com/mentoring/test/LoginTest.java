@@ -2,7 +2,7 @@ package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.model.User;
-import com.mentoring.pageobject.MainPage;
+import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.util.Messages;
 import com.mentoring.test.assertionsteps.CommonAssertions;
@@ -36,7 +36,7 @@ public class LoginTest extends BasicTest {
     @Feature(LOGIN)
     public void successfulLogin() {
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user);
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
@@ -49,7 +49,7 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongUserName() {
-        new MainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(UserUtils.generateRandomUsername(), VALID_PASSWORD)
                 .clickLoginButton();
 
@@ -64,7 +64,7 @@ public class LoginTest extends BasicTest {
     @Feature(LOGIN)
     public void wrongPassword() {
         User user = new User();
-        new MainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(user.getUserName(), WRONG_PASSWORD)
                 .clickLoginButton();
 
@@ -79,7 +79,7 @@ public class LoginTest extends BasicTest {
     @Feature(LOGIN)
     public void emptyPassword() {
         User user = new User();
-        new MainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(user.getUserName(), "")
                 .clickLoginButton();
 
@@ -93,7 +93,7 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyUsername() {
-        new MainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm("", VALID_PASSWORD)
                 .clickLoginButton();
 
@@ -107,7 +107,7 @@ public class LoginTest extends BasicTest {
     @Severity(SeverityLevel.NORMAL)
     @Feature(LOGIN)
     public void emptyFields() {
-        new MainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm("", "")
                 .clickLoginButton();
 

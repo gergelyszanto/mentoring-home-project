@@ -4,7 +4,7 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.MainPage;
+import com.mentoring.pageobject.IndexPage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -35,7 +35,7 @@ public class CharacterTest extends BasicTest {
         String updatedCharacterName = validCharacterName + "a";
 
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user)
                 .createNewCharacter(validCharacterName);
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(validCharacterName))
@@ -64,7 +64,7 @@ public class CharacterTest extends BasicTest {
     public void tooShortCharacterName() {
         User user = new User();
 
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user)
                 .enterCharacterName(TOO_SHORT_CHARACTER_NAME);
         assertInvalidUserName(characterSelectionPage);
@@ -79,7 +79,7 @@ public class CharacterTest extends BasicTest {
     public void tooLongCharacterName() {
         User user = new User();
 
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user)
                 .enterCharacterName(TOO_LONG_CHARACTER_NAME);
         assertInvalidUserName(characterSelectionPage);
@@ -95,7 +95,7 @@ public class CharacterTest extends BasicTest {
         String validCharacterName = UserUtils.generateRandomCharacterName();
 
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user)
                 .createNewCharacter(validCharacterName);
 
@@ -113,7 +113,7 @@ public class CharacterTest extends BasicTest {
         String validCharacterName = UserUtils.generateRandomCharacterName();
 
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver).login(user);
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver).login(user);
         characterSelectionPage.
                 createNewCharacter(validCharacterName)
                 .clickRenameCharacter(validCharacterName);
@@ -133,7 +133,7 @@ public class CharacterTest extends BasicTest {
         String validCharacterName2 = UserUtils.generateRandomCharacterName();
         User user = new User();
 
-        CharacterSelectionPage characterSelectionPage = new MainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user)
                 .createNewCharacter(validCharacterName)
                 .createNewCharacter(validCharacterName2)

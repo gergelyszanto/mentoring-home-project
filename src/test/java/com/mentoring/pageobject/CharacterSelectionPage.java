@@ -69,10 +69,10 @@ public class CharacterSelectionPage extends Page {
     }
 
     @Step(LOGGING_OUT)
-    public MainPage logout() {
+    public IndexPage logout() {
         log.info(LOGGING_OUT);
         waitUntilClickable(logoutButton).click();
-        return new MainPage(driver);
+        return new IndexPage(driver);
     }
 
     // ************* create new character *************
@@ -126,7 +126,7 @@ public class CharacterSelectionPage extends Page {
     }
 
     @Step("Selecting the first character on the characters list.")
-    public OverviewPage selectCharacterByCharacterName(String characterName) {
+    public OverviewPage selectCharacter(String characterName) {
         waitUntilVisible(By.xpath(String.format(CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))
                 .click();
         return new OverviewPage(driver).waitUntilPageLoads();

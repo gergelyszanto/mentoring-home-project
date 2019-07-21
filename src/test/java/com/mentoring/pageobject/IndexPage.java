@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Slf4j
-public class MainPage extends Page {
+public class IndexPage extends Page {
 
     private static final String PAGE_PATH = "/";
 
@@ -49,12 +49,12 @@ public class MainPage extends Page {
     @FindBy(id = "registration-button")
     private WebElement submitRegistrationButton;
 
-    public MainPage(WebDriver driver) {
+    public IndexPage(WebDriver driver) {
         super(driver, PAGE_PATH);
     }
 
     @Override
-    public MainPage waitUntilPageLoads() {
+    public IndexPage waitUntilPageLoads() {
         waitUntilVisible(submitLoginButton);
         return this;
     }
@@ -63,7 +63,7 @@ public class MainPage extends Page {
         return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
-    public MainPage fillLoginForm(String username, String password) {
+    public IndexPage fillLoginForm(String username, String password) {
         enterLoginUsername(username);
         enterLoginPassword(password);
         return this;
@@ -95,7 +95,7 @@ public class MainPage extends Page {
     }
 
     @Step("Filling registrastion form with username: {username}, password: {password} and email address: {emailAddress}")
-    public MainPage fillRegistrationForm(String username, String password, String emailAddress) {
+    public IndexPage fillRegistrationForm(String username, String password, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(password);
@@ -104,7 +104,7 @@ public class MainPage extends Page {
     }
 
     @Step("Filling registrastion form with username: {username}, password: {password}, confirm password: {confirmPassword} and email address: {emailAddress}")
-    public MainPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
+    public IndexPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(confirmPassword);
@@ -120,28 +120,28 @@ public class MainPage extends Page {
     }
 
     @Step("Entering registration username.")
-    public MainPage enterRegistrationUsername(String username) {
+    public IndexPage enterRegistrationUsername(String username) {
         log.info("Entering registration username: '{}'", username);
         type(registrationUsername, username);
         return this;
     }
 
     @Step("Entering registration password.")
-    public MainPage enterRegistrationPassword(String password) {
+    public IndexPage enterRegistrationPassword(String password) {
         log.info("Entering registration password: '{}'", password);
         type(registrationPassword, password);
         return this;
     }
 
     @Step("Entering registration confirm password.")
-    public MainPage enterRegistrationConfirmPassword(String confirmPassword) {
+    public IndexPage enterRegistrationConfirmPassword(String confirmPassword) {
         log.info("Entering registration confirm password: '{}'", confirmPassword);
         type(registrationConfirmPassword, confirmPassword);
         return this;
     }
 
     @Step("Entering registration email address.")
-    public MainPage enterRegistrationEmailAddress(String emailAddress) {
+    public IndexPage enterRegistrationEmailAddress(String emailAddress) {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
         return this;
