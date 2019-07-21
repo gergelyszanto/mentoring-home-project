@@ -29,8 +29,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.sql.SQLException;
-
 import static com.mentoring.model.Features.PAGE_REDIRECTS;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -148,6 +146,8 @@ public class PageRedirectRulesTest extends BasicTest {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), HangarPage.getPageUrl());
         } else if (pageUrl.equals(ShopPage.getPageUrl())) {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), ShopPage.getPageUrl());
+        } else if (pageUrl.equals(CharacterSelectionPage.getPageUrl())) {
+            UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), CharacterSelectionPage.getPageUrl());
         } else {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), overviewPage.getUrl());
         }

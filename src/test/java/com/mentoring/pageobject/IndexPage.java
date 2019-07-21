@@ -11,7 +11,7 @@ import org.openqa.selenium.support.FindBy;
 @Slf4j
 public class IndexPage extends Page {
 
-    private static final String PAGE_PATH = "/";
+    private static final String PAGE_PATH = "";
 
     @FindBy(id = "reg-username")
     private WebElement registrationUsername;
