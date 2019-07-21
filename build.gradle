@@ -80,6 +80,42 @@ task regressionTest(type: Test){
     systemProperties System.properties
 }
 
+task negativeTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'negative'
+        options {
+            parallel 'classes'
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
+task redirectRulesTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'redirect-rules'
+        options {
+            parallel 'classes'
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
 task smokeTestAndReport(type: GradleBuild) {
     startParameter.continueOnFailure = true
     tasks = ['smokeTest', 'allureReport']

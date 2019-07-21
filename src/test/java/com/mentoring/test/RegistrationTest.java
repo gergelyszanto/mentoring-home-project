@@ -38,7 +38,7 @@ public class RegistrationTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {SMOKE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(REGISTRATION)
     public void successfulRegistration() {
@@ -83,7 +83,7 @@ public class RegistrationTest extends BasicTest {
                 .isFalse();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(REGISTRATION)
     public void alreadyRegisteredUserName() {
@@ -99,7 +99,7 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(REGISTRATION)
     public void alreadyRegisteredEmail() {
@@ -115,7 +115,7 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.CRITICAL)
     @Feature(REGISTRATION)
     public void insufficientRegistration() {
@@ -142,7 +142,7 @@ public class RegistrationTest extends BasicTest {
         return new Object[][]{{"@test.com"}, {"test@test@test.com"}, {"test t@test.com"}, {"test@tes t.com"}, {"test\t@test.com"}, {"test@.com"}};
     }
 
-    @Test(groups = "smoke", dataProvider = "wrongEmailAddressData")
+    @Test(groups = {NEGATIVE, REGRESSION}, dataProvider = "wrongEmailAddressData")
     @Severity(SeverityLevel.CRITICAL)
     @Feature(REGISTRATION)
     public void wrongEmailAddress(String email) {
@@ -157,7 +157,7 @@ public class RegistrationTest extends BasicTest {
                 .isTrue();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void tooShortFields() {
@@ -175,7 +175,7 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void tooLongFields() {
@@ -193,7 +193,7 @@ public class RegistrationTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.NORMAL)
     @Feature(REGISTRATION)
     public void wrongConfirmPassword() {

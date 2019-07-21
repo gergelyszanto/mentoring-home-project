@@ -49,7 +49,7 @@ public class PageRedirectRulesTest extends BasicTest {
     @Description("User shouldn't be able to reach pages without login.")
     @Feature(PAGE_REDIRECTS)
     @Severity(SeverityLevel.BLOCKER)
-    @Test(groups = "regression", dataProvider = "pageUrls")
+    @Test(groups = {REGRESSION, REDIRECT_RULES}, dataProvider = "pageUrls")
     public void unauthenticatedUserRedirectedToIndexPage(String pageUrl) {
         IndexPage indexPage = new IndexPage(driver).waitUntilPageLoads();
         indexPage.openUrl(pageUrl);
@@ -60,7 +60,7 @@ public class PageRedirectRulesTest extends BasicTest {
             "Other pages redirects the user back to the character page.")
     @Feature(PAGE_REDIRECTS)
     @Severity(SeverityLevel.NORMAL)
-    @Test(groups = "regression", dataProvider = "pageUrls")
+    @Test(groups = {REGRESSION, REDIRECT_RULES}, dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserWithNoCharacterSelected(String pageUrl) {
         User user = new User();
         CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
@@ -76,7 +76,7 @@ public class PageRedirectRulesTest extends BasicTest {
     @Description("User should not be able to leave the lobby page by opening different page url-s.")
     @Feature(PAGE_REDIRECTS)
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = "regression", dataProvider = "pageUrls")
+    @Test(groups = {REGRESSION, REDIRECT_RULES}, dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserInTheLobby(String pageUrl) {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
@@ -93,7 +93,7 @@ public class PageRedirectRulesTest extends BasicTest {
     @Description("User shouldn't be able to leave matchmaking by opening different page url-s.")
     @Feature(PAGE_REDIRECTS)
     @Severity(SeverityLevel.CRITICAL)
-    @Test(groups = "regression", dataProvider = "pageUrls")
+    @Test(groups = {REGRESSION, REDIRECT_RULES}, dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserInMatchmaking(String pageUrl) {
         User user = new User();
         String characterName = UserUtils.generateRandomCharacterName();
@@ -112,7 +112,7 @@ public class PageRedirectRulesTest extends BasicTest {
     @Description("User should be able to open only certain pages by url when a character is selected.")
     @Feature(PAGE_REDIRECTS)
     @Severity(SeverityLevel.NORMAL)
-    @Test(groups = "regression", dataProvider = "pageUrls")
+    @Test(groups = {REGRESSION, REDIRECT_RULES}, dataProvider = "pageUrls")
     public void pageRedirectsForAuthenticatedUserWithCharacterSelected(String pageUrl) {
         User user = new User();
         String characterName = UserUtils.generateRandomCharacterName();

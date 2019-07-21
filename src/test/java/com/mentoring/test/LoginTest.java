@@ -31,7 +31,7 @@ public class LoginTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {SMOKE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void successfulLogin() {
@@ -45,7 +45,7 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongUserName() {
@@ -59,7 +59,7 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongPassword() {
@@ -74,7 +74,7 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyPassword() {
@@ -89,7 +89,7 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyUsername() {
@@ -103,7 +103,7 @@ public class LoginTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.NORMAL)
     @Feature(LOGIN)
     public void emptyFields() {

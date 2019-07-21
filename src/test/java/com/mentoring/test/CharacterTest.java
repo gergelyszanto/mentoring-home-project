@@ -27,7 +27,7 @@ public class CharacterTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {SMOKE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void createReadUpdateDeleteCharacter() {
@@ -58,7 +58,7 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void tooShortCharacterName() {
@@ -73,7 +73,7 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void tooLongCharacterName() {
@@ -88,7 +88,7 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void alreadyRegisteredCharacter() {
@@ -106,7 +106,7 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void renameCharacterToTheSameName() {
@@ -125,7 +125,7 @@ public class CharacterTest extends BasicTest {
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(CHARACTER)
     public void renameCharacterToAnExistingName() {

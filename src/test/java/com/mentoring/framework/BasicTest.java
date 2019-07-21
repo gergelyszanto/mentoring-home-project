@@ -22,6 +22,11 @@ import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnviro
 @Slf4j
 public class BasicTest {
 
+    protected static final String SMOKE = "smoke";
+    protected static final String REGRESSION = "regression";
+    protected static final String REDIRECT_RULES = "redirect-rules";
+    protected static final String NEGATIVE = "negative";
+
     private static final short PAGE_LOAD_TIMEOUT = 60;
     protected WebDriver driver;
 
