@@ -17,6 +17,7 @@ import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
+@Listeners({TestListener.class})
 @Slf4j
 public class BasicTest {
 
