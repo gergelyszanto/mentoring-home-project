@@ -9,10 +9,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-
-import static org.awaitility.Awaitility.await;
 
 @Slf4j
 public class CharacterSelectionPage extends Page {
@@ -32,7 +29,7 @@ public class CharacterSelectionPage extends Page {
     @FindBy(id = "create-character-name")
     private WebElement createCharacterName;
 
-    @FindBy(id = "invalid-create-character-name")
+    @FindBy(css = "#invalid-create-character-name[style='display: block;']")
     private WebElement invalidCreateCharacterName;
 
     @FindBy(id = "create-character-button")
@@ -44,7 +41,7 @@ public class CharacterSelectionPage extends Page {
     @FindBy(id = "rename-character-label")
     private WebElement renameCharacterLabel;
 
-    @FindBy(id = "invalid-new-character-name")
+    @FindBy(css = "#invalid-new-character-name[style='display: block;']")
     private WebElement invalidNewCharacterName;
 
     @FindBy(id = "rename-character-button")
@@ -85,10 +82,7 @@ public class CharacterSelectionPage extends Page {
 
     private void clickCreateCharacterButton() {
         log.info("Clicking on Create character button...");
-        await().atMost(5, TimeUnit.SECONDS)
-                .pollInterval(100, TimeUnit.MILLISECONDS)
-                .until(() -> createCharacterButton.isEnabled());
-        createCharacterButton.click();
+        waitUntilClickable(createCharacterButton).click();
     }
 
     @Step("Creating new character.")

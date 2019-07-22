@@ -25,25 +25,25 @@ public class IndexPage extends Page {
     @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
 
-    @FindBy (id = "login-username")
+    @FindBy(id = "login-username")
     private WebElement loginUsername;
 
-    @FindBy (id = "login-password")
+    @FindBy(id = "login-password")
     private WebElement loginPassword;
 
-    @FindBy (id = "login-button")
+    @FindBy(id = "login-button")
     private WebElement submitLoginButton;
 
-    @FindBy(id = "invalid-username")
+    @FindBy(css = "#invalid-username[style='display: block;']")
     private WebElement invalidUsername;
 
-    @FindBy(id = "invalid-password")
+    @FindBy(css = "#invalid-password[style='display: block;']")
     private WebElement invalidPassword;
 
-    @FindBy(id = "invalid-confirm-password")
+    @FindBy(css = "#invalid-confirm-password[style='display: block;']")
     private WebElement invalidConfirmPassword;
 
-    @FindBy(id = "invalid-email")
+    @FindBy(css = "#invalid-email[style='display: block;']")
     private WebElement invalidEmail;
 
     @FindBy(id = "registration-button")
@@ -53,14 +53,14 @@ public class IndexPage extends Page {
         super(driver, PAGE_PATH);
     }
 
+    public static String getPageUrl() {
+        return Config.getApplicationUrl().concat(PAGE_PATH);
+    }
+
     @Override
     public IndexPage waitUntilPageLoads() {
         waitUntilVisible(submitLoginButton);
         return this;
-    }
-
-    public static String getPageUrl() {
-        return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
     public IndexPage fillLoginForm(String username, String password) {
@@ -117,6 +117,13 @@ public class IndexPage extends Page {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
         return new CharacterSelectionPage(driver).waitUntilPageLoads();
+    }
+
+    private boolean isFormErrorDisplayed() {
+        return invalidEmail.isDisplayed()
+                || invalidUsername.isDisplayed()
+                || invalidPassword.isDisplayed()
+                || invalidConfirmPassword.isDisplayed();
     }
 
     @Step("Entering registration username.")

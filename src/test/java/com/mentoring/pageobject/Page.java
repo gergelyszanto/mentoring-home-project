@@ -4,6 +4,7 @@ import com.mentoring.framework.Config;
 import com.mentoring.framework.utils.AllureLogger;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import org.awaitility.core.ConditionTimeoutException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
@@ -15,6 +16,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import static org.awaitility.Awaitility.await;
 
 @Slf4j
 public abstract class Page {
@@ -53,6 +57,18 @@ public abstract class Page {
         waitUntilVisible(input).click();
         deleteFieldContent(input);
         input.sendKeys(text);
+    }
+
+    WebElement waitUntilElementEnabled(WebElement element) {
+        try {
+            await().atMost(3, TimeUnit.SECONDS)
+                    .pollInterval(100, TimeUnit.MILLISECONDS)
+                    .until(element::isEnabled);
+        } catch (ConditionTimeoutException e) {
+            log.warn("Waiting for '{}' to be enabled failed.", element);
+        }
+        waitForMilliSec(400); //Waiting for animation complete
+        return element;
     }
 
     private void deleteFieldContent(WebElement input) {
