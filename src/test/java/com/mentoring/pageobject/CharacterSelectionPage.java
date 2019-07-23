@@ -77,6 +77,7 @@ public class CharacterSelectionPage extends Page {
     public CharacterSelectionPage enterCharacterName(String characterName) {
         log.info("Entering character name: '{}'", characterName);
         type(createCharacterName, characterName);
+        waitForMilliSec(400); //Waiting for page update
         return this;
     }
 
