@@ -1,13 +1,13 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.model.User;
+import com.mentoring.pageobject.IndexPage;
+import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.util.Messages;
-import com.mentoring.util.CommonAssertions;
+import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.NotificationContainer;
-import com.mentoring.pageobject.PageFactory;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -31,85 +31,89 @@ public class LoginTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {SMOKE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void successfulLogin() {
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new PageFactory().getMainPage(driver)
+        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
                 .login(user);
-
         softAssertion.assertThat(characterSelectionPage.isLogOutButtonVisible())
                 .as("Logout button should be visible.")
                 .isTrue();
+
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongUserName() {
-        User user = new User();
-        new PageFactory().getMainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(UserUtils.generateRandomUsername(), VALID_PASSWORD)
                 .clickLoginButton();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.BAD_CREDENTIALS);
+
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void wrongPassword() {
         User user = new User();
-        new PageFactory().getMainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(user.getUserName(), WRONG_PASSWORD)
                 .clickLoginButton();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.BAD_CREDENTIALS);
+
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyPassword() {
         User user = new User();
-        new PageFactory().getMainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm(user.getUserName(), "")
                 .clickLoginButton();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
+
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.BLOCKER)
     @Feature(LOGIN)
     public void emptyUsername() {
-        new PageFactory().getMainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm("", VALID_PASSWORD)
                 .clickLoginButton();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
+
         softAssertion.assertAll();
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = {NEGATIVE, REGRESSION})
     @Severity(SeverityLevel.NORMAL)
     @Feature(LOGIN)
     public void emptyFields() {
-        new PageFactory().getMainPage(driver)
+        new IndexPage(driver)
                 .fillLoginForm("", "")
                 .clickLoginButton();
 
-        NotificationContainer notificationContainer = new PageFactory().getNotificationContainer(driver);
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
+
         softAssertion.assertAll();
     }
 }

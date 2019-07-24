@@ -1,4 +1,4 @@
-package com.mentoring.framework.utils;
+package com.mentoring.framework.database;
 
 import java.sql.SQLException;
 
@@ -23,5 +23,4 @@ public class DbSelects {
     public static String getAccessTokenIdByEmailAddress(Database connection, String email) throws SQLException {
         return connection.runSelectStringValue(ACCESS_TOKEN_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.ACCESS_TOKEN__ACCESS_TOKEN_ID);
     }
-
 }

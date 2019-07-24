@@ -1,7 +1,7 @@
-package com.mentoring;
+package com.mentoring.test;
 
-import com.mentoring.framework.utils.Database;
-import com.mentoring.framework.utils.DbSelects;
+import com.mentoring.framework.database.Database;
+import com.mentoring.framework.database.DbSelects;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -34,7 +34,6 @@ public class DbPocTest {
     public void testUserNameByEmail() throws SQLException {
         String userName = DbSelects.getUserNameByEmailAddress(database, "tesztfix@tesztfix.com");
         log.info("User name is: {}", userName);
-
     }
 
     @Test
