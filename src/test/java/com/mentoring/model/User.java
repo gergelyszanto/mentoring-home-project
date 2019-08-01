@@ -17,7 +17,7 @@ import static io.restassured.RestAssured.given;
 public class User {
 
     private static final String PASSWORD = "Test1234!";
-    private static final String REGISTRATION_PATH_DEV = "/user";
+    private static final String REGISTRATION_PATH_DEV = "/api/user";
     private static final String REGISTRATION_PATH_PROD = "/user";
     private static final String LOGIN_PATH_DEV = "/login";
     private static final String LOGIN_PATH_PROD = "/login";
@@ -54,7 +54,7 @@ public class User {
         regData.put("password", password);
         regData.put("email", email);
 
-        RestAssured.baseURI = Config.getApplicationUrl();
+        RestAssured.baseURI = Config.getBaseUrl();
         given()
             .urlEncodingEnabled(true)
             .contentType(ContentType.JSON)

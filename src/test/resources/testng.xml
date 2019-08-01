@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="test-frontend" configfailurepolicy="continue" parallel="classes" thread-count="2">
+<suite name="test-frontend" configfailurepolicy="continue" parallel="classes" thread-count="3">
     <test name="FrontendTest" verbose="1">
         <packages>
-            <package name="com.mentoring.*"/>
+            <package name="com.mentoring.test.*"/>
         </packages>
     </test>
 </suite>

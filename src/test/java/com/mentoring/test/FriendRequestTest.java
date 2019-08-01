@@ -1,8 +1,8 @@
-package com.mentoring;
+package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.framework.utils.Database;
-import com.mentoring.framework.utils.DbSelects;
+import com.mentoring.framework.database.Database;
+import com.mentoring.framework.database.DbSelects;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
 import io.qameta.allure.Feature;
@@ -14,7 +14,7 @@ import org.testng.annotations.*;
 
 import java.sql.SQLException;
 
-import static com.mentoring.model.Features.FRIENDREQUEST;
+import static com.mentoring.model.Features.FRIEND_REQUEST;
 
 @Slf4j
 public class FriendRequestTest extends BasicTest {
@@ -69,7 +69,7 @@ public class FriendRequestTest extends BasicTest {
 
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
-    @Feature(FRIENDREQUEST)
+    @Feature(FRIEND_REQUEST)
     public void sendAndReceiveFriendRequest() {
         log.info("usernameA = {}; characterNameA = {}; userNameB = {}; characterNameB = {}", userA.getUserName(), characterNameA, userB.getUserName(), characterNameB);
 

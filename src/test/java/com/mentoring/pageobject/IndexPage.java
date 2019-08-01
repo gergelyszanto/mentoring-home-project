@@ -1,5 +1,6 @@
 package com.mentoring.pageobject;
 
+import com.mentoring.framework.Config;
 import com.mentoring.model.User;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +9,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 @Slf4j
-public class MainPageDev extends Page implements MainPage {
+public class IndexPage extends Page {
+
+    private static final String PAGE_PATH = "";
 
     @FindBy(id = "reg-username")
     private WebElement registrationUsername;
@@ -22,46 +25,55 @@ public class MainPageDev extends Page implements MainPage {
     @FindBy(id = "reg-email")
     private WebElement registrationEmailAddress;
 
-    @FindBy (id = "login-username")
+    @FindBy(id = "login-username")
     private WebElement loginUsername;
 
-    @FindBy (id = "login-password")
+    @FindBy(id = "login-password")
     private WebElement loginPassword;
 
-    @FindBy (id = "login-button")
+    @FindBy(id = "login-button")
     private WebElement submitLoginButton;
 
-    @FindBy(id = "invalid-username")
+    @FindBy(css = "#invalid-username[style='display: block;']")
     private WebElement invalidUsername;
 
-    @FindBy(id = "invalid-password")
+    @FindBy(css = "#invalid-password[style='display: block;']")
     private WebElement invalidPassword;
 
-    @FindBy(id = "invalid-confirm-password")
+    @FindBy(css = "#invalid-confirm-password[style='display: block;']")
     private WebElement invalidConfirmPassword;
 
-    @FindBy(id = "invalid-email")
+    @FindBy(css = "#invalid-email[style='display: block;']")
     private WebElement invalidEmail;
 
     @FindBy(id = "registration-button")
     private WebElement submitRegistrationButton;
 
-    public MainPageDev(WebDriver driver) {
-        super(driver, "");
+    public IndexPage(WebDriver driver) {
+        super(driver, PAGE_PATH);
+    }
+
+    public static String getPageUrl() {
+        return Config.getApplicationUrl().concat(PAGE_PATH);
     }
 
     @Override
-    public MainPageDev fillLoginForm(String username, String password) {
+    public IndexPage waitUntilPageLoads() {
+        waitUntilVisible(submitLoginButton);
+        return this;
+    }
+
+    public IndexPage fillLoginForm(String username, String password) {
         enterLoginUsername(username);
         enterLoginPassword(password);
         return this;
     }
 
-    @Override
-    public CharacterSelectionPageDev login(User user) {
+    @Step("Performing login.")
+    public CharacterSelectionPage login(User user) {
         fillLoginForm(user.getUserName(), user.getPassword());
         clickLoginButton();
-        return new CharacterSelectionPageDev(driver);
+        return new CharacterSelectionPage(driver).waitUntilPageLoads();
     }
 
     @Step("Entering login username.")
@@ -82,8 +94,8 @@ public class MainPageDev extends Page implements MainPage {
         waitUntilClickable(submitLoginButton).click();
     }
 
-    @Override
-    public MainPageDev fillRegistrationForm(String username, String password, String emailAddress) {
+    @Step("Filling registrastion form with username: {username}, password: {password} and email address: {emailAddress}")
+    public IndexPage fillRegistrationForm(String username, String password, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(password);
@@ -91,7 +103,8 @@ public class MainPageDev extends Page implements MainPage {
         return this;
     }
 
-    public MainPageDev fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
+    @Step("Filling registrastion form with username: {username}, password: {password}, confirm password: {confirmPassword} and email address: {emailAddress}")
+    public IndexPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
         enterRegistrationConfirmPassword(confirmPassword);
@@ -100,62 +113,74 @@ public class MainPageDev extends Page implements MainPage {
     }
 
     @Step("Submit registration.")
-    public CharacterSelectionPageDev submitRegistration() {
+    public CharacterSelectionPage submitRegistration() {
         log.info("Submitting registration...");
         waitUntilClickable(submitRegistrationButton).click();
-        return new CharacterSelectionPageDev(driver);
+        return new CharacterSelectionPage(driver).waitUntilPageLoads();
+    }
+
+    private boolean isFormErrorDisplayed() {
+        return invalidEmail.isDisplayed()
+                || invalidUsername.isDisplayed()
+                || invalidPassword.isDisplayed()
+                || invalidConfirmPassword.isDisplayed();
     }
 
     @Step("Entering registration username.")
-    public void enterRegistrationUsername(String username) {
+    public IndexPage enterRegistrationUsername(String username) {
         log.info("Entering registration username: '{}'", username);
         type(registrationUsername, username);
+        return this;
     }
 
     @Step("Entering registration password.")
-    public void enterRegistrationPassword(String password) {
+    public IndexPage enterRegistrationPassword(String password) {
         log.info("Entering registration password: '{}'", password);
         type(registrationPassword, password);
+        return this;
     }
 
     @Step("Entering registration confirm password.")
-    public void enterRegistrationConfirmPassword(String confirmPassword) {
+    public IndexPage enterRegistrationConfirmPassword(String confirmPassword) {
         log.info("Entering registration confirm password: '{}'", confirmPassword);
         type(registrationConfirmPassword, confirmPassword);
+        return this;
     }
 
     @Step("Entering registration email address.")
-    public void enterRegistrationEmailAddress(String emailAddress) {
+    public IndexPage enterRegistrationEmailAddress(String emailAddress) {
         log.info("Entering registration email address: '{}'", emailAddress);
         type(registrationEmailAddress, emailAddress);
+        return this;
     }
 
-    @Override
-    public void waitUntilPageLoads() {
-    }
-
-    @Override
+    @Step("Asserting if user name is marked as invalid.")
     public boolean isUserNameInvalid() {
         return isElementDisplayed(invalidUsername);
     }
 
-    @Override
+    @Step("Asserting if password is marked as invalid.")
     public boolean isPasswordInvalid() {
         return isElementDisplayed(invalidPassword);
     }
 
-    @Override
+    @Step("Asserting if confirm password is marked as invalid.")
     public boolean isConfirmPasswordInvalid() {
         return isElementDisplayed(invalidConfirmPassword);
     }
 
-    @Override
+    @Step("Asserting if email address is marked as invalid.")
     public boolean isEmailAddressInvalid() {
         return isElementDisplayed(invalidEmail);
     }
 
-    @Override
+    @Step("Asserting submit button's state.")
     public boolean isSubmitButtonEnabled() {
         return submitRegistrationButton.isEnabled();
+    }
+
+    @Step("Asserting index page has loaded.")
+    public boolean isIndexPageLoaded() {
+        return isElementDisplayed(submitLoginButton);
     }
 }

@@ -53,7 +53,61 @@ task smokeTest(type: Test){
         includeGroups 'smoke'
         options {
             parallel 'classes'
-            threadCount 2
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
+task regressionTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'regression'
+        options {
+            parallel 'classes'
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
+task negativeTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'negative'
+        options {
+            parallel 'classes'
+            threadCount 3
+        }
+    }
+    reports.junitXml.enabled=true
+    reports.junitXml.outputPerTestCase=false
+    reports.junitXml.destination="$buildDir/reports"
+    systemProperties System.properties
+}
+
+task redirectRulesTest(type: Test){
+    useTestNG() {
+        environment "BROWSER", "chrome"
+        environment "ENVIRONMENT", "skyxplore-localhost"
+        suites "src/test/resources/testng.xml"
+        configFailurePolicy 'continue'
+        includeGroups 'redirect-rules'
+        options {
+            parallel 'classes'
+            threadCount 3
         }
     }
     reports.junitXml.enabled=true
@@ -89,5 +143,5 @@ dependencies {
     compile 'io.qameta.allure:allure-gradle:2.7.0'
     compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-
+    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
 }

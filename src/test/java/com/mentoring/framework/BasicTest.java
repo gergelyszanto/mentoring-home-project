@@ -1,24 +1,34 @@
 package com.mentoring.framework;
 
 import com.google.common.collect.ImmutableMap;
+import com.mentoring.framework.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.utils.CookieUtils;
 import com.mentoring.framework.utils.LogUtils;
+import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
-import org.testng.annotations.*;
-
-import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Listeners;
 
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 
+import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnvironmentWriter;
+
+@Listeners({TestListener.class})
 @Slf4j
 public class BasicTest {
+
+    protected static final String SMOKE = "smoke";
+    protected static final String REGRESSION = "regression";
+    protected static final String REDIRECT_RULES = "redirect-rules";
+    protected static final String NEGATIVE = "negative";
 
     private static final short PAGE_LOAD_TIMEOUT = 60;
     protected WebDriver driver;
@@ -29,6 +39,7 @@ public class BasicTest {
         setupBrowser();
     }
 
+    @Step("Initializing driver and opening URL: {Config.getApplicationUrl()}")
     private void setupBrowser() {
         try {
             initializeDriver();
@@ -60,6 +71,13 @@ public class BasicTest {
         } catch (MalformedURLException exception) {
             log.error("Error at driver initialization...", exception);
             throw new AssertionError("Exception Caught during initializeDriver");
+        }
+    }
+
+    protected void skipTestIfNotLocalEnvironmentUsed() {
+        if (!Config.isLocalEnvironmentUsed()) {
+            throw new EnvironmentNotSupportedException("Only local environment is supported for this test. " +
+                    "Skipping test...");
         }
     }
 

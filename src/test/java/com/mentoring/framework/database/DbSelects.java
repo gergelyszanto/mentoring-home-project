@@ -1,4 +1,4 @@
-package com.mentoring.framework.utils;
+package com.mentoring.framework.database;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,5 +32,4 @@ public class DbSelects {
         log.info("Query = {};\tparam = {};\tresult = {}", ACCESS_TOKEN_ID_BY_EMAIL, email, result);
         return result;
     }
-
 }
