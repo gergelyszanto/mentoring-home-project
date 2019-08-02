@@ -5,6 +5,9 @@ import com.mentoring.framework.database.Database;
 import com.mentoring.framework.database.DbSelects;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
+import com.mentoring.pageobject.CharacterSelectionPage;
+import com.mentoring.pageobject.IndexPage;
+import com.mentoring.pageobject.OverviewPage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -73,10 +76,11 @@ public class FriendRequestTest extends BasicTest {
     public void sendAndReceiveFriendRequest() {
         log.info("usernameA = {}; characterNameA = {}; userNameB = {}; characterNameB = {}", userA.getUserName(), characterNameA, userB.getUserName(), characterNameB);
 
-        // TODO:
-        // - login with userA
-        // - choose characterNameA
-        // - create a page class for the overview page
+        // - login with userA and choose characterNameA
+        OverviewPage overviewPage = new IndexPage(driver)
+                .login(userA)
+                .selectCharacter(characterNameA);
+
         // - push the button "Közösség"
         // - create a page class for the community page
         // - push the button "Barát felvétele"

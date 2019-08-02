@@ -19,11 +19,11 @@ public class User {
     private static final String PASSWORD = "Test1234!";
     private static final String REGISTRATION_PATH_DEV = "/api/user";
     private static final String REGISTRATION_PATH_PROD = "/user";
-    private static final String LOGIN_PATH_DEV = "/login";
+    private static final String LOGIN_PATH_DEV = "/api/login";
     private static final String LOGIN_PATH_PROD = "/login";
-    private static final String CHARACTER_PATH_DEV = "/character";
+    private static final String CHARACTER_PATH_DEV = "/api/character";
     private static final String CHARACTER_PATH_PROD = "/character";
-    private static final String LOGOUT_PATH_DEV = "/logout";
+    private static final String LOGOUT_PATH_DEV = "/api/logout";
     private static final String LOGOUT_PATH_PROD = "/logout";
 
     @Getter
@@ -71,7 +71,7 @@ public class User {
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        RestAssured.baseURI = Config.getApplicationUrl();
+        RestAssured.baseURI = Config.getBaseUrl();
         given()
                 .urlEncodingEnabled(true)
                 .contentType(ContentType.JSON)
@@ -87,12 +87,12 @@ public class User {
         Map<String, String> characterData = new HashMap<>();
         characterData.put("characterName", characterName);
 
-        RestAssured.baseURI = Config.getApplicationUrl();
+        RestAssured.baseURI = Config.getBaseUrl();
         given()
                 .urlEncodingEnabled(true)
                 .contentType(ContentType.JSON)
                 .body(characterData)
-                .cookie("domain", accessToken)
+                .cookie("accesstokenid", accessToken)
                 .cookie("userid", userId)
                 .when()
                 .post(getCharacterPath())
@@ -102,7 +102,7 @@ public class User {
     }
 
     public void logoutUser(String userName, String accessToken, String userId) {
-        RestAssured.baseURI = Config.getApplicationUrl();
+        RestAssured.baseURI = Config.getBaseUrl();
         given()
                 .urlEncodingEnabled(true)
                 .contentType(ContentType.JSON)
