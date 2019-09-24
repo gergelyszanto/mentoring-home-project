@@ -1,6 +1,6 @@
 package com.mentoring.model;
 
-import com.mentoring.framework.Config;;
+import com.mentoring.framework.Config;
 import com.mentoring.framework.utils.UserUtils;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;

@@ -5,9 +5,9 @@ import com.mentoring.framework.database.Database;
 import com.mentoring.framework.database.DbSelects;
 import com.mentoring.framework.utils.UserUtils;
 import com.mentoring.model.User;
-import com.mentoring.pageobject.CharacterSelectionPage;
-import com.mentoring.pageobject.IndexPage;
-import com.mentoring.pageobject.OverviewPage;
+import com.mentoring.pageobject.*;
+import com.mentoring.test.assertionsteps.CommonAssertions;
+import com.mentoring.util.Messages;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -76,15 +76,29 @@ public class FriendRequestTest extends BasicTest {
     public void sendAndReceiveFriendRequest() {
         log.info("usernameA = {}; characterNameA = {}; userNameB = {}; characterNameB = {}", userA.getUserName(), characterNameA, userB.getUserName(), characterNameB);
 
-        // - login with userA and choose characterNameA
-        OverviewPage overviewPage = new IndexPage(driver)
+        CommunityPage communityPage = new IndexPage(driver)
                 .login(userA)
-                .selectCharacter(characterNameA);
+                .selectCharacter(characterNameA)
+                .openCommunityPage()
+                .clickAddFriendButton()
+                .enterFriendCharacterName(characterNameB)
+                .clickInviteCharacter(characterNameB);
 
-        // - push the button "Közösség"
-        // - create a page class for the community page
-        // - push the button "Barát felvétele"
-        // ...
+        NotificationContainer notificationContainer = new NotificationContainer(driver);
+
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.SENT_FRIEND_REQUEST);
+
+        communityPage
+                .logout()
+                .login(userB)
+                .selectCharacter(characterNameB)
+                .openCommunityPage()
+                .clickFriendRequestsButton()
+                .clickReceivedFriendRequestApproveButton(characterNameA);
+
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.APPROVED_FRIEND_REQUEST);
+
+        softAssertion.assertAll();
     }
 
 }
