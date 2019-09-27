@@ -12,7 +12,6 @@ import org.openqa.selenium.support.FindBy;
 public class CommunityPage extends Page {
 
     private static final String FRIEND_CHARACTER_BY_NAME_SELECTOR = "//div[(text()='%1$s')]/following-sibling::button";
-    //private static final String SENT_FRIEND_REQUESTS_BY_NAME_SELECTOR = "//div[@class='friend-list-item']/div[(text()='%1$s')]";
     private static final String APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR = "//div[(text()='%1$s')]/following-sibling::div/button[text()='Elfogadás']";
 
     @FindBy(id = "add-friend-button")

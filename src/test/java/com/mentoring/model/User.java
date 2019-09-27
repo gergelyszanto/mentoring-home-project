@@ -66,6 +66,7 @@ public class User {
         log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
     }
 
+    @Step("Precondition step: Logging in with user: {userName} and password: {password})")
     public void loginUser(String userName, String password) {
         Map<String, String> loginData = new HashMap<>();
         loginData.put("userName", userName);
@@ -83,6 +84,7 @@ public class User {
         log.info("User logged in:\n\tUsername: {}\n\tPassword: {}", userName, password);
     }
 
+    @Step("Creating character: {characterName}")
     public void createCharacter(String characterName, String accessToken, String userId) {
         Map<String, String> characterData = new HashMap<>();
         characterData.put("characterName", characterName);
@@ -99,21 +101,6 @@ public class User {
                 .then()
                 .statusCode(200);
         log.info("User character created:\n\tCharacter name: {}", characterName);
-    }
-
-    public void logoutUser(String userName, String accessToken, String userId) {
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .cookie("domain", accessToken)
-                .cookie("userid", userId)
-                .when()
-                .post(getLogoutPath())
-                .then()
-                .statusCode(200);
-        log.info("User logged out: {}", userName);
-
     }
 
     private static String getRegistrationPath() {

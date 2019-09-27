@@ -11,7 +11,6 @@ import com.mentoring.util.Messages;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.*;
 
@@ -19,7 +18,6 @@ import java.sql.SQLException;
 
 import static com.mentoring.model.Features.FRIEND_REQUEST;
 
-@Slf4j
 public class FriendRequestTest extends BasicTest {
 
     private SoftAssertions softAssertion;
@@ -34,17 +32,17 @@ public class FriendRequestTest extends BasicTest {
     String userIdForUserB;
 
     @BeforeClass(alwaysRun = true)
-    private void setup() {
+    private void connectToDB() {
         database = new Database();
     }
 
     @AfterClass(alwaysRun = true)
-    private void close() {
+    private void disconnectFromDb() {
         database.disconnectFromDb();
     }
 
     @BeforeMethod(alwaysRun = true)
-    private void initMethod() throws SQLException {
+    private void setup() throws SQLException {
         softAssertion = new SoftAssertions();
 
         // create userA, login and create a character for it with RestAPI
@@ -64,18 +62,10 @@ public class FriendRequestTest extends BasicTest {
         userB.createCharacter(characterNameB, accessTokenIdForUserB, userIdForUserB);
     }
 
-    @AfterMethod(alwaysRun = true)
-    private void terminate() {
-        userA.logoutUser(userA.getUserName(), accessTokenIdForUserA, userIdForUserA);
-        userB.logoutUser(userB.getUserName(), accessTokenIdForUserB, userIdForUserB);
-    }
-
     @Test(groups = "smoke")
     @Severity(SeverityLevel.BLOCKER)
     @Feature(FRIEND_REQUEST)
     public void sendAndReceiveFriendRequest() {
-        log.info("usernameA = {}; characterNameA = {}; userNameB = {}; characterNameB = {}", userA.getUserName(), characterNameA, userB.getUserName(), characterNameB);
-
         CommunityPage communityPage = new IndexPage(driver)
                 .login(userA)
                 .selectCharacter(characterNameA)
