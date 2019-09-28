@@ -14,6 +14,9 @@ public class OverviewPage extends Page {
     @FindBy(id = "ship-table-header")
     private WebElement shipTableHeader;
 
+    @FindBy(id = "community-button")
+    private WebElement communityButton;
+
     private static final String PAGE_PATH = "/overview";
 
     OverviewPage(WebDriver driver) {
@@ -24,6 +27,12 @@ public class OverviewPage extends Page {
     public HangarPage openHangarPage() {
         waitUntilClickable(hangarButton).click();
         return new HangarPage(driver).waitUntilPageLoads();
+    }
+
+    @Step("Opening community page.")
+    public CommunityPage openCommunityPage() {
+        waitUntilClickable(communityButton).click();
+        return new CommunityPage(driver).waitUntilPageLoads();
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.mentoring.framework.database;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.sql.SQLException;
 
+@Slf4j
 public class DbSelects {
 
     private static final String USER_ID_BY_EMAIL = "SELECT user_id FROM user WHERE email = ?";
@@ -13,14 +16,20 @@ public class DbSelects {
             "WHERE u.email = ?";
 
     public static String getUserIdByEmailAddress(Database connection, String email) throws SQLException {
-        return connection.runSelectStringValue(USER_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.USER__USER_ID);
+        String result = connection.runSelectStringValue(USER_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.USER__USER_ID);
+        log.info("Query = {};\tparam = {};\tresult = {}", USER_ID_BY_EMAIL, email, result);
+        return result;
     }
 
     public static String getUserNameByEmailAddress(Database connection, String email) throws SQLException {
-        return connection.runSelectStringValue(USER_NAME_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.CREDENTIALS__USER_NAME);
+        String result = connection.runSelectStringValue(USER_NAME_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.CREDENTIALS__USER_NAME);
+        log.info("Query = {};\tparam = {};\tresult = {}", USER_NAME_BY_EMAIL, email, result);
+        return result;
     }
 
     public static String getAccessTokenIdByEmailAddress(Database connection, String email) throws SQLException {
-        return connection.runSelectStringValue(ACCESS_TOKEN_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.ACCESS_TOKEN__ACCESS_TOKEN_ID);
+        String result = connection.runSelectStringValue(ACCESS_TOKEN_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.ACCESS_TOKEN__ACCESS_TOKEN_ID);
+        log.info("Query = {};\tparam = {};\tresult = {}", ACCESS_TOKEN_ID_BY_EMAIL, email, result);
+        return result;
     }
 }
