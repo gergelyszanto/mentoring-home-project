@@ -26,10 +26,10 @@ public class FriendRequestTest extends BasicTest {
     private User userB;
     private String characterNameA;
     private String characterNameB;
-    String accessTokenIdForUserA;
-    String accessTokenIdForUserB;
-    String userIdForUserA;
-    String userIdForUserB;
+    private String accessTokenIdForUserA;
+    private String accessTokenIdForUserB;
+    private String userIdForUserA;
+    private String userIdForUserB;
 
     @BeforeClass(alwaysRun = true)
     private void connectToDB() {

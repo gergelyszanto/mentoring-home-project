@@ -1,24 +1,18 @@
 # mentoring-home-project
 
-### Prerequisites
+### Description
+This is a UI test automation framework for web application called 'SkyXplore'.
+More on SUT setup: https://docs.google.com/document/d/1jCLJbRgxdRNUktoMjbmOjZXWzvuCbZDO2fOiSjAPfsM
 
-Preferred IDE: IntelliJ IDEA
+### Prerequisites
 
 * Java 8
 * Gradle 4.5.1
-* Lombok plugin
-* .ignore plugin
-* CheckStyle-IDEA plugin (for development only)
-
-Annotation processing must be enabled for local test execution.
-
-### Setup TestNG for local test-execution
-
-* Click 'Add Configuration' in the toolbar (IntelliJ)
-* Expand 'Templates'
-* Select 'TestNG'
-* Add environment variables as listed below ('Environment variables' section) with one corresponding value
-* Save environment / TestNG setting by clicking 'Ok'
+* Latest Google Chrome
+* IntelliJ IDEA with plugins added:
+    * Lombok 
+    * .ignore
+    * CheckStyle-IDEA
 
 ### Environment variables
 
