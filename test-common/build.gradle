@@ -26,18 +26,10 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
-    runtime group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
-    runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    runtime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
-    compile 'org.testng:testng:6.10'
     compile 'net.javacrumbs.json-unit:json-unit:1.28.1'
     compile group: 'javax.mail', name: 'mail', version: '1.4.7'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
     compile group: 'javax.activation', name: 'activation', version: '1.1'
     compile 'io.rest-assured:rest-assured:3.3.0'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
 }

@@ -1,0 +1,16 @@
+group 'com.mentoring.ta'
+version '1.0-SNAPSHOT'
+
+allprojects {
+    apply plugin: 'java'
+
+    dependencies {
+        compile group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
+        runtime group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
+        compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
+        compile 'org.testng:testng:6.10'
+        runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        runtime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    }
+}
