@@ -2,6 +2,12 @@ group 'com.mentoring.ta'
 version '1.0-SNAPSHOT'
 
 allprojects {
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
     apply plugin: 'java'
 
     dependencies {
