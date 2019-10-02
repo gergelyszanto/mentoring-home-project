@@ -1,9 +1,10 @@
 package com.mentoring.framework;
 
 import com.google.common.collect.ImmutableMap;
-import com.mentoring.framework.exceptions.EnvironmentNotSupportedException;
+import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.utils.CookieUtils;
-import com.mentoring.framework.utils.LogUtils;
+import com.mentoring.utilities.LogUtils;
+import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;

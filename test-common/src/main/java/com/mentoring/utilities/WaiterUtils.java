@@ -1,10 +1,10 @@
-package com.mentoring.framework.utils;
+package com.mentoring.utilities;
 
-import com.mentoring.framework.exceptions.ConditionNotMetException;
+import com.mentoring.exceptions.ConditionNotMetException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class WaitHelper {
+public class WaiterUtils {
 
     private static String RETRY_MESSAGE = "Condition not fulfilled. Tried {} times out of {}.";
     private static String WAITING_FAILED_MESSAGE = "Waiting failed.";

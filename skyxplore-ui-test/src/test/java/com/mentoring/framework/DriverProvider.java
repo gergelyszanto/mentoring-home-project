@@ -1,5 +1,6 @@
 package com.mentoring.framework;
 
+import com.mentoring.config.Config;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;

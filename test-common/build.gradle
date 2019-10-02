@@ -32,6 +32,7 @@ dependencies {
     compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
     runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
     runtime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile 'org.testng:testng:6.10'
     compile 'net.javacrumbs.json-unit:json-unit:1.28.1'
     compile group: 'javax.mail', name: 'mail', version: '1.4.7'
     compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'

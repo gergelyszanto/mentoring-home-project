@@ -1,10 +1,9 @@
 package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.framework.Config;
-import com.mentoring.framework.database.Database;
-import com.mentoring.framework.database.DbUpdates;
-import com.mentoring.framework.utils.UserUtils;
+import com.mentoring.database.Database;
+import com.mentoring.database.DbUpdates;
+import com.mentoring.utilities.UserUtils;
 import com.mentoring.model.User;
 import com.mentoring.pageobject.AccountPage;
 import com.mentoring.pageobject.CharacterSelectionPage;
@@ -19,6 +18,7 @@ import com.mentoring.pageobject.LobbyQueuePage;
 import com.mentoring.pageobject.OverviewPage;
 import com.mentoring.pageobject.ShopPage;
 import com.mentoring.test.assertionsteps.UrlAssertions;
+import com.mentoring.config.Config;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Issue;

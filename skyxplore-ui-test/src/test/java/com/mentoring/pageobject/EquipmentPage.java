@@ -1,6 +1,6 @@
 package com.mentoring.pageobject;
 
-import com.mentoring.framework.Config;
+import com.mentoring.config.Config;
 import org.openqa.selenium.WebDriver;
 
 public class EquipmentPage extends Page {

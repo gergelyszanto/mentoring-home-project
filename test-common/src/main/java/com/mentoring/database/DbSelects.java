@@ -1,4 +1,4 @@
-package com.mentoring.framework.database;
+package com.mentoring.database;
 
 import lombok.extern.slf4j.Slf4j;
 

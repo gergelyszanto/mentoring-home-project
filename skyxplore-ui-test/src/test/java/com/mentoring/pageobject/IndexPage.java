@@ -1,7 +1,7 @@
 package com.mentoring.pageobject;
 
-import com.mentoring.framework.Config;
 import com.mentoring.model.User;
+import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;

@@ -1,6 +1,5 @@
-package com.mentoring.framework.database;
+package com.mentoring.database;
 
-import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -11,7 +10,7 @@ public class DbUpdates {
     private static final String UPDATE_LAST_ACCESS_VALUE_BY_EMAIL = "UPDATE access_token SET last_access = ?" +
             " WHERE user_id = (SELECT user_id FROM user WHERE email = ?)";
 
-    @Step("Updating user's access token to be expired in the database.")
+//    @Step("Updating user's access token to be expired in the database.")
     public static void setLastAccessValueByEmailAddress(Database connection, String email, double value) {
         connection.runUpdateLongColumnValue(
                 UPDATE_LAST_ACCESS_VALUE_BY_EMAIL,

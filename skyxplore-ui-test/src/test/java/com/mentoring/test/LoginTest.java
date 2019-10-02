@@ -6,7 +6,7 @@ import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.NotificationContainer;
 import com.mentoring.util.Messages;
 import com.mentoring.test.assertionsteps.CommonAssertions;
-import com.mentoring.framework.utils.UserUtils;
+import com.mentoring.utilities.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;

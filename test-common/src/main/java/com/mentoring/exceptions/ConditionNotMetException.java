@@ -1,4 +1,4 @@
-package com.mentoring.framework.exceptions;
+package com.mentoring.exceptions;
 
 public class ConditionNotMetException extends AssertionError {
 

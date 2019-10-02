@@ -1,6 +1,6 @@
 package com.mentoring.pageobject;
 
-import com.mentoring.framework.Config;
+import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

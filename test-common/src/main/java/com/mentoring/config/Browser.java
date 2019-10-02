@@ -1,4 +1,4 @@
-package com.mentoring.model;
+package com.mentoring.config;
 
 import lombok.extern.slf4j.Slf4j;
 

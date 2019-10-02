@@ -1,4 +1,4 @@
-package com.mentoring.framework.database;
+package com.mentoring.database;
 
 public enum TableColumn {
     ACCESS_TOKEN__ACCESS_TOKEN_ID("access_token_id"),

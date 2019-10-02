@@ -1,9 +1,9 @@
-package com.mentoring.framework.database;
+package com.mentoring.database;
 
-import com.mentoring.framework.Config;
 import java.sql.*;
 import java.util.function.Consumer;
 
+import com.mentoring.config.Config;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.database.Database;
-import com.mentoring.framework.database.DbSelects;
+import com.mentoring.database.Database;
+import com.mentoring.database.DbSelects;
 import lombok.extern.slf4j.Slf4j;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;

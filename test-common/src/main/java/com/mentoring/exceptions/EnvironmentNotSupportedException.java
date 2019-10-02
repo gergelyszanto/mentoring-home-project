@@ -1,4 +1,4 @@
-package com.mentoring.framework.exceptions;
+package com.mentoring.exceptions;
 
 import org.testng.SkipException;
 
