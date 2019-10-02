@@ -1,10 +1,10 @@
 package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
-import com.mentoring.model.User;
+import com.mentoring.generator.User;
 import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.NotificationContainer;
-import com.mentoring.util.Messages;
+import com.mentoring.messages.Messages;
 import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.utilities.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;

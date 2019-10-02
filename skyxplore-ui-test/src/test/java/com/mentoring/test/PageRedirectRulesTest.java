@@ -4,7 +4,7 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbUpdates;
 import com.mentoring.utilities.UserUtils;
-import com.mentoring.model.User;
+import com.mentoring.generator.User;
 import com.mentoring.pageobject.AccountPage;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.CommunityPage;

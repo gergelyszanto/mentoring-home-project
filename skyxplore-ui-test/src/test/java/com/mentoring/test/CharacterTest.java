@@ -2,7 +2,7 @@ package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.utilities.UserUtils;
-import com.mentoring.model.User;
+import com.mentoring.generator.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.IndexPage;
 import io.qameta.allure.Feature;

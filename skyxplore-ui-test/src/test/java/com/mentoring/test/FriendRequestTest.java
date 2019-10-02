@@ -4,10 +4,10 @@ import com.mentoring.framework.BasicTest;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.utilities.UserUtils;
-import com.mentoring.model.User;
+import com.mentoring.generator.User;
 import com.mentoring.pageobject.*;
 import com.mentoring.test.assertionsteps.CommonAssertions;
-import com.mentoring.util.Messages;
+import com.mentoring.messages.Messages;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -62,7 +62,7 @@ public class FriendRequestTest extends BasicTest {
         userB.createCharacter(characterNameB, accessTokenIdForUserB, userIdForUserB);
     }
 
-    @Test(groups = "smoke")
+    @Test(groups = SMOKE)
     @Severity(SeverityLevel.BLOCKER)
     @Feature(FRIEND_REQUEST)
     public void sendAndReceiveFriendRequest() {

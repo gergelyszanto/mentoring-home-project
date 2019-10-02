@@ -1,4 +1,4 @@
-package com.mentoring.model;
+package com.mentoring.generator;
 
 import com.mentoring.utilities.UserUtils;
 import com.mentoring.config.Config;

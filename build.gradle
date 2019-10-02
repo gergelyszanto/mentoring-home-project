@@ -16,5 +16,8 @@ allprojects {
         compile 'org.testng:testng:6.10'
         runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
         runtime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+        compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
+        compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
+        compile 'io.qameta.allure:allure-gradle:2.7.0'
     }
 }

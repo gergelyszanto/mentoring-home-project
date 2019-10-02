@@ -1,4 +1,4 @@
-package com.mentoring.util;
+package com.mentoring.messages;
 
 public final class Messages {
     public static final String REGISTRATION_SUCCESSFUL = "Sikeres regisztráció!";
