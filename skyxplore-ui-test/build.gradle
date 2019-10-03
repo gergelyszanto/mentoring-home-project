@@ -117,11 +117,11 @@ task smokeTestAndReport(type: GradleBuild) {
 
 dependencies {
     implementation project(':test-common')
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
-    compile("org.assertj:assertj-core:3.11.1")
-    compile 'io.rest-assured:rest-assured:3.3.0'
-    compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
-    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
+    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
+    testImplementation group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
+    testImplementation "org.assertj:assertj-core:3.11.1"
+    testImplementation 'io.rest-assured:rest-assured:3.3.0'
+    testImplementation group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
+    testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
 }
