@@ -1,8 +1,16 @@
 buildscript {
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
     dependencies {
         classpath "io.qameta.allure:allure-gradle:2.7.0"
     }
 }
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
 
 dependencies {
     implementation 'net.javacrumbs.json-unit:json-unit:1.28.1'
