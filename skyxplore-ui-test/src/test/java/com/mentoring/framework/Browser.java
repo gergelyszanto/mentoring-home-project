@@ -1,9 +1,9 @@
-package com.mentoring.config;
+package com.mentoring.framework;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public enum Browser {
+enum Browser {
     FIREFOX, CHROME, IE, SAFARI, EDGE, REMOTE_CHROME, REMOTE_IE, REMOTE_FIREFOX, REMOTE_EDGE, CHROME_WITH_PROXY, FIREFOX_WITH_PROXY;
 
     public static Browser parse(String stringToBrowser) {

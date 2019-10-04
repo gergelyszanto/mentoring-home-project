@@ -1,6 +1,5 @@
 package com.mentoring.framework;
 
-import com.mentoring.config.Config;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -17,17 +16,23 @@ import java.net.URL;
 @Slf4j
 class DriverProvider {
 
+    private static final Browser BROWSER;
+
+    static {
+        BROWSER = Browser.parse(System.getenv("BROWSER"));
+    }
+
     @Getter
     private static String browserVersion;
 
-    private static final String HUB_URL = "TBD";
+    private static final String GRID_HUB_URL = "TBD";
 
     static WebDriver getInstance() throws MalformedURLException {
-        switch (Config.BROWSER) {
+        switch (BROWSER) {
             case REMOTE_CHROME:
                 ChromeOptions capabilityRemoteChrome = new ChromeOptions();
                 capabilityRemoteChrome.setAcceptInsecureCerts(true);
-                RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL(HUB_URL), capabilityRemoteChrome);
+                RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL(GRID_HUB_URL), capabilityRemoteChrome);
                 remoteWebDriver.setFileDetector(new LocalFileDetector());
                 browserVersion = remoteWebDriver.getCapabilities().getVersion();
                 return remoteWebDriver;

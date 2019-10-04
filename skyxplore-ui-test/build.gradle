@@ -1,21 +1,10 @@
-group 'com.mentoring.ta'
-version '1.0-SNAPSHOT'
-
 buildscript {
-
-    repositories {
-        jcenter()
-        mavenCentral()
-    }
     dependencies {
         classpath "io.qameta.allure:allure-gradle:2.7.0"
     }
 }
 
 apply plugin: 'io.qameta.allure'
-
-compileJava.options.encoding = "UTF-8"
-compileTestJava.options.encoding = "UTF-8"
 
 allure {
     version = '2.7.0'
@@ -50,6 +39,9 @@ task smokeTest(type: Test){
             threadCount 3
         }
     }
+    testLogging {
+        showStandardStreams = true
+    }
     reports.junitXml.enabled=true
     reports.junitXml.outputPerTestCase=false
     reports.junitXml.destination="$buildDir/reports"
@@ -67,6 +59,9 @@ task regressionTest(type: Test){
             parallel 'classes'
             threadCount 3
         }
+    }
+    testLogging {
+        showStandardStreams = true
     }
     reports.junitXml.enabled=true
     reports.junitXml.outputPerTestCase=false

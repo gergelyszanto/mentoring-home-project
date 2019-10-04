@@ -13,7 +13,6 @@ public final class Config {
 
     public static final int LOAD_WAIT;
     private static final String APPLICATION_URL;
-    public static final Browser BROWSER;
     private static final String SKY_XPLORE_LOCALHOST = "skyxplore-localhost";
     private static final String SKY_XPLORE_PROD = "skyxplore-prod";
     private static final String PATH_WEB_EXTENSION = "/web";
@@ -31,7 +30,6 @@ public final class Config {
     static {
         Properties prop = loadProperties();
         LOAD_WAIT = Integer.parseInt(prop.getProperty("load_wait"));
-        BROWSER = Browser.parse(System.getenv("BROWSER"));
         PORT = prop.getProperty("port");
         if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_PROD)) {
             BASE_URL = EmailUtils.getIpAddressFromEmail();
