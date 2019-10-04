@@ -1,3 +1,6 @@
+group 'com.mentoring.ta'
+version '1.0-SNAPSHOT'
+
 buildscript {
 
     repositories {

@@ -1,3 +1,6 @@
+group 'com.mentoring.ta'
+version '1.0-SNAPSHOT'
+
 allprojects {
 
     repositories {
@@ -7,20 +10,19 @@ allprojects {
 
     apply plugin: 'java'
 
-    compileJava.options.encoding = "UTF-8"
-    compileTestJava.options.encoding = "UTF-8"
-
     dependencies {
-        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
         testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
-        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
         implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
         implementation 'org.testng:testng:6.10'
         implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
         implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
         implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
         implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
+        testImplementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
         implementation 'io.qameta.allure:allure-gradle:2.7.0'
+        testImplementation 'io.qameta.allure:allure-gradle:2.7.0'
     }
 }

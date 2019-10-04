@@ -2,7 +2,7 @@ package com.mentoring.framework;
 
 import org.openqa.selenium.WebDriver;
 
-public class LocalDriverManager {
+class LocalDriverManager {
 
     private static ThreadLocal<WebDriver> webDriver = new ThreadLocal<>();
 
