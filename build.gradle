@@ -13,8 +13,8 @@ allprojects {
     dependencies {
         compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
         testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
-         annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
-         testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
 
         compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
         compile 'org.testng:testng:6.10'
