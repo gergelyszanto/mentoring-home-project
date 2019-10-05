@@ -3,12 +3,15 @@ package com.mentoring.pageobject;
 import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import org.awaitility.Awaitility;
+import org.awaitility.core.ConditionTimeoutException;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -77,7 +80,6 @@ public class CharacterSelectionPage extends Page {
     public CharacterSelectionPage enterCharacterName(String characterName) {
         log.info("Entering character name: '{}'", characterName);
         type(createCharacterName, characterName);
-        waitForMilliSec(400); //Waiting for page update
         return this;
     }
 
@@ -114,7 +116,12 @@ public class CharacterSelectionPage extends Page {
     // ************* methods for the character list *************
 
     public List<String> getCharacterNamesText() {
-        waitForMilliSec(1000);
+        try {
+            log.debug("Waiting for character list not to be empty.");
+            Awaitility.await().atMost(1, TimeUnit.SECONDS).until(() -> !characterNames.isEmpty());
+        } catch (ConditionTimeoutException e) {
+            log.debug("Character list remained empty.");
+        }
         return characterNames.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());

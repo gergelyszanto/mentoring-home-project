@@ -1,11 +1,15 @@
 package com.mentoring.database;
 
-import java.sql.*;
-import java.util.function.Consumer;
-
 import com.mentoring.config.Config;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.function.Consumer;
 
 @Slf4j
 public class Database {

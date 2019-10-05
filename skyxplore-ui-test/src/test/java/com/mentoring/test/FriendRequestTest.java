@@ -1,23 +1,30 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.BasicTest;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
-import com.mentoring.utilities.UserUtils;
+import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
-import com.mentoring.pageobject.*;
-import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.messages.Messages;
+import com.mentoring.pageobject.CommunityPage;
+import com.mentoring.pageobject.IndexPage;
+import com.mentoring.pageobject.NotificationContainer;
+import com.mentoring.test.assertionsteps.CommonAssertions;
+import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.sql.SQLException;
 
 import static com.mentoring.model.Features.FRIEND_REQUEST;
 
+@Slf4j
 public class FriendRequestTest extends BasicTest {
 
     private SoftAssertions softAssertion;
@@ -38,7 +45,11 @@ public class FriendRequestTest extends BasicTest {
 
     @AfterClass(alwaysRun = true)
     private void disconnectFromDb() {
-        database.disconnectFromDb();
+        if (database != null) {
+            database.disconnectFromDb();
+        } else {
+            log.warn("Db disconnection skipped. There is no database connection to disconnect.");
+        }
     }
 
     @BeforeMethod(alwaysRun = true)

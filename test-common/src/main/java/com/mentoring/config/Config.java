@@ -41,8 +41,7 @@ public final class Config {
         if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_LOCALHOST)) {
             JDBC = "jdbc:mysql://localhost/" + DATABASE_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         } else {
-            // What should we do on prod? Do we have rights to connect to Prod database?
-            JDBC = "";
+            throw new ExceptionInInitializerError("Failed to connect to database. '" + System.getenv(ENVIRONMENT) + "' environment not supported.");
         }
         DB_USER = prop.getProperty("db_user");
         DB_PASSWORD = prop.getProperty("db_password");

@@ -18,13 +18,9 @@ public class User {
 
     private static final String PASSWORD = "Test1234!";
     private static final String REGISTRATION_PATH_DEV = "/api/user";
-    private static final String REGISTRATION_PATH_PROD = "/user";
     private static final String LOGIN_PATH_DEV = "/api/login";
-    private static final String LOGIN_PATH_PROD = "/login";
     private static final String CHARACTER_PATH_DEV = "/api/character";
-    private static final String CHARACTER_PATH_PROD = "/character";
     private static final String LOGOUT_PATH_DEV = "/api/logout";
-    private static final String LOGOUT_PATH_PROD = "/logout";
 
     @Getter
     private String userName;
@@ -104,18 +100,18 @@ public class User {
     }
 
     private static String getRegistrationPath() {
-        return Config.isLocalEnvironmentUsed() ? REGISTRATION_PATH_DEV : REGISTRATION_PATH_PROD;
+        return REGISTRATION_PATH_DEV;
     }
 
     private static String getLoginPath() {
-        return Config.isLocalEnvironmentUsed() ? LOGIN_PATH_DEV : LOGIN_PATH_PROD;
+        return LOGIN_PATH_DEV;
     }
 
     private static String getCharacterPath() {
-        return Config.isLocalEnvironmentUsed() ? CHARACTER_PATH_DEV : CHARACTER_PATH_PROD;
+        return CHARACTER_PATH_DEV;
     }
 
     private static String getLogoutPath() {
-        return Config.isLocalEnvironmentUsed() ? LOGOUT_PATH_DEV : LOGOUT_PATH_PROD;
+        return LOGOUT_PATH_DEV;
     }
 }
