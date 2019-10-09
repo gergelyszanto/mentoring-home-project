@@ -7,7 +7,7 @@ More on SUT setup: https://docs.google.com/document/d/1jCLJbRgxdRNUktoMjbmOjZXWz
 ### Prerequisites
 
 * Java 8
-* Gradle 4.5.1
+* Gradle 4.7
 * Latest Google Chrome
 * IntelliJ IDEA with plugins added:
     * Lombok 
@@ -25,10 +25,10 @@ ENVIRONMENT | skyxplore-localhost, skyxplore-prod | -
 
 1. Run test task from Gradle
     ```
-    gradle clean build {taskName}
+    gradlew clean build {taskName}
     ```
 2. Generate Allure test report through Gradle
     ```
-    gradle build allureReport
+    gradlew build allureReport
     ```
 3. Open 'index.html' located at: /build/reports/allure-report

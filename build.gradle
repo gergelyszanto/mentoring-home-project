@@ -1,147 +1,28 @@
 group 'com.mentoring.ta'
 version '1.0-SNAPSHOT'
 
-buildscript {
+allprojects {
 
     repositories {
         jcenter()
         mavenCentral()
     }
+
+    apply plugin: 'java'
+
     dependencies {
-        classpath "io.qameta.allure:allure-gradle:2.7.0"
+        testImplementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        implementation group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
+        implementation 'org.testng:testng:6.10'
+        implementation group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+        implementation group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+        implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
+        implementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
+        testImplementation group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
+        implementation 'io.qameta.allure:allure-gradle:2.7.0'
+        testImplementation 'io.qameta.allure:allure-gradle:2.7.0'
     }
-}
-
-apply plugin: 'java'
-apply plugin: 'io.qameta.allure'
-
-compileJava.options.encoding = "UTF-8"
-compileTestJava.options.encoding = "UTF-8"
-
-repositories {
-    jcenter()
-    mavenCentral()
-}
-
-allure {
-    version = '2.7.0'
-    aspectjweaver = true
-    autoconfigure = true
-
-    resultsDir = file('/allure-results')
-    reportDir = file('/allure-report')
-
-    useTestNG {
-        version = '2.0-BETA10'
-    }
-
-    downloadLink = 'https://dl.bintray.com/qameta/generic/io/qameta/allure/allure/2.7.0/allure-2.7.0.zip'
-}
-
-import io.qameta.allure.gradle.task.AllureReport
-
-task allureAggregatedReport(type: AllureReport) {
-    resultsDirs = subprojects.allure.resultsDir
-}
-
-task smokeTest(type: Test){
-    useTestNG() {
-        environment "BROWSER", "chrome"
-        environment "ENVIRONMENT", "skyxplore-localhost"
-        suites "src/test/resources/testng.xml"
-        configFailurePolicy 'continue'
-        includeGroups 'smoke'
-        options {
-            parallel 'classes'
-            threadCount 3
-        }
-    }
-    reports.junitXml.enabled=true
-    reports.junitXml.outputPerTestCase=false
-    reports.junitXml.destination="$buildDir/reports"
-    systemProperties System.properties
-}
-
-task regressionTest(type: Test){
-    useTestNG() {
-        environment "BROWSER", "chrome"
-        environment "ENVIRONMENT", "skyxplore-localhost"
-        suites "src/test/resources/testng.xml"
-        configFailurePolicy 'continue'
-        includeGroups 'regression'
-        options {
-            parallel 'classes'
-            threadCount 3
-        }
-    }
-    reports.junitXml.enabled=true
-    reports.junitXml.outputPerTestCase=false
-    reports.junitXml.destination="$buildDir/reports"
-    systemProperties System.properties
-}
-
-task negativeTest(type: Test){
-    useTestNG() {
-        environment "BROWSER", "chrome"
-        environment "ENVIRONMENT", "skyxplore-localhost"
-        suites "src/test/resources/testng.xml"
-        configFailurePolicy 'continue'
-        includeGroups 'negative'
-        options {
-            parallel 'classes'
-            threadCount 3
-        }
-    }
-    reports.junitXml.enabled=true
-    reports.junitXml.outputPerTestCase=false
-    reports.junitXml.destination="$buildDir/reports"
-    systemProperties System.properties
-}
-
-task redirectRulesTest(type: Test){
-    useTestNG() {
-        environment "BROWSER", "chrome"
-        environment "ENVIRONMENT", "skyxplore-localhost"
-        suites "src/test/resources/testng.xml"
-        configFailurePolicy 'continue'
-        includeGroups 'redirect-rules'
-        options {
-            parallel 'classes'
-            threadCount 3
-        }
-    }
-    reports.junitXml.enabled=true
-    reports.junitXml.outputPerTestCase=false
-    reports.junitXml.destination="$buildDir/reports"
-    systemProperties System.properties
-}
-
-task smokeTestAndReport(type: GradleBuild) {
-    startParameter.continueOnFailure = true
-    tasks = ['smokeTest', 'allureReport']
-}
-
-dependencies {
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.6'
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.26'
-    runtime group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.11.2'
-    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.26'
-    compile 'org.testng:testng:6.10'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-chrome-driver', version: '3.141.59'
-    compile group: 'org.seleniumhq.selenium', name: 'selenium-api', version: '3.141.59'
-    compile("org.assertj:assertj-core:3.11.1")
-    runtime group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
-    runtime group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
-    compile 'net.javacrumbs.json-unit:json-unit:1.28.1'
-    compile group: 'javax.mail', name: 'mail', version: '1.4.7'
-    compile group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
-    compile group: 'javax.activation', name: 'activation', version: '1.1'
-    compile 'io.rest-assured:rest-assured:3.3.0'
-    compile group: 'io.qameta.allure', name: 'allure-testng', version: '2.7.0'
-    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.9.3'
-    compile 'io.qameta.allure:allure-gradle:2.7.0'
-    compile group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
-    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
 }

@@ -1,0 +1,25 @@
+group 'com.mentoring.ta'
+version '1.0-SNAPSHOT'
+
+buildscript {
+
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "io.qameta.allure:allure-gradle:2.7.0"
+    }
+}
+
+compileJava.options.encoding = "UTF-8"
+compileTestJava.options.encoding = "UTF-8"
+
+dependencies {
+    implementation 'net.javacrumbs.json-unit:json-unit:1.28.1'
+    implementation group: 'javax.mail', name: 'mail', version: '1.4.7'
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.3'
+    implementation group: 'javax.activation', name: 'activation', version: '1.1'
+    implementation 'io.rest-assured:rest-assured:3.3.0'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.16'
+}
