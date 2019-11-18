@@ -21,6 +21,7 @@ public class User {
     private static final String LOGIN_PATH_DEV = "/api/login";
     private static final String CHARACTER_PATH_DEV = "/api/character";
     private static final String LOGOUT_PATH_DEV = "/api/logout";
+    private static final String FRIEND_REQUEST = "/api/friend/request";
 
     @Getter
     private String userName;
@@ -99,6 +100,28 @@ public class User {
         log.info("User character created:\n\tCharacter name: {}", characterName);
     }
 
+    @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
+    public void sendFriendRequest(String characterIdFrom, String accessToken, String userId, String characterIdTo) {
+        Map<String, String> character = new HashMap<>();
+        character.put("value", characterIdTo);
+
+        RestAssured.baseURI = Config.getBaseUrl();
+
+        given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .body(character)
+                .cookie("userid", userId)
+                .cookie("accesstokenid", accessToken)
+                .cookie("characterid", characterIdFrom)
+                .when()
+                .put(getFriendRequest())
+                .then()
+                .statusCode(200);
+        log.info("Friend request sent to:\n\tCharacter id: {}", characterIdTo);
+    }
+
+
     private static String getRegistrationPath() {
         return REGISTRATION_PATH_DEV;
     }
@@ -113,5 +136,9 @@ public class User {
 
     private static String getLogoutPath() {
         return LOGOUT_PATH_DEV;
+    }
+
+    private static String getFriendRequest() {
+        return FRIEND_REQUEST;
     }
 }

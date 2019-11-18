@@ -3,16 +3,20 @@ package com.mentoring.pageobject;
 import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
+
+import static org.openqa.selenium.By.*;
 
 @Slf4j
 public class CommunityPage extends Page {
 
     private static final String FRIEND_CHARACTER_BY_NAME_SELECTOR = "//div[(text()='%1$s')]/following-sibling::button";
     private static final String APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR = "//div[(text()='%1$s')]/following-sibling::div/button[text()='Elfogadás']";
+    private static final String REFUSE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR = "//div[(text()='%1$s')]/following-sibling::div/span/button[text()='Elutasítás']";
+    private static final String CHARACTER_NAME_IN_FRIEND_LIST = "//div[@id='friend-list']/div/div[text()='%1$s']";
 
     @FindBy(id = "add-friend-button")
     private WebElement openAddFriendDialogButton;
@@ -35,6 +39,9 @@ public class CommunityPage extends Page {
 
     @FindBy(id = "friend-requests-tab-button")
     private WebElement friendRequestsButton;
+
+    @FindBy(id = "no-friend-requests")
+    private WebElement noFriendRequest;
 
     private static final String PAGE_PATH = "/community";
 
@@ -69,12 +76,13 @@ public class CommunityPage extends Page {
     public CommunityPage enterFriendCharacterName(String characterName) {
         log.info("Entering character name: '{}'", characterName);
         type(characterSearchField, characterName);
+        waitUntilVisible(xpath(String.format(FRIEND_CHARACTER_BY_NAME_SELECTOR, characterName)));
         return this;
     }
 
     @Step("Clicking on Invite on a desired friend button for character: {characterName}.")
     public CommunityPage clickInviteCharacter(String characterName) {
-        waitUntilVisible(By.xpath(String.format(FRIEND_CHARACTER_BY_NAME_SELECTOR, characterName)))
+        waitUntilVisible(xpath(String.format(FRIEND_CHARACTER_BY_NAME_SELECTOR, characterName)))
                 .click();
         return this;
     }
@@ -95,8 +103,31 @@ public class CommunityPage extends Page {
 
     @Step("Clicking on the received friend request approve button: {characterName}.")
     public CommunityPage clickReceivedFriendRequestApproveButton(String characterName) {
-        waitUntilVisible(By.xpath(String.format(APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName)))
+        waitUntilVisible(xpath(String.format(APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName)))
                 .click();
+        return this;
+    }
+
+    @Step("Investigate friend list that {characterName} appears or not.")
+    public boolean isCharacterInFriendList(String characterName) {
+        return isElementDisplayed(xpath(String.format(CHARACTER_NAME_IN_FRIEND_LIST, characterName)));
+    }
+
+    @Step("Asserting if character name is marked as invalid.")
+    public boolean isFriendRequestListEmpty() {
+        return isElementDisplayed(noFriendRequest);
+    }
+
+    @Step("Clicking on the received friend request refuse button: {characterName}.")
+    public CommunityPage clickReceivedFriendRequestDeclineButton(String characterName) {
+        Actions action = new Actions(driver);
+        WebElement we = waitUntilVisible(xpath(String.format(APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName)));
+        action
+                .moveToElement(we)
+                .moveToElement(driver.findElement(xpath(String.format(REFUSE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName))))
+                .click()
+                .build()
+                .perform();
         return this;
     }
 }

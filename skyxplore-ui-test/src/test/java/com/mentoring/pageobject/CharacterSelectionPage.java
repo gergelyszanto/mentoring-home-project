@@ -141,6 +141,20 @@ public class CharacterSelectionPage extends Page {
         return this;
     }
 
+    @Step("Rename from: {characterNameOld} - and choose new character: {characterNameNew}.")
+    public OverviewPage renameAndChooseCharacter(String characterNameOld, String characterNameNew) {
+        clickRenameCharacter(characterNameOld);
+        renameCharacter(characterNameNew);
+        return selectCharacter(characterNameNew);
+    }
+
+    @Step("")
+    public CharacterSelectionPage deleteCharacter(String characterName) {
+        clickForDeleteCharacterButtonInList(characterName);
+        acceptAlert();
+        return this;
+    }
+
     @Step("Deleting character: {characterName}.")
     public void clickForDeleteCharacterButtonInList(String characterName) {
         waitUntilVisible(By.xpath(String.format(DELETE_CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))

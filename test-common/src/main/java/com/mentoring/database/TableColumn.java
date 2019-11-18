@@ -10,7 +10,8 @@ public enum TableColumn {
     CREDENTIALS__USER_NAME("user_name"),
     USER__USER_ID("user_id"),
     USER__EMAIL("email"),
-    USER__ROLES("roles")
+    USER__ROLES("roles"),
+    SKYXP_CHARACTER__CHARACTER_ID("character_id")
     ;
 
     private String column;

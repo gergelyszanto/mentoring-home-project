@@ -100,6 +100,16 @@ public abstract class Page {
         return elementDisplayed;
     }
 
+    boolean isElementDisplayed(By element) {
+        boolean elementDisplayed = false;
+        try {
+            elementDisplayed = waitUntilVisible(element).isDisplayed();
+        } catch (NoSuchElementException | TimeoutException exception) {
+            log.info("Element '{}' didn't appear", element);
+        }
+        return elementDisplayed;
+    }
+
     void waitForMilliSec(int milliSec) {
         try {
             Thread.sleep(milliSec);
