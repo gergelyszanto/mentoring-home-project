@@ -28,6 +28,8 @@ import static com.mentoring.model.Features.FRIEND_REQUEST;
 @Slf4j
 public class FriendRequestTest extends BasicTest {
 
+    private static final String FRIEND_LIST_ASSERTION_MESSAGE = " should appear in friend list.";
+
     private SoftAssertions softAssertion;
     private Database database;
     private User userA;
@@ -117,7 +119,6 @@ public class FriendRequestTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(FRIEND_REQUEST)
     public void sendAndDeclineFriendRequest() {
-
         userA.sendFriendRequest(characterIdA, accessTokenIdForUserA, userIdForUserA, characterIdB);
 
         CommunityPage communityPage = new IndexPage(driver)
@@ -139,10 +140,9 @@ public class FriendRequestTest extends BasicTest {
             "User B renames the character he got the request with, " +
             "then accepts the request.")
     @Test(groups = SMOKE)
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.NORMAL)
     @Feature(FRIEND_REQUEST)
     public void renameCharacterAndAcceptFriendRequest() {
-
         userA.sendFriendRequest(characterIdA, accessTokenIdForUserA, userIdForUserA, characterIdB);
 
         String characterNameBMod = UserUtils.generateRandomCharacterName();
@@ -158,7 +158,10 @@ public class FriendRequestTest extends BasicTest {
                 .selectCharacter(characterNameA)
                 .openCommunityPage();
 
-        softAssertion.assertThat(communityPage.isCharacterInFriendList(characterNameBMod)).isTrue();
+        softAssertion.assertThat(communityPage
+                .isCharacterInFriendList(characterNameBMod))
+                .as(characterNameBMod + FRIEND_LIST_ASSERTION_MESSAGE)
+                .isTrue();
 
         softAssertion.assertAll();
     }
@@ -168,10 +171,9 @@ public class FriendRequestTest extends BasicTest {
             "Delete user B's character " +
             "and check the request at user A.")
     @Test(groups = SMOKE)
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.NORMAL)
     @Feature(FRIEND_REQUEST)
     public void sendFriendRequestAndDeleteRequestedCharacter() {
-
         userA.sendFriendRequest(characterIdA, accessTokenIdForUserA, userIdForUserA, characterIdB);
 
         CommunityPage communityPage = new IndexPage(driver)
@@ -182,7 +184,10 @@ public class FriendRequestTest extends BasicTest {
                 .selectCharacter(characterNameA)
                 .openCommunityPage();
 
-        softAssertion.assertThat(communityPage.isCharacterInFriendList(characterNameB)).isFalse();
+        softAssertion.assertThat(communityPage
+                .isCharacterInFriendList(characterNameB))
+                .as(characterNameB + FRIEND_LIST_ASSERTION_MESSAGE)
+                .isFalse();
 
         softAssertion.assertAll();
     }
@@ -192,10 +197,9 @@ public class FriendRequestTest extends BasicTest {
             "Delete user A's character " +
             "and check the request at user B.")
     @Test(groups = SMOKE)
-    @Severity(SeverityLevel.BLOCKER)
+    @Severity(SeverityLevel.NORMAL)
     @Feature(FRIEND_REQUEST)
     public void sendFriendRequestAndDeleteSenderCharacter() {
-
         userA.sendFriendRequest(characterIdA, accessTokenIdForUserA, userIdForUserA, characterIdB);
 
         CommunityPage communityPage = new IndexPage(driver)

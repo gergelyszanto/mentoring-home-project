@@ -49,8 +49,7 @@ public class CharacterTest extends BasicTest {
                 .as("Updated character should be on the list.")
                 .isTrue();
 
-        characterSelectionPage.clickForDeleteCharacterButtonInList(updatedCharacterName);
-        characterSelectionPage.acceptAlert();
+        characterSelectionPage.deleteCharacter(updatedCharacterName);
         softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(updatedCharacterName))
                 .as("Deleted character should not be on the list.")
                 .isFalse();

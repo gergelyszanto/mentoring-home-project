@@ -121,9 +121,9 @@ public class CommunityPage extends Page {
     @Step("Clicking on the received friend request refuse button: {characterName}.")
     public CommunityPage clickReceivedFriendRequestDeclineButton(String characterName) {
         Actions action = new Actions(driver);
-        WebElement we = waitUntilVisible(xpath(String.format(APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName)));
+        WebElement webElement = waitUntilVisible(xpath(String.format(APPROVE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName)));
         action
-                .moveToElement(we)
+                .moveToElement(webElement)
                 .moveToElement(driver.findElement(xpath(String.format(REFUSE_RECEIVED_FRIEND_REQUEST_BY_NAME_SELECTOR, characterName))))
                 .click()
                 .build()
