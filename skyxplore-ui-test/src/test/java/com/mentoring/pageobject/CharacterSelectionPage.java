@@ -141,10 +141,19 @@ public class CharacterSelectionPage extends Page {
         return this;
     }
 
+    @Step("Rename from: {characterNameOld} - and choose new character: {characterNameNew}.")
+    public OverviewPage renameAndChooseCharacter(String characterNameOld, String characterNameNew) {
+        clickRenameCharacter(characterNameOld);
+        renameCharacter(characterNameNew);
+        return selectCharacter(characterNameNew);
+    }
+
     @Step("Deleting character: {characterName}.")
-    public void clickForDeleteCharacterButtonInList(String characterName) {
+    public CharacterSelectionPage deleteCharacter(String characterName) {
         waitUntilVisible(By.xpath(String.format(DELETE_CHARACTER_BY_NAME_SELECTOR_TEMPLATE, characterName)))
                 .click();
+        acceptAlert();
+        return this;
     }
 
     @Step("Asserting if character name is marked as invalid.")
