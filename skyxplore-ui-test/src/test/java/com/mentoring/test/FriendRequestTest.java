@@ -1,7 +1,9 @@
 package com.mentoring.test;
 
+import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
+import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
 import com.mentoring.messages.Messages;
@@ -16,8 +18,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,12 +44,7 @@ public class FriendRequestTest extends BasicTest {
     private String characterIdA;
     private String characterIdB;
 
-    @BeforeClass(alwaysRun = true)
-    private void connectToDB() {
-        database = new Database();
-    }
-
-    @AfterClass(alwaysRun = true)
+    @AfterMethod(alwaysRun = true)
     private void disconnectFromDb() {
         if (database != null) {
             database.disconnectFromDb();
@@ -59,6 +55,7 @@ public class FriendRequestTest extends BasicTest {
 
     @BeforeMethod(alwaysRun = true)
     private void setup() throws SQLException {
+        connectToDB();
         softAssertion = new SoftAssertions();
 
         log.debug("\n\n****userA:****");
@@ -82,6 +79,14 @@ public class FriendRequestTest extends BasicTest {
         characterIdB = DbSelects.getCharacterIdByCharacterName(database, characterNameB);
     }
 
+    private void connectToDB() {
+        if (!Config.isLocalEnvironmentUsed()) {
+            throw new EnvironmentNotSupportedException("Only local environment is supported for database connection. " +
+                    "Skipping tests.");
+        }
+        database = new Database();
+    }
+
     @Test(groups = SMOKE)
     @Severity(SeverityLevel.BLOCKER)
     @Feature(FRIEND_REQUEST)
@@ -96,7 +101,8 @@ public class FriendRequestTest extends BasicTest {
 
         NotificationContainer notificationContainer = new NotificationContainer(driver);
 
-        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.SENT_FRIEND_REQUEST);
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer,
+                Messages.SENT_FRIEND_REQUEST);
 
         communityPage
                 .logout()
@@ -106,7 +112,8 @@ public class FriendRequestTest extends BasicTest {
                 .clickFriendRequestsButton()
                 .clickReceivedFriendRequestApproveButton(characterNameA);
 
-        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.APPROVED_FRIEND_REQUEST);
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer,
+                Messages.APPROVED_FRIEND_REQUEST);
 
         softAssertion.assertAll();
     }
@@ -121,7 +128,7 @@ public class FriendRequestTest extends BasicTest {
     public void sendAndDeclineFriendRequest() {
         userA.sendFriendRequest(characterIdA, accessTokenIdForUserA, userIdForUserA, characterIdB);
 
-        CommunityPage communityPage = new IndexPage(driver)
+        new IndexPage(driver)
                 .login(userB)
                 .selectCharacter(characterNameB)
                 .openCommunityPage()
@@ -130,7 +137,8 @@ public class FriendRequestTest extends BasicTest {
 
         NotificationContainer notificationContainer = new NotificationContainer(driver);
 
-        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.DECLINED_FRIEND_REQUEST);
+        CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer,
+                Messages.DECLINED_FRIEND_REQUEST);
 
         softAssertion.assertAll();
     }

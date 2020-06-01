@@ -39,9 +39,10 @@ public final class Config {
         APPLICATION_URL = BASE_URL.concat(":").concat(PORT);
         DATABASE_NAME = prop.getProperty("database_name");
         if (System.getenv(ENVIRONMENT).equalsIgnoreCase(SKY_XPLORE_LOCALHOST)) {
-            JDBC = "jdbc:mysql://localhost/" + DATABASE_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            JDBC = "jdbc:mysql://localhost/" + DATABASE_NAME + "?useUnicode=true&useJDBCCompliantTimezoneShift=" +
+                    "true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         } else {
-            throw new ExceptionInInitializerError("Failed to connect to database. '" + System.getenv(ENVIRONMENT) + "' environment not supported.");
+            JDBC = "Undefined";
         }
         DB_USER = prop.getProperty("db_user");
         DB_PASSWORD = prop.getProperty("db_password");
@@ -59,7 +60,8 @@ public final class Config {
     private static Properties loadProperties(String propertyFile) {
         Properties properties = new Properties();
         try {
-            properties.load(Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResourceAsStream(propertyFile)));
+            properties.load(Objects.requireNonNull(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream(propertyFile)));
         } catch (IOException e) {
             log.error("Error loading the " + propertyFile + " file", e);
         }
@@ -68,7 +70,8 @@ public final class Config {
 
     private static String validateEnvironment(String currentEnvironment) {
         if (currentEnvironment == null) {
-            log.error("Environment is not set. Please choose from: {}", Arrays.toString(validEnvironmentConfigurationNames));
+            log.error("Environment is not set. Please choose from: {}",
+                    Arrays.toString(validEnvironmentConfigurationNames));
             System.exit(1);
         }
         return compareCurrentEnvironmentWithValidEnvironments(currentEnvironment);
@@ -82,7 +85,8 @@ public final class Config {
                 break;
             } else if (i == validEnvironmentConfigurationNames.length - 1) {
                 log.error("Failed loading environment configuration. Given environment name '{}' is not valid."
-                        + " Please choose from: {}", currentEnvironment, Arrays.toString(validEnvironmentConfigurationNames));
+                        + " Please choose from: {}", currentEnvironment,
+                        Arrays.toString(validEnvironmentConfigurationNames));
                 System.exit(1);
             }
         }

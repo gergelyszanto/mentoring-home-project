@@ -18,15 +18,15 @@ import java.util.regex.Pattern;
 @Slf4j
 public class EmailUtils {
 
-    private static final String SUBJECT = "IP address changed";
+    private EmailUtils() {}
+
     private static final String FOLDER = "IP address change";
     private static final String HOST = "IMAP.gmail.com";
-    private static final String MAIL_STORE_TYPE = "IMAP";
     private static final String USERNAME = "learn.ta.2019@gmail.com";
-    private static final String PASSWORD = "Test1234!";
+    private static final String PASSWORD = "VGVzdDEyMzQh";
 
     public static String getIpAddressFromEmail() {
-        String emailContent = getLastEmailContent(HOST, MAIL_STORE_TYPE, USERNAME, PASSWORD);
+        String emailContent = getLastEmailContent(HOST, USERNAME);
         String ipAddress = "";
 
         // find the ip address right after 'SkyXplore: http://'
@@ -41,8 +41,7 @@ public class EmailUtils {
         return ipAddress;
     }
 
-    private static String getLastEmailContent(String host, String storeType, String user,
-                                              String password) {
+    private static String getLastEmailContent(String host, String user) {
         try {
             //create properties field
             Properties properties = new Properties();
@@ -53,7 +52,7 @@ public class EmailUtils {
 
             //create the POP3 store object and connect with the pop server
             Store store = emailSession.getStore("imaps");
-            store.connect(host, user, password);
+            store.connect(host, user, new String(Base64.getDecoder().decode(PASSWORD)));
 
             //create the folder object and open it
             Folder emailFolder = store.getFolder(FOLDER);
@@ -87,21 +86,21 @@ public class EmailUtils {
 
     private static String getTextFromMimeMultipart(
             MimeMultipart mimeMultipart) throws MessagingException, IOException {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         int count = mimeMultipart.getCount();
         for (int i = 0; i < count; i++) {
             BodyPart bodyPart = mimeMultipart.getBodyPart(i);
             if (bodyPart.isMimeType("text/plain")) {
-                result = result + "\n" + bodyPart.getContent();
+                result.append("\n").append(bodyPart.getContent());
                 break; // without break same text appears twice in my tests
             } else if (bodyPart.isMimeType("text/html")) {
                 String html = (String) bodyPart.getContent();
-                result = result + "\n" + Jsoup.parse(html).text();
+                result.append("\n").append(Jsoup.parse(html).text());
             } else if (bodyPart.getContent() instanceof MimeMultipart) {
-                result = result + getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent());
+                result.append(getTextFromMimeMultipart((MimeMultipart) bodyPart.getContent()));
             }
         }
-        return result;
+        return result.toString();
     }
 
 }
