@@ -39,6 +39,28 @@ public abstract class AbstractRequest {
         return response;
     }
 
+    Response sendPostRequest(String path, int expectedStatusCode) {
+        RestAssured.baseURI = Config.getBaseUrl();
+        log.info("Sending POST request to \"{}\" endpoint.", path);
+
+        Response response = given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .when()
+                .post(path)
+                .then()
+                .extract()
+                .response();
+        try {
+            response.then().statusCode(expectedStatusCode);
+        } catch (AssertionError e) {
+            log.error("Request failed. Response is:\n{}", response.prettyPrint());
+            throw e;
+        }
+        log.info("Got code: {}, Response:\n{}", response.getStatusCode(), response.getBody().prettyPrint());
+        return response;
+    }
+
     Response sendGetRequest(String path, Cookies cookies, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending GET request to \"{}\" endpoint.", path);
@@ -52,6 +74,69 @@ public abstract class AbstractRequest {
                 .statusCode(expectedStatusCode)
                 .extract()
                 .response();
+    }
+
+    Response sendDeleteRequest(String path, Cookies cookies, int expectedStatusCode) {
+        RestAssured.baseURI = Config.getBaseUrl();
+        log.info("Sending DELETE request to \"{}\" endpoint.", path);
+        return given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .cookies(cookies)
+                .when()
+                .delete(path)
+                .then()
+                .statusCode(expectedStatusCode)
+                .extract()
+                .response();
+    }
+
+    Response sendPutRequest(Object request, String path, int expectedStatusCode) {
+        RestAssured.baseURI = Config.getBaseUrl();
+        log.info("Sending PUT request to \"{}\" endpoint.", path);
+        log.info("Request body:\n{}", convertPoJoToJson(request));
+
+        Response response = given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .put(path)
+                .then()
+                .extract()
+                .response();
+        try {
+            response.then().statusCode(expectedStatusCode);
+        } catch (AssertionError e) {
+            log.error("Request failed. Response is:\n{}", response.prettyPrint());
+            throw e;
+        }
+        log.info("Got code: {}, Response:\n{}", response.getStatusCode(), response.getBody().prettyPrint());
+        return response;
+    }
+
+    Response sendPatchRequest(Object request, String path, int expectedStatusCode) {
+        RestAssured.baseURI = Config.getBaseUrl();
+        log.info("Sending PATCH request to \"{}\" endpoint.", path);
+        log.info("Request body:\n{}", convertPoJoToJson(request));
+
+        Response response = given()
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON)
+                .body(request)
+                .when()
+                .patch(path)
+                .then()
+                .extract()
+                .response();
+        try {
+            response.then().statusCode(expectedStatusCode);
+        } catch (AssertionError e) {
+            log.error("Request failed. Response is:\n{}", response.prettyPrint());
+            throw e;
+        }
+        log.info("Got code: {}, Response:\n{}", response.getStatusCode(), response.getBody().prettyPrint());
+        return response;
     }
 
     private String convertPoJoToJson(Object jsonObject) {
