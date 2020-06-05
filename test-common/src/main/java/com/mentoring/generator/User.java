@@ -55,7 +55,6 @@ public class User extends AbstractRequest {
         regData.put("email", email);
 
         sendPostRequest(regData, REGISTRATION_PATH_DEV, 200);
-        log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
     }
 
     @Step("Precondition step: Logging in with user: {userName} and password: {password})")
@@ -65,7 +64,6 @@ public class User extends AbstractRequest {
         loginData.put("password", password);
 
         sendPostRequest(loginData, LOGIN_PATH_DEV, 200);
-        log.info("User logged in:\n\tUsername: {}\n\tPassword: {}", userName, password);
     }
 
     @Step("Creating character: {characterName}")
@@ -77,30 +75,17 @@ public class User extends AbstractRequest {
         Cookies cookies = new Cookies(accessTokenCookie, userIdToken);
 
         sendPostRequest(cookies, characterData, CHARACTER_PATH_DEV, 200);
-        log.info("User character created:\n\tCharacter name: {}", characterName);
     }
 
     @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
     public void sendFriendRequest(String characterIdFrom, String accessToken, String userId, String characterIdTo) {
         Map<String, String> character = new HashMap<>();
         character.put("value", characterIdTo);
-
-        sendPutRequest(character, FRIEND_REQUEST, 200);
-
-        RestAssured.baseURI = Config.getBaseUrl();
-
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(character)
-                .cookie("userid", userId)
-                .cookie("accesstokenid", accessToken)
-                .cookie("characterid", characterIdFrom)
-                .when()
-                .put(getFriendRequest())
-                .then()
-                .statusCode(200);
-        log.info("Friend request sent to:\n\tCharacter id: {}", characterIdTo);
+        Cookie accessTokenCookie = new Cookie.Builder("accesstokenid", accessToken).setSecured(true).build();
+        Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
+        Cookie characterId = new Cookie.Builder("characterid", characterIdFrom).setSecured(true).build();
+        Cookies cookies = new Cookies(accessTokenCookie, userIdToken, characterId);
+        sendPutRequest(cookies, character, FRIEND_REQUEST, 200);
     }
 
 

@@ -38,7 +38,7 @@ task allureAggregatedReport(type: AllureReport) {
     resultsDirs = subprojects.allure.resultsDir
 }
 
-task smokeTest(type: Test){
+task smokeTestApi(type: Test){
     useTestNG() {
         environment "ENVIRONMENT", "skyxplore-localhost"
         suites "src/test/resources/testng.xml"
@@ -78,9 +78,9 @@ task regressionTest(type: Test){
     systemProperties System.properties
 }
 
-task smokeTestAndReport(type: GradleBuild) {
+task smokeTestAndReportApi(type: GradleBuild) {
     startParameter.continueOnFailure = true
-    tasks = ['smokeTest', 'allureReport']
+    tasks = ['smokeTestApi', 'allureReport']
 }
 
 dependencies {
