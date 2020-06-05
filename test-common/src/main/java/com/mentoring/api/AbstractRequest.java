@@ -1,4 +1,4 @@
-package com.mentoring.endpoints;
+package com.mentoring.api;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,7 +15,7 @@ import static io.restassured.RestAssured.given;
 @Slf4j
 public abstract class AbstractRequest {
 
-    Response sendPostRequest(Object request, String path, int expectedStatusCode) {
+    public Response sendPostRequest(Cookies cookies, Object request, String path, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending POST request to \"{}\" endpoint.", path);
         log.info("Request body:\n{}", convertPoJoToJson(request));
@@ -24,6 +24,7 @@ public abstract class AbstractRequest {
                 .urlEncodingEnabled(true)
                 .contentType(ContentType.JSON)
                 .body(request)
+                .cookies(cookies)
                 .when()
                 .post(path)
                 .then()
@@ -39,29 +40,19 @@ public abstract class AbstractRequest {
         return response;
     }
 
-    Response sendPostRequest(String path, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
-        log.info("Sending POST request to \"{}\" endpoint.", path);
-
-        Response response = given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .when()
-                .post(path)
-                .then()
-                .extract()
-                .response();
-        try {
-            response.then().statusCode(expectedStatusCode);
-        } catch (AssertionError e) {
-            log.error("Request failed. Response is:\n{}", response.prettyPrint());
-            throw e;
-        }
-        log.info("Got code: {}, Response:\n{}", response.getStatusCode(), response.getBody().prettyPrint());
-        return response;
+    public Response sendPostRequest(String path, int expectedStatusCode) {
+        return sendPostRequest(new Cookies(), "{}", path, expectedStatusCode);
     }
 
-    Response sendGetRequest(String path, Cookies cookies, int expectedStatusCode) {
+    public Response sendPostRequest(Cookies cookies, String path, int expectedStatusCode) {
+        return sendPostRequest(cookies, "{}", path, expectedStatusCode);
+    }
+
+    public Response sendPostRequest(Object request, String path, int expectedStatusCode) {
+        return sendPostRequest(new Cookies(), request, path, expectedStatusCode);
+    }
+
+    public Response sendGetRequest(String path, Cookies cookies, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending GET request to \"{}\" endpoint.", path);
         return given()
@@ -76,7 +67,7 @@ public abstract class AbstractRequest {
                 .response();
     }
 
-    Response sendDeleteRequest(String path, Cookies cookies, int expectedStatusCode) {
+    public Response sendDeleteRequest(String path, Cookies cookies, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending DELETE request to \"{}\" endpoint.", path);
         return given()
@@ -91,7 +82,7 @@ public abstract class AbstractRequest {
                 .response();
     }
 
-    Response sendPutRequest(Object request, String path, int expectedStatusCode) {
+    public Response sendPutRequest(Object request, String path, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending PUT request to \"{}\" endpoint.", path);
         log.info("Request body:\n{}", convertPoJoToJson(request));
@@ -115,7 +106,7 @@ public abstract class AbstractRequest {
         return response;
     }
 
-    Response sendPatchRequest(Object request, String path, int expectedStatusCode) {
+    public Response sendPatchRequest(Object request, String path, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         log.info("Sending PATCH request to \"{}\" endpoint.", path);
         log.info("Request body:\n{}", convertPoJoToJson(request));

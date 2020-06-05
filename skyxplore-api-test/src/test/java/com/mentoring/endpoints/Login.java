@@ -1,5 +1,6 @@
 package com.mentoring.endpoints;
 
+import com.mentoring.api.AbstractRequest;
 import com.mentoring.model.requestbody.LoginRequest;
 import io.restassured.http.Cookies;
 import io.restassured.response.Response;

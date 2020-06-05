@@ -1,10 +1,13 @@
 package com.mentoring.generator;
 
-import com.mentoring.utilities.UserUtils;
+import com.mentoring.api.AbstractRequest;
 import com.mentoring.config.Config;
+import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.http.Cookie;
+import io.restassured.http.Cookies;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +17,7 @@ import java.util.Map;
 import static io.restassured.RestAssured.given;
 
 @Slf4j
-public class User {
+public class User extends AbstractRequest {
 
     private static final String PASSWORD = "Test1234!";
     private static final String REGISTRATION_PATH_DEV = "/api/user";
@@ -51,15 +54,7 @@ public class User {
         regData.put("password", password);
         regData.put("email", email);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-            .urlEncodingEnabled(true)
-            .contentType(ContentType.JSON)
-            .body(regData)
-            .when()
-            .post(getRegistrationPath())
-            .then()
-            .statusCode(200);
+        sendPostRequest(regData, REGISTRATION_PATH_DEV, 200);
         log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
     }
 
@@ -69,34 +64,19 @@ public class User {
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(loginData)
-                .when()
-                .post(getLoginPath())
-                .then()
-                .statusCode(200);
+        sendPostRequest(loginData, LOGIN_PATH_DEV, 200);
         log.info("User logged in:\n\tUsername: {}\n\tPassword: {}", userName, password);
     }
 
     @Step("Creating character: {characterName}")
     public void createCharacter(String characterName, String accessToken, String userId) {
+        Cookie accessTokenCookie = new Cookie.Builder("accesstokenid", accessToken).setSecured(true).build();
+        Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
         Map<String, String> characterData = new HashMap<>();
         characterData.put("characterName", characterName);
+        Cookies cookies = new Cookies(accessTokenCookie, userIdToken);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(characterData)
-                .cookie("accesstokenid", accessToken)
-                .cookie("userid", userId)
-                .when()
-                .post(getCharacterPath())
-                .then()
-                .statusCode(200);
+        sendPostRequest(cookies, characterData, CHARACTER_PATH_DEV, 200);
         log.info("User character created:\n\tCharacter name: {}", characterName);
     }
 
@@ -104,6 +84,8 @@ public class User {
     public void sendFriendRequest(String characterIdFrom, String accessToken, String userId, String characterIdTo) {
         Map<String, String> character = new HashMap<>();
         character.put("value", characterIdTo);
+
+        sendPutRequest(character, FRIEND_REQUEST, 200);
 
         RestAssured.baseURI = Config.getBaseUrl();
 
