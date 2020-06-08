@@ -1,4 +1,4 @@
-package com.mentoring;
+package com.mentoring.framework;
 
 import io.qameta.allure.Attachment;
 import lombok.extern.slf4j.Slf4j;

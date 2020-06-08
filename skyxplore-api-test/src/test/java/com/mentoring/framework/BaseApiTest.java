@@ -1,4 +1,4 @@
-package com.mentoring;
+package com.mentoring.framework;
 
 import com.google.common.collect.ImmutableMap;
 import com.mentoring.config.Config;
@@ -14,7 +14,7 @@ import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnviro
 
 @Listeners({TestListener.class})
 @Slf4j
-public class BaseApiTest {
+public abstract class BaseApiTest {
 
     protected static final String SMOKE = "smoke";
     protected static final String REGRESSION = "regression";

@@ -1,7 +1,6 @@
 package com.mentoring.test;
 
-import com.mentoring.BaseApiTest;
-import com.mentoring.endpoints.CharacterEndpoint;
+import com.mentoring.framework.BaseApiTest;
 import com.mentoring.endpoints.LoginEndpoint;
 import com.mentoring.endpoints.UserEndpoint;
 import com.mentoring.utilities.UserUtils;
@@ -21,19 +20,17 @@ public class UserTest extends BaseApiTest {
         String email = UserUtils.generateRandomEmail();
 
         new UserEndpoint().sendRegistrationRequest(email, username, VALID_PASSWORD, 200);
-        Response response = new LoginEndpoint().sendLoginRequest(username, VALID_PASSWORD, 200);
+        Response loginResponse = new LoginEndpoint().sendLoginRequest(username, VALID_PASSWORD, 200);
 
-        Assertions.assertThat(response.detailedCookies().size())
+        Assertions.assertThat(loginResponse.detailedCookies().size())
                 .as("Cookie size should be greater than 0.")
                 .isGreaterThan(0);
-        Assertions.assertThat(response.detailedCookies().hasCookieWithName(ACCESS_TOKEN_ID))
-                .as("Cookies: \"" + response.detailedCookies() +
+        Assertions.assertThat(loginResponse.detailedCookies().hasCookieWithName(ACCESS_TOKEN_ID))
+                .as("Cookies: \"" + loginResponse.detailedCookies() +
                         "\" should contain \"" + ACCESS_TOKEN_ID + "\"")
                 .isTrue();
-        Assertions.assertThat(response.detailedCookies().hasCookieWithName("userid"))
-                .as("Cookies: \"" + response.detailedCookies() + "\" should contain \"" + USER_ID + "\"")
+        Assertions.assertThat(loginResponse.detailedCookies().hasCookieWithName("userid"))
+                .as("Cookies: \"" + loginResponse.detailedCookies() + "\" should contain \"" + USER_ID + "\"")
                 .isTrue();
-
-        new CharacterEndpoint().getCharacters(response.getDetailedCookies(), 200);
     }
 }

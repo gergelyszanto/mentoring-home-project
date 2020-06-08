@@ -1,6 +1,6 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.utilities.UserUtils;
 import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.IndexPage;
@@ -20,7 +20,7 @@ import static com.mentoring.model.Features.REGISTRATION;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-public class RegistrationTest extends BasicTest {
+public class RegistrationTest extends BaseUiTest {
 
     private static final String VALID_PASSWORD = "Test1234!";
     private static final String TOO_SHORT_USERNAME = "12";

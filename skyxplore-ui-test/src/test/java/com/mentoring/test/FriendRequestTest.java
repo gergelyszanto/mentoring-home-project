@@ -4,7 +4,7 @@ import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.generator.User;
 import com.mentoring.messages.Messages;
 import com.mentoring.pageobject.CommunityPage;
@@ -27,7 +27,7 @@ import java.sql.SQLException;
 import static com.mentoring.model.Features.FRIEND_REQUEST;
 
 @Slf4j
-public class FriendRequestTest extends BasicTest {
+public class FriendRequestTest extends BaseUiTest {
 
     private static final String FRIEND_LIST_ASSERTION_MESSAGE = " should appear in friend list.";
 

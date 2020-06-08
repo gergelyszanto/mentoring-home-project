@@ -1,6 +1,6 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.utilities.UserUtils;
 import com.mentoring.generator.User;
 import com.mentoring.pageobject.CharacterSelectionPage;
@@ -14,7 +14,7 @@ import org.testng.annotations.Test;
 
 import static com.mentoring.model.Features.CHARACTER;
 
-public class CharacterTest extends BasicTest {
+public class CharacterTest extends BaseUiTest {
 
     private static final String X_ICON_ASSERTION_MESSAGE = "X icon (validation error) should be visible at ";
     private static final String TOO_SHORT_CHARACTER_NAME = "ab";

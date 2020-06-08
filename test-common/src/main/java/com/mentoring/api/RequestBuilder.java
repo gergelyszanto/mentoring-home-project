@@ -22,14 +22,17 @@ public class RequestBuilder {
 
     RequestSpecification createRequest(AllureAttachmentHandler attachmentHandler, Method method, String path) {
         log.info("Sending {} request to \"{}\" endpoint.",method.name() , path);
-        log.info("Request body:\n{}", convertPoJoToJson(requestBody));
+
 
         RequestSpecification request = given()
             .urlEncodingEnabled(true)
             .contentType(ContentType.JSON);
         if (requestBody != null) {
             request.body(requestBody);
+            log.info("Request body:\n{}", convertPoJoToJson(requestBody));
             attachmentHandler.attachJson("Request body", convertPoJoToJson(requestBody));
+        } else {
+            log.info("Request body in null.");
         }
         if (cookies != null) {
             request.cookies(cookies);

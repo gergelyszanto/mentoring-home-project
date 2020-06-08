@@ -29,10 +29,7 @@ public abstract class AbstractRequest {
 
         Response response = requestSpecification
                 .when()
-                .post(path)
-                .then()
-                .extract()
-                .response();
+                .post(path);
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -129,15 +126,16 @@ public abstract class AbstractRequest {
         try {
             response.then().statusCode(expectedStatusCode);
         } catch (AssertionError e) {
-            log.error("Request failed. Response is:\n{}", response.prettyPrint());
+            log.error("Request failed. Response is:\n{}", response.asString());
             attachment.attachText(ERROR_CODE, String.valueOf(response.getStatusCode()));
-            attachment.attachText(ERROR_RESPONSE, response.prettyPrint());
+            attachment.attachText(ERROR_RESPONSE, response.asString());
             throw e;
         }
-        log.info("Got code: {}, Response:\n{}", response.getStatusCode(), response.getBody().prettyPrint());
+        log.info("Response code: {}", response.getStatusCode());
         attachment.attachText(RESPONSE_STATUS_CODE, String.valueOf(response.getStatusCode()));
-        if (!response.getBody().prettyPrint().isEmpty()) {
-            attachment.attachJson(RESPONSE_BODY, response.getBody().prettyPrint());
+        if (!response.getBody().asString().isEmpty()) {
+            log.info("Response body: {}", response.getBody().asString());
+            attachment.attachJson(RESPONSE_BODY, response.getBody().asString());
         }
         return response;
     }

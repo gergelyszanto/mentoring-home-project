@@ -10,7 +10,7 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 @Slf4j
-public class TestListener extends BasicTest implements ITestListener {
+public class TestListener extends BaseUiTest implements ITestListener {
 
     private static String getTestMethodName(ITestResult iTestResult) {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
@@ -30,7 +30,7 @@ public class TestListener extends BasicTest implements ITestListener {
     public void onTestFailure(ITestResult iTestResult) {
         log.warn("Test '{}' failed.", getTestMethodName(iTestResult));
         Object testClass = iTestResult.getInstance();
-        WebDriver driver = ((BasicTest)testClass).driver;
+        WebDriver driver = ((BaseUiTest)testClass).driver;
         if (driver != null) {
             log.info("Screenshot captured for test case: {}", getTestMethodName(iTestResult));
             saveScreenshot(driver);

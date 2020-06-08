@@ -24,7 +24,7 @@ import static com.github.automatedowl.tools.AllureEnvironmentWriter.allureEnviro
 
 @Listeners({TestListener.class})
 @Slf4j
-public class BasicTest {
+public abstract class BaseUiTest {
 
     protected static final String SMOKE = "smoke";
     protected static final String REGRESSION = "regression";
