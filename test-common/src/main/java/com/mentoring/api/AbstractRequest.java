@@ -77,7 +77,7 @@ public abstract class AbstractRequest {
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
-    public Response sendPutRequest(Cookies cookies, Object requestBody, String path, int expectedStatusCode) {
+    public Response sendPutRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
 
@@ -97,7 +97,7 @@ public abstract class AbstractRequest {
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
-    public Response sendPatchRequest(Cookies cookies, Object requestBody, String path, int expectedStatusCode) {
+    public Response sendPatchRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
 

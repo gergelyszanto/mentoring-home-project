@@ -95,6 +95,6 @@ public class User extends AbstractRequest {
         Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
         Cookie characterId = new Cookie.Builder("characterid", characterIdFrom).setSecured(true).build();
         Cookies cookies = new Cookies(accessTokenCookie, userIdToken, characterId);
-        sendPutRequest(cookies, character, FRIEND_REQUEST_PATH, 200);
+        sendPutRequest(cookies, FRIEND_REQUEST_PATH, character, 200);
     }
 }

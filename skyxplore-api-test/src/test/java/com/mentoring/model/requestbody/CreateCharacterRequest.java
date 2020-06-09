@@ -5,6 +5,6 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CharacterRequest {
+public class CreateCharacterRequest {
     private String characterName;
 }
