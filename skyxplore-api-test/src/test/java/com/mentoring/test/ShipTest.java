@@ -1,12 +1,10 @@
 package com.mentoring.test;
 
 import com.mentoring.endpoints.CharacterEndpoint;
-import com.mentoring.endpoints.LoginEndpoint;
 import com.mentoring.endpoints.ShipEndpoint;
 import com.mentoring.framework.BaseApiTest;
 import com.mentoring.generator.User;
 import com.mentoring.utilities.UserUtils;
-import io.restassured.http.Cookies;
 import org.assertj.core.api.Assertions;
 import org.testng.annotations.Test;
 
@@ -16,12 +14,10 @@ public class ShipTest extends BaseApiTest {
     public void getShip() {
         User user = new User();
 
-        Cookies authCookies = new LoginEndpoint()
-                .sendLoginRequest(user.getUserName(), user.getPassword(), 200)
-                .getDetailedCookies();
-
         CharacterEndpoint characterEndpoint = new CharacterEndpoint();
-        characterEndpoint.createCharacter(UserUtils.generateRandomCharacterName(), authCookies, 200);
+        characterEndpoint.createCharacter(UserUtils.generateRandomCharacterName(),
+                user.getAuthCookie(),
+                200);
 
         Assertions.assertThat(characterEndpoint.getCharacterResponse().getCharacterId())
                 .as("Response should contain character ID.")
@@ -29,7 +25,7 @@ public class ShipTest extends BaseApiTest {
 
         String characterId = characterEndpoint.getCharacterResponse().getCharacterId();
         ShipEndpoint shipEndpoint = new ShipEndpoint();
-        shipEndpoint.getShip(authCookies, characterId, 200);
+        shipEndpoint.getShip(user.getAuthCookie(), characterId, 200);
 
         Assertions.assertThat(shipEndpoint.getResponseContent())
                 .as("Ship response should not be empty.")

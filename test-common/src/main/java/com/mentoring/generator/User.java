@@ -37,6 +37,9 @@ public class User extends AbstractRequest {
     @Getter
     private String accessToken;
 
+    @Getter
+    private Cookies authCookie;
+
     public User() {
         this.userName = UserUtils.generateRandomUsername();
         this.password = PASSWORD;
@@ -45,6 +48,7 @@ public class User extends AbstractRequest {
         Response response = loginUser(userName, password);
         this.userId = response.getDetailedCookie("userid").getValue();
         this.accessToken = response.getDetailedCookie("accesstokenid").getValue();
+        this.authCookie = response.getDetailedCookies();
     }
 
     public User(String userName, String password, String email) {
