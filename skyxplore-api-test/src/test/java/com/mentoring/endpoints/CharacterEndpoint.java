@@ -38,7 +38,7 @@ public class CharacterEndpoint extends AbstractRequest {
         return sendDeleteRequest(cookies, String.format(CHARACTER_ID_PATH, characterId), expectedResponseCode);
     }
 
-    @Step("Deleting character. Expecting {expectedResponseCode} response code.")
+    @Step("Updating character. Expecting {expectedResponseCode} response code.")
     public Response updateCharacter(Cookies cookies, String characterId, String characterName, int expectedResponseCode) {
         UpdateCharacterRequest request = UpdateCharacterRequest.builder()
                 .characterId(characterId)
