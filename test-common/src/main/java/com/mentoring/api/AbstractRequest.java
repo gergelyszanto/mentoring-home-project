@@ -3,11 +3,18 @@ package com.mentoring.api;
 import com.mentoring.allure.AllureAttachmentHandler;
 import com.mentoring.config.Config;
 import io.restassured.RestAssured;
+import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 public abstract class AbstractRequest {
@@ -17,7 +24,7 @@ public abstract class AbstractRequest {
     private static final String ERROR_CODE = "Error code";
     private static final String ERROR_RESPONSE = "Error response";
 
-    public Response sendPostRequest(Cookies cookies, Object requestBody, String path, int expectedStatusCode) {
+    public Response sendPostRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
 
@@ -34,19 +41,7 @@ public abstract class AbstractRequest {
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
-    public Response sendPostRequest(String path, int expectedStatusCode) {
-        return sendPostRequest(new Cookies(), null, path, expectedStatusCode);
-    }
-
-    public Response sendPostRequest(Cookies cookies, String path, int expectedStatusCode) {
-        return sendPostRequest(cookies, null, path, expectedStatusCode);
-    }
-
-    public Response sendPostRequest(Object request, String path, int expectedStatusCode) {
-        return sendPostRequest(null, request, path, expectedStatusCode);
-    }
-
-    public Response sendGetRequest(String path, Cookies cookies, int expectedStatusCode) {
+    public Response sendGetRequest(Cookies cookies, String path, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
 
@@ -64,7 +59,7 @@ public abstract class AbstractRequest {
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
-    public Response sendDeleteRequest(String path, Cookies cookies, int expectedStatusCode) {
+    public Response sendDeleteRequest(Cookies cookies, String path, int expectedStatusCode) {
         RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
 
@@ -134,9 +129,39 @@ public abstract class AbstractRequest {
         log.info("Response code: {}", response.getStatusCode());
         attachment.attachText(RESPONSE_STATUS_CODE, String.valueOf(response.getStatusCode()));
         if (!response.getBody().asString().isEmpty()) {
-            log.info("Response body: {}", response.getBody().asString());
-            attachment.attachJson(RESPONSE_BODY, response.getBody().asString());
+            log.info("Response body:\n{}", formatJson(response.getBody().asString()));
+            attachment.attachJson(RESPONSE_BODY, formatJson(response.getBody().asString()));
         }
         return response;
+    }
+
+    public Cookies addCookie(Cookies authCookies, String cookieKey, String characterId) {
+        if (authCookies != null) {
+            Cookie characterCookie = new Cookie.Builder(cookieKey, characterId).build();
+            List<Cookie> cookies = new ArrayList<>();
+            for (int i = 0; i < authCookies.size(); i++) {
+                cookies.add(authCookies.asList().get(i));
+            }
+            cookies.add(characterCookie);
+            return new Cookies(cookies);
+        } else {
+            return new Cookies();
+        }
+    }
+
+    private String formatJson(String jsonString) {
+        try {
+            JSONObject json = new JSONObject(jsonString);
+            return json.toString(4);
+        } catch (JSONException e) {
+            try {
+                JSONArray json = new JSONArray(jsonString);
+                return json.toString(4);
+            } catch (JSONException e2) {
+                log.error("Failed to format string to JSON. Input string is not a JSON object. " +
+                        "Returning unformatted string");
+                return jsonString;
+            }
+        }
     }
 }

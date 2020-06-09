@@ -1,20 +1,16 @@
 package com.mentoring.generator;
 
 import com.mentoring.api.AbstractRequest;
-import com.mentoring.config.Config;
 import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
+import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import static io.restassured.RestAssured.given;
 
 @Slf4j
 public class User extends AbstractRequest {
@@ -28,42 +24,53 @@ public class User extends AbstractRequest {
 
     @Getter
     private String userName;
+
     @Getter
     private String password;
+
     @Getter
     private String email;
+
+    @Getter
+    private String userId;
+
+    @Getter
+    private String accessToken;
 
     public User() {
         this.userName = UserUtils.generateRandomUsername();
         this.password = PASSWORD;
         this.email = UserUtils.generateRandomEmail();
         registerUser(userName, password, email);
+        Response response = loginUser(userName, password);
+        this.userId = response.getDetailedCookie("userid").getValue();
+        this.accessToken = response.getDetailedCookie("accesstokenid").getValue();
     }
 
     public User(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
         this.email = email;
-        registerUser(userName, password, email);
+        this.userId = registerUser(userName, password, email).getDetailedCookie("userid").toString();
     }
 
     @Step("Posting user registration...")
-    private void registerUser(String username, String password, String email) {
+    private Response registerUser(String username, String password, String email) {
         Map<String, String> regData = new HashMap<>();
         regData.put("username", username);
         regData.put("password", password);
         regData.put("email", email);
 
-        sendPostRequest(regData, REGISTRATION_PATH_DEV, 200);
+        return sendPostRequest(null, REGISTRATION_PATH_DEV, regData, 200);
     }
 
     @Step("Precondition step: Logging in with user: {userName} and password: {password})")
-    public void loginUser(String userName, String password) {
+    public Response loginUser(String userName, String password) {
         Map<String, String> loginData = new HashMap<>();
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        sendPostRequest(loginData, LOGIN_PATH_DEV, 200);
+        return sendPostRequest(null, LOGIN_PATH_DEV, loginData, 200);
     }
 
     @Step("Creating character: {characterName}")
@@ -74,7 +81,7 @@ public class User extends AbstractRequest {
         characterData.put("characterName", characterName);
         Cookies cookies = new Cookies(accessTokenCookie, userIdToken);
 
-        sendPostRequest(cookies, characterData, CHARACTER_PATH_DEV, 200);
+        sendPostRequest(cookies, CHARACTER_PATH_DEV, characterData, 200);
     }
 
     @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
