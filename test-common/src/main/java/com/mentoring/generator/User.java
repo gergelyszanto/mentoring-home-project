@@ -16,11 +16,10 @@ import java.util.Map;
 public class User extends AbstractRequest {
 
     private static final String PASSWORD = "Test1234!";
-    private static final String REGISTRATION_PATH_DEV = "/api/user";
-    private static final String LOGIN_PATH_DEV = "/api/login";
-    private static final String CHARACTER_PATH_DEV = "/api/character";
-    private static final String LOGOUT_PATH_DEV = "/api/logout";
-    private static final String FRIEND_REQUEST = "/api/friend/request";
+    private static final String REGISTRATION_PATH = "/api/user";
+    private static final String LOGIN_PATH = "/api/login";
+    private static final String CHARACTER_PATH = "/api/character";
+    private static final String FRIEND_REQUEST_PATH = "/api/friend/request";
 
     @Getter
     private String userName;
@@ -65,7 +64,7 @@ public class User extends AbstractRequest {
         regData.put("password", password);
         regData.put("email", email);
 
-        return sendPostRequest(null, REGISTRATION_PATH_DEV, regData, 200);
+        return sendPostRequest(null, REGISTRATION_PATH, regData, 200);
     }
 
     @Step("Precondition step: Logging in with user: {userName} and password: {password})")
@@ -74,7 +73,7 @@ public class User extends AbstractRequest {
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        return sendPostRequest(null, LOGIN_PATH_DEV, loginData, 200);
+        return sendPostRequest(null, LOGIN_PATH, loginData, 200);
     }
 
     @Step("Creating character: {characterName}")
@@ -85,7 +84,7 @@ public class User extends AbstractRequest {
         characterData.put("characterName", characterName);
         Cookies cookies = new Cookies(accessTokenCookie, userIdToken);
 
-        sendPostRequest(cookies, CHARACTER_PATH_DEV, characterData, 200);
+        sendPostRequest(cookies, CHARACTER_PATH, characterData, 200);
     }
 
     @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
@@ -96,27 +95,6 @@ public class User extends AbstractRequest {
         Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
         Cookie characterId = new Cookie.Builder("characterid", characterIdFrom).setSecured(true).build();
         Cookies cookies = new Cookies(accessTokenCookie, userIdToken, characterId);
-        sendPutRequest(cookies, character, FRIEND_REQUEST, 200);
-    }
-
-
-    private static String getRegistrationPath() {
-        return REGISTRATION_PATH_DEV;
-    }
-
-    private static String getLoginPath() {
-        return LOGIN_PATH_DEV;
-    }
-
-    private static String getCharacterPath() {
-        return CHARACTER_PATH_DEV;
-    }
-
-    private static String getLogoutPath() {
-        return LOGOUT_PATH_DEV;
-    }
-
-    private static String getFriendRequest() {
-        return FRIEND_REQUEST;
+        sendPutRequest(cookies, character, FRIEND_REQUEST_PATH, 200);
     }
 }
