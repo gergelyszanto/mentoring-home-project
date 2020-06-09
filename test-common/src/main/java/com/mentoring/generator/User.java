@@ -57,7 +57,7 @@ public class User extends AbstractRequest {
         this.userId = registerUser(userName, password, email).getDetailedCookie("userid").toString();
     }
 
-    @Step("Posting user registration...")
+    @Step("Precondition: Posting user registration...")
     private Response registerUser(String username, String password, String email) {
         Map<String, String> regData = new HashMap<>();
         regData.put("username", username);
@@ -67,7 +67,7 @@ public class User extends AbstractRequest {
         return sendPostRequest(null, REGISTRATION_PATH, regData, 200);
     }
 
-    @Step("Precondition step: Logging in with user: {userName} and password: {password})")
+    @Step("Precondition: Logging in with user: {userName} and password: {password})")
     public Response loginUser(String userName, String password) {
         Map<String, String> loginData = new HashMap<>();
         loginData.put("userName", userName);
@@ -76,7 +76,7 @@ public class User extends AbstractRequest {
         return sendPostRequest(null, LOGIN_PATH, loginData, 200);
     }
 
-    @Step("Creating character: {characterName}")
+    @Step("Precondition: Creating character: {characterName}")
     public void createCharacter(String characterName, String accessToken, String userId) {
         Cookie accessTokenCookie = new Cookie.Builder("accesstokenid", accessToken).setSecured(true).build();
         Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
@@ -87,7 +87,7 @@ public class User extends AbstractRequest {
         sendPostRequest(cookies, CHARACTER_PATH, characterData, 200);
     }
 
-    @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
+    @Step("API util: Send friend request from: {characterIdFrom} to: {characterIdTo}")
     public void sendFriendRequest(String characterIdFrom, String accessToken, String userId, String characterIdTo) {
         Map<String, String> character = new HashMap<>();
         character.put("value", characterIdTo);

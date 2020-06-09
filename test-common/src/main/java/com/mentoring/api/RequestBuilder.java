@@ -22,6 +22,7 @@ public class RequestBuilder {
 
     RequestSpecification createRequest(AllureAttachmentHandler attachmentHandler, Method method, String path) {
         log.info("Sending {} request to \"{}\" endpoint.",method.name() , path);
+        attachmentHandler.attachText(method.name() + " request", method.name() + " " + path);
 
 
         RequestSpecification request = given()
