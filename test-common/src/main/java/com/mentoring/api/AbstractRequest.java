@@ -7,7 +7,6 @@ import io.restassured.http.Cookie;
 import io.restassured.http.Cookies;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,8 +19,6 @@ import java.util.List;
 public abstract class AbstractRequest {
 
     private static final String RESPONSE_BODY = "Response";
-    private static final String RESPONSE_STATUS_CODE = "Response status code";
-    private static final String ERROR_CODE = "Error code";
     private static final String ERROR_RESPONSE = "Error response";
 
     public Response sendPostRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
