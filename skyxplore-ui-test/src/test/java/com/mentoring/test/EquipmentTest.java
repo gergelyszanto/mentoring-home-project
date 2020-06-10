@@ -39,6 +39,8 @@ public class EquipmentTest extends BasicTest {
                 .as("New character should be on the list.")
                 .isTrue();
 
+        //TODO
+
 
 
         softAssertion.assertAll();
