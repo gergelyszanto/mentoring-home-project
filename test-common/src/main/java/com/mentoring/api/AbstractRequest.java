@@ -19,100 +19,70 @@ import java.util.List;
 @Slf4j
 public abstract class AbstractRequest {
 
-    private static final String RESPONSE_BODY = "Response body";
+    private static final String RESPONSE_BODY = "Response";
     private static final String RESPONSE_STATUS_CODE = "Response status code";
     private static final String ERROR_CODE = "Error code";
     private static final String ERROR_RESPONSE = "Error response";
 
     public Response sendPostRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
 
-        RequestSpecification requestSpecification = RequestBuilder.builder()
+        Response response = RequestBuilder.builder()
             .cookies(cookies)
             .requestBody(requestBody)
             .build()
             .createRequest(attachmentHandler, Method.POST, path);
 
-        Response response = requestSpecification
-                .when()
-                .post(path);
-
-        return validateResponse(attachmentHandler, response, expectedStatusCode);
+            return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
     public Response sendGetRequest(Cookies cookies, String path, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
 
-        RequestSpecification requestSpecification = RequestBuilder.builder()
+        Response response = RequestBuilder.builder()
             .cookies(cookies)
             .build()
             .createRequest(attachmentHandler, Method.GET, path);
 
-        Response response = requestSpecification
-            .when()
-            .get(path)
-            .then()
-            .extract()
-            .response();
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
     public Response sendDeleteRequest(Cookies cookies, String path, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
 
-        RequestSpecification requestSpecification = RequestBuilder.builder()
+        Response response = RequestBuilder.builder()
             .cookies(cookies)
             .build()
             .createRequest(attachmentHandler, Method.DELETE, path);
 
-        Response response = requestSpecification
-            .when()
-            .delete(path)
-            .then()
-            .extract()
-            .response();
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
     public Response sendPutRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
 
-        RequestSpecification requestSpecification = RequestBuilder.builder()
+        Response response = RequestBuilder.builder()
             .cookies(cookies)
             .requestBody(requestBody)
             .build()
             .createRequest(attachmentHandler, Method.PUT, path);
 
-        Response response = requestSpecification
-            .when()
-            .put(path)
-            .then()
-            .extract()
-            .response();
-
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
     public Response sendPatchRequest(Cookies cookies, String path, Object requestBody, int expectedStatusCode) {
-        RestAssured.baseURI = Config.getBaseUrl();
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
 
-        RequestSpecification requestSpecification = RequestBuilder.builder()
+        Response response = RequestBuilder.builder()
             .cookies(cookies)
             .requestBody(requestBody)
             .build()
             .createRequest(attachmentHandler, Method.PATCH, path);
-
-        Response response = requestSpecification
-            .when()
-            .patch(path)
-            .then()
-            .extract()
-            .response();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -122,16 +92,13 @@ public abstract class AbstractRequest {
             response.then().statusCode(expectedStatusCode);
         } catch (AssertionError e) {
             log.error("Request failed. Response is:\n{}", response.asString());
-            attachment.attachText(ERROR_CODE, String.valueOf(response.getStatusCode()));
             attachment.attachText(ERROR_RESPONSE, response.asString());
             throw e;
         }
+        log.info("Response body:\n{}", formatJson(response.getBody().asString()));
         log.info("Response code: {}", response.getStatusCode());
-        attachment.attachText(RESPONSE_STATUS_CODE, String.valueOf(response.getStatusCode()));
-        if (!response.getBody().asString().isEmpty()) {
-            log.info("Response body:\n{}", formatJson(response.getBody().asString()));
-            attachment.attachJson(RESPONSE_BODY, formatJson(response.getBody().asString()));
-        }
+        attachment.attachJson(RESPONSE_BODY.concat("\t").concat(String.valueOf(response.getStatusCode())),
+            formatJson(response.getBody().asString()));
         return response;
     }
 
@@ -150,18 +117,22 @@ public abstract class AbstractRequest {
     }
 
     private String formatJson(String jsonString) {
-        try {
-            JSONObject json = new JSONObject(jsonString);
-            return json.toString(4);
-        } catch (JSONException e) {
+        if (jsonString != null && !jsonString.isEmpty()) {
             try {
-                JSONArray json = new JSONArray(jsonString);
+                JSONObject json = new JSONObject(jsonString);
                 return json.toString(4);
-            } catch (JSONException e2) {
-                log.error("Failed to format string to JSON. Input string is not a JSON object. " +
+            } catch (JSONException e) {
+                try {
+                    JSONArray json = new JSONArray(jsonString);
+                    return json.toString(4);
+                } catch (JSONException e2) {
+                    log.error("Failed to format string to JSON. Input string is not a JSON object. " +
                         "Returning unformatted string");
-                return jsonString;
+                    return jsonString;
+                }
             }
+        } else {
+            return "";
         }
     }
 }
