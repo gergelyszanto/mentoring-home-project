@@ -2,8 +2,8 @@ package com.mentoring.test;
 
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
-import com.mentoring.pageobject.CharacterSelectionPage;
 import com.mentoring.pageobject.IndexPage;
+import com.mentoring.pageobject.OverviewPage;
 import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -24,28 +24,19 @@ public class EquipmentTest extends BasicTest {
         softAssertion = new SoftAssertions();
     }
 
-    @Description("Create an equipment and use it.")
+    @Description("Create and set up an equipment.")
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void testCreateAndUseEquipment() {
+    public void createAndSetUpAnEquipment() {
         String validCharacterName = UserUtils.generateRandomCharacterName();
-
         User user = new User();
-        CharacterSelectionPage characterSelectionPage = new IndexPage(driver)
+
+        OverviewPage overviewPage = new IndexPage(driver)
                 .login(user)
-                .createNewCharacter(validCharacterName);
-        softAssertion.assertThat(characterSelectionPage.getCharacterNamesText().contains(validCharacterName))
-                .as("New character should be on the list.")
-                .isTrue();
-
-        //TODO:
+                .createNewCharacter(validCharacterName)
+                .selectCharacter(validCharacterName);
 
 
-
-        softAssertion.assertAll();
     }
-
-
-
 }
