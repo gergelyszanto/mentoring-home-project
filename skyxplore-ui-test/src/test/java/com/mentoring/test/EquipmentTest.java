@@ -38,5 +38,6 @@ public class EquipmentTest extends BasicTest {
                 .selectCharacter(validCharacterName);
 
 
+        //softAssertion.assertAll();
     }
 }
