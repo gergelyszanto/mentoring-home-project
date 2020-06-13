@@ -17,6 +17,9 @@ public class OverviewPage extends Page {
     @FindBy(id = "community-button")
     private WebElement communityButton;
 
+    @FindBy(id = "factory-button")
+    private WebElement factoryButton;
+
     private static final String PAGE_PATH = "/overview";
 
     OverviewPage(WebDriver driver) {
@@ -33,6 +36,12 @@ public class OverviewPage extends Page {
     public CommunityPage openCommunityPage() {
         waitUntilClickable(communityButton).click();
         return new CommunityPage(driver).waitUntilPageLoads();
+    }
+
+    @Step("Opening factory page.")
+    public FactoryPage openFactoryPage() {
+        waitUntilClickable(factoryButton).click();
+        return new FactoryPage(driver).waitUntilPageLoads();
     }
 
     @Override
