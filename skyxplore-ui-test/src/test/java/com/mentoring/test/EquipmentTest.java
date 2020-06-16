@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EquipmentTest extends BasicTest {
 
     private SoftAssertions softAssertion;
+    private static final String DEFAULT_QUANTITY = "1";
 
     @BeforeMethod(alwaysRun = true)
     private void setup() {
@@ -37,22 +38,24 @@ public class EquipmentTest extends BasicTest {
                 .login(user)
                 .createNewCharacter(validCharacterName)
                 .selectCharacter(validCharacterName)
-                .openFactoryPage();
+                .openFactoryPage()
+                .selectConnectorExtender()
+                .clickCex01ProductionButton();
 
-        factoryPage
-                .clickExpansionItem();
-
-        factoryPage.clickCex01ManufacturingButton();
-
-        assertThat(factoryPage.isExpansionItemUnderManufacturingVisible())
-                .as("Expansion item under manufacturing should be visible.")
+        assertThat(factoryPage.isExtenderItemInQueueVisible())
+                .as("Extender item in queue should be visible.")
                 .isTrue();
-
+        assertThat(factoryPage.getQuantityInQueue().equals(DEFAULT_QUANTITY))
+                .as("Quantity in queue is not correct")
+                .isTrue();
+        assertThat(factoryPage.isQueueProcessStarted())
+                .as("Queue process is not started.")
+                .isTrue();
 
         //TODO: Subtask-3: Production time of CEX-01 is updated and item is finished
         //TODO: Subtask-4: CEX-01 item is added to the ship
 
-        // softAssertion.assertAll();
+        //softAssertion.assertAll();
     }
 
 }
