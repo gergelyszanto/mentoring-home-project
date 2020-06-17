@@ -60,7 +60,11 @@ public abstract class Page {
     }
 
     WebElement waitUntilVisible(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Config.LOAD_WAIT);
+        return waitUntilVisible(element, Config.LOAD_WAIT);
+    }
+
+    WebElement waitUntilVisible(WebElement element, int waitSec) {
+        WebDriverWait wait = new WebDriverWait(driver, waitSec);
         wait.until(ExpectedConditions.not(ExpectedConditions.stalenessOf(element)));
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
@@ -80,9 +84,17 @@ public abstract class Page {
     }
 
     String getText(WebElement element) {
+        return getText(element, Config.LOAD_WAIT);
+    }
+
+    String getTextNoWait(WebElement element) {
+        return getText(element, 0);
+    }
+
+    private String getText(WebElement element, int waitSec) {
         String elementText = "";
         try {
-            elementText = waitUntilVisible(element).getText();
+            elementText = waitUntilVisible(element, waitSec).getText();
         } catch (NoSuchElementException | TimeoutException e) {
             log.error("Could not locate element", e);
         }

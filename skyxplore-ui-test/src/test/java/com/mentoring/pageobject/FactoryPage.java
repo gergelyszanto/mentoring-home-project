@@ -3,14 +3,13 @@ package com.mentoring.pageobject;
 import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.NoSuchElementException;
+import org.awaitility.Awaitility;
+import org.awaitility.core.ConditionTimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
 
-import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class FactoryPage extends Page {
@@ -55,24 +54,27 @@ public class FactoryPage extends Page {
         return this;
     }
 
-    @Step("Asserting if extender item in queue is visible.")
+    @Step("Checking if extender item in queue is visible.")
     public boolean isExtenderItemInQueueVisible() {
         return isElementDisplayed(cex01ProductionQueueItem);
     }
 
-    @Step("Asserting quantity in production queue.")
+    @Step("Checking quantity in production queue.")
     public String getQuantityInQueue() {
         return quantityInQueue.getText();
     }
 
-    @Step("Check the production queue process started.")
+    @Step("Checking the production queue process started.")
     public boolean isQueueProcessStarted() {
-        FluentWait wait = new FluentWait(driver)
-                .withTimeout(Duration.ofSeconds(15))
-                .pollingEvery(Duration.ofSeconds(1))
-                .ignoring(NoSuchElementException.class);
-        wait.until(ExpectedConditions.textToBePresentInElement(queueProcessBar, "00"));
-
+        try {
+            log.debug("Waiting for production queue to start");
+            Awaitility.await().pollInterval(500, TimeUnit.MILLISECONDS)
+                    .atMost(15, TimeUnit.SECONDS)
+                    .until(() -> getText(queueProcessBar).contains("00:"));
+        } catch(ConditionTimeoutException e) {
+            log.warn("Production queue not started");
+            return false;
+        }
         return true;
     }
 
