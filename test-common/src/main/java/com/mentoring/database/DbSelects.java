@@ -16,6 +16,10 @@ public class DbSelects {
             "WHERE u.email = ?";
     private static final String CHARACTER_ID_BY_CHARACTER_NAME = "SELECT character_id FROM skyxp_character " +
             "WHERE character_name = ?";
+    private static final String CHARACTER_ID_BY_USER_ID = "SELECT character_id FROM skyxp_character " +
+            "WHERE user_id = ?";
+    private static final String FACTORY_ID_BY_CHARACTER_ID = "SELECT factory_id FROM factory " +
+            "WHERE character_id = ?";
 
     public static String getUserIdByEmailAddress(Database connection, String email) throws SQLException {
         String result = connection.runSelectStringValue(USER_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.USER__USER_ID);
@@ -40,4 +44,17 @@ public class DbSelects {
         log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_CHARACTER_NAME, characterName, result);
         return result;
     }
+
+    public static String getCharacterIdByUserId(Database connection, String userId) throws SQLException {
+        String result = connection.runSelectStringValue(CHARACTER_ID_BY_USER_ID, connection.getSingleStringMapper(1, userId), TableColumn.SKYXP_CHARACTER__USER_ID);
+        log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_USER_ID, userId, result);
+        return result;
+    }
+
+    public static String getFactoryIdByCharacterId(Database connection, String characterId) throws SQLException {
+        String result = connection.runSelectStringValue(FACTORY_ID_BY_CHARACTER_ID, connection.getSingleStringMapper(1, characterId), TableColumn.FACTORY__FACTORY_ID);
+        log.info("Query = {};\tparam = {}\t result = {}", FACTORY_ID_BY_CHARACTER_ID, characterId, result);
+        return result;
+    }
+
 }

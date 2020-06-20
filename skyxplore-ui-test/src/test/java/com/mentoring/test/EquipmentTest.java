@@ -1,5 +1,9 @@
 package com.mentoring.test;
 
+import com.mentoring.config.Config;
+import com.mentoring.database.Database;
+import com.mentoring.database.DbSelects;
+import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
 import com.mentoring.pageobject.FactoryPage;
@@ -9,28 +13,56 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.SoftAssertions;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.sql.SQLException;
 
 import static com.mentoring.model.Features.EQUIPMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 public class EquipmentTest extends BasicTest {
 
-    private SoftAssertions softAssertion;
     private static final String DEFAULT_QUANTITY = "1";
 
+    private SoftAssertions softAssertion;
+    private Database database;
+    private String userId;
+    private String characterId;
+    private String factoryId;
+
     @BeforeMethod(alwaysRun = true)
-    private void setup() {
+    private void setup() throws SQLException {
+        connectToDB();
         softAssertion = new SoftAssertions();
+    }
+
+    @AfterMethod(alwaysRun = true)
+    private void disconnectFromDB() {
+        if(database != null) {
+            database.disconnectFromDb();
+        } else {
+            log.warn("DB disconnection skipped. There is no database connection to disconnect.");
+        }
+    }
+
+    private void connectToDB() {
+        if(!Config.isLocalEnvironmentUsed()) {
+            throw new EnvironmentNotSupportedException("Only local environment is supported for database connection. " +
+                    "Skipping tests.");
+        }
+        database = new Database();
     }
 
     @Description("Create and set up an equipment.")
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndSetUpAnEquipment() {
+    public void createAndSetUpAnEquipment() throws SQLException {
         String validCharacterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
@@ -52,7 +84,12 @@ public class EquipmentTest extends BasicTest {
                 .as("Queue process is not started.")
                 .isTrue();
 
-        //TODO: Subtask-3: Production time of CEX-01 is updated and item is finished
+        log.info("Updating queue process end time to finish the production.");
+        userId = DbSelects.getUserIdByEmailAddress(database, user.getEmail());
+        characterId = DbSelects.getCharacterIdByUserId(database, userId);
+        factoryId = DbSelects.getFactoryIdByCharacterId(database, characterId);
+        //TODO: DbUpdates
+
         //TODO: Subtask-4: CEX-01 item is added to the ship
 
         softAssertion.assertAll();

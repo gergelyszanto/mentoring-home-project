@@ -8,10 +8,13 @@ public enum TableColumn {
     CREDENTIALS__USER_ID("user_id"),
     CREDENTIALS__PASSWORD("password"),
     CREDENTIALS__USER_NAME("user_name"),
+    FACTORY__FACTORY_ID("factory_id"),
+    PRODUCT__END_TIME("end_time"),
+    SKYXP_CHARACTER__CHARACTER_ID("character_id"),
+    SKYXP_CHARACTER__USER_ID("user_id"),
     USER__USER_ID("user_id"),
     USER__EMAIL("email"),
-    USER__ROLES("roles"),
-    SKYXP_CHARACTER__CHARACTER_ID("character_id")
+    USER__ROLES("roles")
     ;
 
     private String column;
