@@ -3,6 +3,7 @@ package com.mentoring.test;
 import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
+import com.mentoring.database.DbUpdates;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
@@ -80,15 +81,36 @@ public class EquipmentTest extends BasicTest {
         softAssertion.assertThat(factoryPage.getQuantityInQueue().equals(DEFAULT_QUANTITY))
                 .as("Quantity in queue is not correct")
                 .isTrue();
-        softAssertion.assertThat(factoryPage.isQueueProcessStarted())
-                .as("Queue process is not started.")
+        softAssertion.assertThat(factoryPage.isQueueProcessBarVisible())
+                .as("Queue process bar is not visible.")
                 .isTrue();
 
         log.info("Updating queue process end time to finish the production.");
         userId = DbSelects.getUserIdByEmailAddress(database, user.getEmail());
         characterId = DbSelects.getCharacterIdByUserId(database, userId);
         factoryId = DbSelects.getFactoryIdByCharacterId(database, characterId);
-        //TODO: DbUpdates
+        DbUpdates.setProductionEndTimeByFactoryId(database, factoryId, "0");
+
+        driver.navigate().refresh();
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            log.error("Thread sleep failed.", e);
+        }
+
+
+  /*      assertThat(factoryPage.isQueueProcessBarVisible())
+                .as("Queue is not disappeared.")
+                .isFalse();
+*/
+
+        assertThat(factoryPage.isQueueVisible())
+                .as("Queue is not disappeared.")
+                .isFalse();
+
+
+
 
         //TODO: Subtask-4: CEX-01 item is added to the ship
 

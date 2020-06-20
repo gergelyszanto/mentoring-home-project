@@ -22,37 +22,61 @@ public class DbSelects {
             "WHERE character_id = ?";
 
     public static String getUserIdByEmailAddress(Database connection, String email) throws SQLException {
-        String result = connection.runSelectStringValue(USER_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.USER__USER_ID);
+        String result = connection.runSelectStringValue(
+                USER_ID_BY_EMAIL,
+                connection.getSingleStringMapper(1, email),
+                TableColumn.USER__USER_ID
+        );
         log.info("Query = {};\tparam = {};\tresult = {}", USER_ID_BY_EMAIL, email, result);
         return result;
     }
 
     public static String getUserNameByEmailAddress(Database connection, String email) throws SQLException {
-        String result = connection.runSelectStringValue(USER_NAME_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.CREDENTIALS__USER_NAME);
+        String result = connection.runSelectStringValue(
+                USER_NAME_BY_EMAIL,
+                connection.getSingleStringMapper(1, email),
+                TableColumn.CREDENTIALS__USER_NAME
+        );
         log.info("Query = {};\tparam = {};\tresult = {}", USER_NAME_BY_EMAIL, email, result);
         return result;
     }
 
     public static String getAccessTokenIdByEmailAddress(Database connection, String email) throws SQLException {
-        String result = connection.runSelectStringValue(ACCESS_TOKEN_ID_BY_EMAIL, connection.getSingleStringMapper(1, email), TableColumn.ACCESS_TOKEN__ACCESS_TOKEN_ID);
+        String result = connection.runSelectStringValue(
+                ACCESS_TOKEN_ID_BY_EMAIL,
+                connection.getSingleStringMapper(1, email),
+                TableColumn.ACCESS_TOKEN__ACCESS_TOKEN_ID
+        );
         log.info("Query = {};\tparam = {};\tresult = {}", ACCESS_TOKEN_ID_BY_EMAIL, email, result);
         return result;
     }
 
     public static String getCharacterIdByCharacterName(Database connection, String characterName) throws SQLException {
-        String result = connection.runSelectStringValue(CHARACTER_ID_BY_CHARACTER_NAME, connection.getSingleStringMapper(1, characterName), TableColumn.SKYXP_CHARACTER__CHARACTER_ID);
+        String result = connection.runSelectStringValue(
+                CHARACTER_ID_BY_CHARACTER_NAME,
+                connection.getSingleStringMapper(1, characterName),
+                TableColumn.SKYXP_CHARACTER__CHARACTER_ID
+        );
         log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_CHARACTER_NAME, characterName, result);
         return result;
     }
 
     public static String getCharacterIdByUserId(Database connection, String userId) throws SQLException {
-        String result = connection.runSelectStringValue(CHARACTER_ID_BY_USER_ID, connection.getSingleStringMapper(1, userId), TableColumn.SKYXP_CHARACTER__USER_ID);
+        String result = connection.runSelectStringValue(
+                CHARACTER_ID_BY_USER_ID,
+                connection.getSingleStringMapper(1, userId),
+                TableColumn.SKYXP_CHARACTER__CHARACTER_ID
+        );
         log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_USER_ID, userId, result);
         return result;
     }
 
     public static String getFactoryIdByCharacterId(Database connection, String characterId) throws SQLException {
-        String result = connection.runSelectStringValue(FACTORY_ID_BY_CHARACTER_ID, connection.getSingleStringMapper(1, characterId), TableColumn.FACTORY__FACTORY_ID);
+        String result = connection.runSelectStringValue(
+                FACTORY_ID_BY_CHARACTER_ID,
+                connection.getSingleStringMapper(1, characterId),
+                TableColumn.FACTORY__FACTORY_ID
+        );
         log.info("Query = {};\tparam = {}\t result = {}", FACTORY_ID_BY_CHARACTER_ID, characterId, result);
         return result;
     }

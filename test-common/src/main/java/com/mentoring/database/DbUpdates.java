@@ -1,6 +1,5 @@
 package com.mentoring.database;
 
-import com.mysql.cj.xdevapi.Table;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,6 +13,16 @@ public class DbUpdates {
     private static final String UPDATE_END_TIME_BY_FACTORY_ID = "UPDATE product SET end_time = ? " +
             "WHERE factory_id = ?";
 
+    @Step("Updating production queue end time to be finished in the database.")
+    public static void setProductionEndTimeByFactoryId(Database connection, String factoryId, String value) {
+        connection.runUpdateLongColumnValue(
+                UPDATE_END_TIME_BY_FACTORY_ID,
+                connection.getSingleStringMapper(2, factoryId),
+                connection.getSingleStringMapper(1, value),
+                TableColumn.PRODUCT__END_TIME
+        );
+    }
+
     @Step("Updating user's access token to be expired in the database.")
     public static void setLastAccessValueByEmailAddress(Database connection, String email, double value) {
         connection.runUpdateLongColumnValue(
@@ -25,15 +34,6 @@ public class DbUpdates {
         waitForCacheUpdate();
     }
 
-/*    @Step("Updating production queue end time to be finished in the database.")
-    public static void setEndTimeByFactoryId(Database connection, String factoryId) {
-        connection.runUpdateLongColumnValue(
-                UPDATE_END_TIME_BY_FACTORY_ID,
-                connection.getSingleStringMapper(1, factoryId),
-                TableColumn.FACTORY__FACTORY_ID
-        );
-    }
-*/
     private static void waitForCacheUpdate() {
         try {
             log.info("Waiting {}ms for cache to be updated...", CACHE_UPDATE_DELAY);
