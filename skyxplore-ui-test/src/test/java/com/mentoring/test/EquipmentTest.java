@@ -45,17 +45,17 @@ public class EquipmentTest extends BasicTest {
         assertThat(factoryPage.isExtenderItemInQueueVisible())
                 .as("Extender item in queue should be visible.")
                 .isTrue();
-        assertThat(factoryPage.getQuantityInQueue().equals(DEFAULT_QUANTITY))
+        softAssertion.assertThat(factoryPage.getQuantityInQueue().equals(DEFAULT_QUANTITY))
                 .as("Quantity in queue is not correct")
                 .isTrue();
-        assertThat(factoryPage.isQueueProcessStarted())
+        softAssertion.assertThat(factoryPage.isQueueProcessStarted())
                 .as("Queue process is not started.")
                 .isTrue();
 
         //TODO: Subtask-3: Production time of CEX-01 is updated and item is finished
         //TODO: Subtask-4: CEX-01 item is added to the ship
 
-        //softAssertion.assertAll();
+        softAssertion.assertAll();
     }
 
 }
