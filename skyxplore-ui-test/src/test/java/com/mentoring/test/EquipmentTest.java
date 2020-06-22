@@ -99,12 +99,6 @@ public class EquipmentTest extends BasicTest {
             log.error("Thread sleep failed.", e);
         }
 
-
-  /*      assertThat(factoryPage.isQueueProcessBarVisible())
-                .as("Queue is not disappeared.")
-                .isFalse();
-*/
-
         assertThat(factoryPage.isQueueVisible())
                 .as("Queue is not disappeared.")
                 .isFalse();

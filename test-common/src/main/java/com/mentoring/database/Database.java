@@ -52,7 +52,7 @@ public class Database {
         }
     }
 
-    void runUpdateLongColumnValue(String queryString, Consumer<PreparedStatement> stringMapper, Consumer<PreparedStatement> intMapper, TableColumn resultColumn) {
+    void runUpdateLongColumnValue(String queryString, Consumer<PreparedStatement> stringMapper, Consumer<PreparedStatement> intMapper) {
         try {
             PreparedStatement statement = connection.prepareStatement(queryString);
             stringMapper.accept(statement);

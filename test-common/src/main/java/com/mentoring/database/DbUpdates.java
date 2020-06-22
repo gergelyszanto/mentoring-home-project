@@ -18,8 +18,7 @@ public class DbUpdates {
         connection.runUpdateLongColumnValue(
                 UPDATE_END_TIME_BY_FACTORY_ID,
                 connection.getSingleStringMapper(2, factoryId),
-                connection.getSingleStringMapper(1, value),
-                TableColumn.PRODUCT__END_TIME
+                connection.getSingleStringMapper(1, value)
         );
     }
 
@@ -28,8 +27,7 @@ public class DbUpdates {
         connection.runUpdateLongColumnValue(
                 UPDATE_LAST_ACCESS_VALUE_BY_EMAIL,
                 connection.getSingleStringMapper(2, email),
-                connection.getSingleDoubleMapper(1, value),
-                TableColumn.ACCESS_TOKEN__LAST_ACCESS
+                connection.getSingleDoubleMapper(1, value)
         );
         waitForCacheUpdate();
     }
