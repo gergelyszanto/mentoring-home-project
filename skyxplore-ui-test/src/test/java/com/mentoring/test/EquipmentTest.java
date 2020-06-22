@@ -92,17 +92,14 @@ public class EquipmentTest extends BasicTest {
         DbUpdates.setProductionEndTimeByFactoryId(database, factoryId, "0");
 
         driver.navigate().refresh();
+        assertThat(factoryPage.isQueueProcessBarVisible())
+                .as("Queue process bar is not visible.")
+                .isTrue();
 
-        try {
-            Thread.sleep(10000);
-        } catch (InterruptedException e) {
-            log.error("Thread sleep failed.", e);
-        }
-
-        assertThat(factoryPage.isQueueVisible())
+        driver.navigate().refresh();
+        assertThat(factoryPage.isQueueInvisible())
                 .as("Queue is not disappeared.")
-                .isFalse();
-
+                .isTrue();
 
 
 

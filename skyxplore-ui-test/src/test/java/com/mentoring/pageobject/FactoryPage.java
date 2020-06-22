@@ -25,8 +25,8 @@ public class FactoryPage extends Page {
     @FindBy(xpath = "//div[@class='queue-element-title']/span[contains(text(),'CEX-01 Csatlakozó bővítő')]")
     private WebElement cex01ProductionQueueItem;
 
-    @FindBy(css = "#queue")
-    private WebElement queue;
+    @FindBy(css = ".queue-element")
+    private WebElement queueElement;
 
     @FindBy(xpath = "(//div[@id='queue']//span)[3]")
     private WebElement quantityInQueue;
@@ -57,10 +57,6 @@ public class FactoryPage extends Page {
         return this;
     }
 
-    public boolean isQueueVisible() {
-        return isElementDisplayed(queue);
-    }
-
     @Step("Checking if extender item in queue is visible.")
     public boolean isExtenderItemInQueueVisible() {
         return isElementDisplayed(cex01ProductionQueueItem);
@@ -80,6 +76,20 @@ public class FactoryPage extends Page {
                     .until(() -> getText(queueProcessBar).contains("00:"));
         } catch(ConditionTimeoutException e) {
             log.warn("Queue process bar is not visible");
+            return false;
+        }
+        return true;
+    }
+
+    @Step("Checking the queue is not visible anymore.")
+    public boolean isQueueInvisible() {
+        try {
+            log.debug("Waiting for production queue job");
+            Awaitility.await().pollInterval(500, TimeUnit.SECONDS.MILLISECONDS)
+                    .atMost(15, TimeUnit.SECONDS)
+                    .until(() -> (!isElementDisplayed(queueElement)));
+        } catch(ConditionTimeoutException e) {
+            log.warn("Queue is not disappeared");
             return false;
         }
         return true;
