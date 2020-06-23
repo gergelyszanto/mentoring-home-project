@@ -122,7 +122,6 @@ public abstract class Page {
         return elementDisplayed;
     }
 
-
     boolean isElementDisplayed(By element) {
         boolean elementDisplayed = false;
         try {

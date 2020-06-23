@@ -8,10 +8,12 @@ public class DbUpdates {
 
     private static final int CACHE_UPDATE_DELAY = 2000;
 
-    private static final String UPDATE_LAST_ACCESS_VALUE_BY_EMAIL = "UPDATE access_token SET last_access = ? " +
-            "WHERE user_id = (SELECT user_id FROM user WHERE email = ?)";
-    private static final String UPDATE_PRODUCT_END_TIME_BY_FACTORY_ID = "UPDATE product SET end_time = ? " +
-            "WHERE factory_id = ?";
+    private static final String UPDATE_LAST_ACCESS_VALUE_BY_EMAIL =
+            "UPDATE access_token SET last_access = ? " +
+                    "WHERE user_id = (SELECT user_id FROM user WHERE email = ?)";
+    private static final String UPDATE_PRODUCT_END_TIME_BY_FACTORY_ID =
+            "UPDATE product SET end_time = ? " +
+                    "WHERE factory_id = ?";
 
     @Step("Updating production queue end time to be finished in the database.")
     public static void setProductionEndTimeByFactoryId(Database connection, String factoryId, String value) {

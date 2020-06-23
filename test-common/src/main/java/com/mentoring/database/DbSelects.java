@@ -7,19 +7,23 @@ import java.sql.SQLException;
 @Slf4j
 public class DbSelects {
 
-    private static final String USER_ID_BY_EMAIL = "SELECT user_id FROM user WHERE email = ?";
-    private static final String USER_NAME_BY_EMAIL = "SELECT user_name FROM credentials c " +
-            "JOIN user u ON u.user_id = c.user_id " +
-            "WHERE u.email = ?";
-    private static final String ACCESS_TOKEN_ID_BY_EMAIL = "SELECT access_token_id FROM access_token at " +
-            "JOIN user u ON at.user_id = u.user_id " +
-            "WHERE u.email = ?";
-    private static final String CHARACTER_ID_BY_CHARACTER_NAME = "SELECT character_id FROM skyxp_character " +
-            "WHERE character_name = ?";
-    private static final String CHARACTER_ID_BY_USER_ID = "SELECT character_id FROM skyxp_character " +
-            "WHERE user_id = ?";
-    private static final String FACTORY_ID_BY_CHARACTER_ID = "SELECT factory_id FROM factory " +
-            "WHERE character_id = ?";
+    private static final String USER_ID_BY_EMAIL =
+            "SELECT user_id FROM user " +
+                    "WHERE email = ?";
+    private static final String USER_NAME_BY_EMAIL =
+            "SELECT user_name FROM credentials c " +
+                    "JOIN user u ON u.user_id = c.user_id " +
+                    "WHERE u.email = ?";
+    private static final String ACCESS_TOKEN_ID_BY_EMAIL =
+            "SELECT access_token_id FROM access_token at " +
+                    "JOIN user u ON at.user_id = u.user_id " +
+                    "WHERE u.email = ?";
+    private static final String CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID =
+            "SELECT character_id FROM skyxp_character " +
+                    "WHERE character_name = ? AND user_id = ?";
+    private static final String FACTORY_ID_BY_CHARACTER_ID =
+            "SELECT factory_id FROM factory " +
+                    "WHERE character_id = ?";
 
     public static String getUserIdByEmailAddress(Database connection, String email) throws SQLException {
         String result = connection.runSelectStringValue(
@@ -51,23 +55,22 @@ public class DbSelects {
         return result;
     }
 
-    public static String getCharacterIdByCharacterName(Database connection, String characterName) throws SQLException {
-        String result = connection.runSelectStringValue(
-                CHARACTER_ID_BY_CHARACTER_NAME,
-                connection.getSingleStringMapper(1, characterName),
-                TableColumn.SKYXP_CHARACTER__CHARACTER_ID
-        );
-        log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_CHARACTER_NAME, characterName, result);
-        return result;
+    public static String getFactoryId(Database database, String email, String characterName) throws SQLException {
+        String userId = getUserIdByEmailAddress(database, email);
+        String characterId = getCharacterIdByCharacterNameAndUserId(database, characterName, userId);
+        String factoryId = getFactoryIdByCharacterId(database, characterId);
+        return factoryId;
     }
 
-    public static String getCharacterIdByUserId(Database connection, String userId) throws SQLException {
+    public static String getCharacterIdByCharacterNameAndUserId(Database connection, String characterName, String userId) throws SQLException {
         String result = connection.runSelectStringValue(
-                CHARACTER_ID_BY_USER_ID,
-                connection.getSingleStringMapper(1, userId),
+                CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID,
+                connection.getSingleStringMapper(1, characterName),
+                connection.getSingleStringMapper(2, userId),
                 TableColumn.SKYXP_CHARACTER__CHARACTER_ID
         );
-        log.info("Query = {};\tparam = {};\tresult = {}", CHARACTER_ID_BY_USER_ID, userId, result);
+        log.info("Query = {};\tparam1 = {};\tparam2 = {}\tresult = {}",
+                CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID, characterName, userId, result);
         return result;
     }
 

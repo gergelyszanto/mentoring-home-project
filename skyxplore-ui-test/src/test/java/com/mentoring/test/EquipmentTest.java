@@ -32,8 +32,6 @@ public class EquipmentTest extends BasicTest {
 
     private SoftAssertions softAssertion;
     private Database database;
-    private String userId;
-    private String characterId;
     private String factoryId;
 
     @BeforeMethod(alwaysRun = true)
@@ -64,13 +62,13 @@ public class EquipmentTest extends BasicTest {
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
     public void createAndSetUpAnEquipment() throws SQLException {
-        String validCharacterName = UserUtils.generateRandomCharacterName();
+        String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
         FactoryPage factoryPage = new IndexPage(driver)
                 .login(user)
-                .createNewCharacter(validCharacterName)
-                .selectCharacter(validCharacterName)
+                .createNewCharacter(characterName)
+                .selectCharacter(characterName)
                 .openFactoryPage()
                 .selectConnectorExtender()
                 .clickCex01ProductionButton();
@@ -86,9 +84,7 @@ public class EquipmentTest extends BasicTest {
                 .isTrue();
 
         log.info("Updating queue process end time to finish the production.");
-        userId = DbSelects.getUserIdByEmailAddress(database, user.getEmail());
-        characterId = DbSelects.getCharacterIdByUserId(database, userId);
-        factoryId = DbSelects.getFactoryIdByCharacterId(database, characterId);
+        factoryId = DbSelects.getFactoryId(database, user.getEmail(), characterName);
         DbUpdates.setProductionEndTimeByFactoryId(database, factoryId, "0");
 
         driver.navigate().refresh();
@@ -96,9 +92,8 @@ public class EquipmentTest extends BasicTest {
                 .as("Queue process bar is not visible.")
                 .isTrue();
 
-        driver.navigate().refresh();
-        assertThat(factoryPage.isQueueInvisible())
-                .as("Queue is not disappeared.")
+        assertThat(factoryPage.isQueueDisappeared())
+                .as("Queue has not disappeared.")
                 .isTrue();
 
 
