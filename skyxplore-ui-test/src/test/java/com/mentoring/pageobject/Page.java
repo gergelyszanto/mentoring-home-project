@@ -112,6 +112,17 @@ public abstract class Page {
         return elementDisplayed;
     }
 
+    boolean isElementDisplayedNoWait(WebElement element) {
+        boolean elementDisplayed = false;
+        try {
+            elementDisplayed = element.isDisplayed();
+        } catch (NoSuchElementException exception) {
+            log.info("Element '{}' didn't appear", element);
+        }
+        return elementDisplayed;
+    }
+
+
     boolean isElementDisplayed(By element) {
         boolean elementDisplayed = false;
         try {

@@ -85,9 +85,9 @@ public class FactoryPage extends Page {
     public boolean isQueueInvisible() {
         try {
             log.debug("Waiting for production queue job");
-            Awaitility.await().pollInterval(500, TimeUnit.SECONDS.MILLISECONDS)
+            Awaitility.await().pollInterval(500, TimeUnit.MILLISECONDS)
                     .atMost(15, TimeUnit.SECONDS)
-                    .until(() -> (!isElementDisplayed(queueElement)));
+                    .until(() -> (!isElementDisplayedNoWait(queueElement)));
         } catch(ConditionTimeoutException e) {
             log.warn("Queue is not disappeared");
             return false;
