@@ -18,6 +18,9 @@ public class DbSelects {
             "SELECT access_token_id FROM access_token at " +
                     "JOIN user u ON at.user_id = u.user_id " +
                     "WHERE u.email = ?";
+    private static final String CHARACTER_ID_BY_CHARACTER_NAME =
+            "SELECT character_id FROM skyxp_character " +
+                    "WHERE character_name = ?";
     private static final String CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID =
             "SELECT character_id FROM skyxp_character " +
                     "WHERE character_name = ? AND user_id = ?";
@@ -55,13 +58,6 @@ public class DbSelects {
         return result;
     }
 
-    public static String getFactoryId(Database database, String email, String characterName) throws SQLException {
-        String userId = getUserIdByEmailAddress(database, email);
-        String characterId = getCharacterIdByCharacterNameAndUserId(database, characterName, userId);
-        String factoryId = getFactoryIdByCharacterId(database, characterId);
-        return factoryId;
-    }
-
     public static String getCharacterIdByCharacterNameAndUserId(Database connection, String characterName, String userId) throws SQLException {
         String result = connection.runSelectStringValue(
                 CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID,
@@ -84,4 +80,11 @@ public class DbSelects {
         return result;
     }
 
+    public static String getFactoryId(Database database, String email, String characterName) throws SQLException {
+        String userId = getUserIdByEmailAddress(database, email);
+        String characterId = getCharacterIdByCharacterNameAndUserId(database, characterName, userId);
+        String factoryId = getFactoryIdByCharacterId(database, characterId);
+        return factoryId;
+    }
+    
 }

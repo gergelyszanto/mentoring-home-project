@@ -66,7 +66,7 @@ public class FriendRequestTest extends BasicTest {
         userIdForUserA = DbSelects.getUserIdByEmailAddress(database, userA.getEmail());
         characterNameA = UserUtils.generateRandomCharacterName();
         userA.createCharacter(characterNameA, accessTokenIdForUserA, userIdForUserA);
-        characterIdA = DbSelects.getCharacterIdByCharacterName(database, characterNameA);
+        characterIdA = DbSelects.getCharacterIdByCharacterNameAndUserId(database, characterNameA, userIdForUserA);
 
         log.debug("\n\n****userB:****");
         // create userB, login and create a character for it with RestAPI
@@ -76,7 +76,7 @@ public class FriendRequestTest extends BasicTest {
         userIdForUserB = DbSelects.getUserIdByEmailAddress(database, userB.getEmail());
         characterNameB = UserUtils.generateRandomCharacterName();
         userB.createCharacter(characterNameB, accessTokenIdForUserB, userIdForUserB);
-        characterIdB = DbSelects.getCharacterIdByCharacterName(database, characterNameB);
+        characterIdB = DbSelects.getCharacterIdByCharacterNameAndUserId(database, characterNameB, userIdForUserB);
     }
 
     private void connectToDB() {
