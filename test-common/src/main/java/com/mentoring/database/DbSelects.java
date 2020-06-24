@@ -28,7 +28,7 @@ public class DbSelects {
             "SELECT factory_id FROM factory " +
                     "WHERE character_id = ?";
 
-    public static String getUserIdByEmailAddress(Database connection, String email) throws SQLException {
+    public static String getUserIdByEmailAddress(Database connection, String email) {
         String result = connection.runSelectStringValue(
                 USER_ID_BY_EMAIL,
                 connection.getSingleStringMapper(1, email),
@@ -38,7 +38,7 @@ public class DbSelects {
         return result;
     }
 
-    public static String getUserNameByEmailAddress(Database connection, String email) throws SQLException {
+    public static String getUserNameByEmailAddress(Database connection, String email) {
         String result = connection.runSelectStringValue(
                 USER_NAME_BY_EMAIL,
                 connection.getSingleStringMapper(1, email),
@@ -48,7 +48,7 @@ public class DbSelects {
         return result;
     }
 
-    public static String getAccessTokenIdByEmailAddress(Database connection, String email) throws SQLException {
+    public static String getAccessTokenIdByEmailAddress(Database connection, String email) {
         String result = connection.runSelectStringValue(
                 ACCESS_TOKEN_ID_BY_EMAIL,
                 connection.getSingleStringMapper(1, email),
@@ -58,7 +58,7 @@ public class DbSelects {
         return result;
     }
 
-    public static String getCharacterIdByCharacterNameAndUserId(Database connection, String characterName, String userId) throws SQLException {
+    public static String getCharacterIdByCharacterNameAndUserId(Database connection, String characterName, String userId) {
         String result = connection.runSelectStringValue(
                 CHARACTER_ID_BY_CHARACTER_NAME_AND_USER_ID,
                 connection.getSingleStringMapper(1, characterName),
@@ -70,7 +70,7 @@ public class DbSelects {
         return result;
     }
 
-    public static String getFactoryIdByCharacterId(Database connection, String characterId) throws SQLException {
+    public static String getFactoryIdByCharacterId(Database connection, String characterId) {
         String result = connection.runSelectStringValue(
                 FACTORY_ID_BY_CHARACTER_ID,
                 connection.getSingleStringMapper(1, characterId),
@@ -80,11 +80,11 @@ public class DbSelects {
         return result;
     }
 
-    public static String getFactoryId(Database database, String email, String characterName) throws SQLException {
+    public static String getFactoryId(Database database, String email, String characterName) {
         String userId = getUserIdByEmailAddress(database, email);
         String characterId = getCharacterIdByCharacterNameAndUserId(database, characterName, userId);
         String factoryId = getFactoryIdByCharacterId(database, characterId);
         return factoryId;
     }
-    
+
 }
