@@ -7,8 +7,10 @@ import com.mentoring.database.DbUpdates;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
+import com.mentoring.pageobject.EquipmentPage;
 import com.mentoring.pageobject.FactoryPage;
 import com.mentoring.pageobject.IndexPage;
+import com.mentoring.pageobject.OverviewPage;
 import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -96,9 +98,15 @@ public class EquipmentTest extends BasicTest {
                 .as("Queue has not disappeared.")
                 .isTrue();
 
+        OverviewPage overviewPage = factoryPage.openOverviewPage();
+        EquipmentPage equipmentPage = overviewPage.openEquipmentPage();
+        //TODO: Check CEX-01 is visible
 
+        //TODO: 9. Remove a "BAT-01 Akkumulátor" from the ship
+        //TODO: Check BAT-01
 
-        //TODO: Subtask-4: CEX-01 item is added to the ship
+        //TODO: 10. Move CEX-01 to the empty slot of the ship
+        //TODO: 11. Verify the number of empty slots added matches the item description (element's title value)
 
         softAssertion.assertAll();
     }

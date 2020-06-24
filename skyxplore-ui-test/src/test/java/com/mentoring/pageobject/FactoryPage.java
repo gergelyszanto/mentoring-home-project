@@ -16,6 +16,9 @@ public class FactoryPage extends Page {
 
     private static final String PAGE_PATH = "/equipment";
 
+    @FindBy(id = "overview-button")
+    private WebElement overviewButton;
+
     @FindBy(xpath = "//div[contains(text(),'Bővítő')]")
     private WebElement connectorExtenderButton;
 
@@ -45,6 +48,12 @@ public class FactoryPage extends Page {
     @Override
     FactoryPage waitUntilPageLoads() {
         return this;
+    }
+
+    @Step("Opening overview page page.")
+    public OverviewPage openOverviewPage() {
+        waitUntilClickable(overviewButton).click();
+        return new OverviewPage(driver).waitUntilPageLoads();
     }
 
     public FactoryPage selectConnectorExtender() {
