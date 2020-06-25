@@ -10,7 +10,6 @@ import com.mentoring.generator.User;
 import com.mentoring.pageobject.EquipmentPage;
 import com.mentoring.pageobject.FactoryPage;
 import com.mentoring.pageobject.IndexPage;
-import com.mentoring.pageobject.OverviewPage;
 import com.mentoring.utilities.UserUtils;
 import io.qameta.allure.Description;
 import io.qameta.allure.Feature;
@@ -63,7 +62,7 @@ public class EquipmentTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndSetUpAnEquipment() throws SQLException {
+    public void createAndSetUpAnEquipment() {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
@@ -74,38 +73,48 @@ public class EquipmentTest extends BasicTest {
                 .openFactoryPage()
                 .selectConnectorExtender()
                 .clickCex01ProductionButton();
-
         assertThat(factoryPage.isExtenderItemInQueueVisible())
-                .as("Extender item in queue should be visible.")
+                .as("Extender item in Queue should be visible.")
                 .isTrue();
         softAssertion.assertThat(factoryPage.getQuantityInQueue().equals(DEFAULT_QUANTITY))
-                .as("Quantity in queue is not correct")
+                .as("Quantity in Queue should be correct.")
                 .isTrue();
         softAssertion.assertThat(factoryPage.isQueueProcessBarVisible())
-                .as("Queue process bar is not visible.")
+                .as("Queue process bar should be visible.")
                 .isTrue();
 
-        log.info("Updating queue process end time to finish the production.");
+        log.info("Updating DB: Set queue process end-time to finish the production.");
         factoryId = DbSelects.getFactoryId(database, user.getEmail(), characterName);
         DbUpdates.setProductionEndTimeByFactoryId(database, factoryId, "0");
 
         driver.navigate().refresh();
         assertThat(factoryPage.isQueueProcessBarVisible())
-                .as("Queue process bar is not visible.")
+                .as("Queue process bar should be updated.")
                 .isTrue();
-
         assertThat(factoryPage.isQueueDisappeared())
-                .as("Queue has not disappeared.")
+                .as("Queue should be disappeared.")
                 .isTrue();
 
-        OverviewPage overviewPage = factoryPage.openOverviewPage();
-        EquipmentPage equipmentPage = overviewPage.openEquipmentPage();
-        //TODO: Check CEX-01 is visible
+        EquipmentPage equipmentPage = new FactoryPage(driver)
+                .openOverviewPage()
+                .openEquipmentPage();
+        assertThat(equipmentPage.isCex01StorageItemVisible())
+                .as("CEX-01 item should be visible in Storage section")
+                .isTrue();
+        assertThat(equipmentPage.isBat01ShipItemVisible())
+                .as("BAT-01 item should be visible in Ship section")
+                .isTrue();
 
-        //TODO: 9. Remove a "BAT-01 Akkumulátor" from the ship
-        //TODO: Check BAT-01
+        equipmentPage.removeBat01ShipItem();
+        assertThat(equipmentPage.isEmptyShipSlotVisible())
+                .as("Empty slot should be visible in Ship section")
+                .isTrue();
+        softAssertion.assertThat(equipmentPage.isBat01StorageItemVisible())
+                .as("BAT-01 item should be visible in Storage section")
+                .isTrue();
 
-        //TODO: 10. Move CEX-01 to the empty slot of the ship
+        equipmentPage.moveCex01FromStorageToEmptyShipSlot();
+
         //TODO: 11. Verify the number of empty slots added matches the item description (element's title value)
 
         softAssertion.assertAll();

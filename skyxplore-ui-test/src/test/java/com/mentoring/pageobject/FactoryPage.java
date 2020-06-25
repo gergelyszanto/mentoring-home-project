@@ -37,7 +37,7 @@ public class FactoryPage extends Page {
     @FindBy(css = ".queue-process .process-bar-text")
     private WebElement queueProcessBar;
 
-    FactoryPage(WebDriver driver) {
+    public FactoryPage(WebDriver driver) {
         super(driver, PAGE_PATH);
     }
 
@@ -50,7 +50,7 @@ public class FactoryPage extends Page {
         return this;
     }
 
-    @Step("Opening overview page page.")
+    @Step("Opening overview page")
     public OverviewPage openOverviewPage() {
         waitUntilClickable(overviewButton).click();
         return new OverviewPage(driver).waitUntilPageLoads();
