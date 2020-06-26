@@ -103,5 +103,4 @@ public class FactoryPage extends Page {
         }
         return true;
     }
-
 }

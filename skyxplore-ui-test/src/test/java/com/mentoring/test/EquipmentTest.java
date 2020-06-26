@@ -89,35 +89,38 @@ public class EquipmentTest extends BasicTest {
 
         driver.navigate().refresh();
         assertThat(factoryPage.isQueueProcessBarVisible())
-                .as("Queue process bar should be updated.")
+                .as("Queue process bar should be updated")
                 .isTrue();
         assertThat(factoryPage.isQueueDisappeared())
-                .as("Queue should be disappeared.")
+                .as("Queue should be disappeared")
                 .isTrue();
 
-        EquipmentPage equipmentPage = new FactoryPage(driver)
+        EquipmentPage equipPage = new FactoryPage(driver)
                 .openOverviewPage()
                 .openEquipmentPage();
-        assertThat(equipmentPage.isCex01StorageItemVisible())
+        assertThat(equipPage.isStorageCex01ItemVisible())
                 .as("CEX-01 item should be visible in Storage section")
                 .isTrue();
-        assertThat(equipmentPage.isBat01ShipItemVisible())
+        assertThat(equipPage.isShipBat01ItemVisible())
                 .as("BAT-01 item should be visible in Ship section")
                 .isTrue();
 
-        equipmentPage.removeBat01ShipItem();
-        assertThat(equipmentPage.isEmptyShipSlotVisible())
-                .as("Empty slot should be visible in Ship section")
+        equipPage.removeShipBat01Item();
+        assertThat(equipPage.isShipEmptySlotVisible())
+                .as("After removing BAT-01 item, an Empty slot should be visible in Ship section")
                 .isTrue();
-        softAssertion.assertThat(equipmentPage.isBat01StorageItemVisible())
-                .as("BAT-01 item should be visible in Storage section")
+        softAssertion.assertThat(equipPage.isStorageBat01ItemVisible())
+                .as("After moving BAT-01 item from Ship section, it should be visible in Storage section")
                 .isTrue();
 
-        equipmentPage.moveCex01FromStorageToEmptyShipSlot();
-
-        //TODO: 11. Verify the number of empty slots added matches the item description (element's title value)
+        equipPage.moveStorageCex01ItemToShipEmptySlot();
+        assertThat(equipPage.isShipCex01ItemVisible())
+                .as("After moving CEX-01 from Storage section, it should be visible in Ship section")
+                .isTrue();
+        assertThat(equipPage.getShipEmptySlots() == equipPage.getShipCex01EmptySlotAttribute())
+                .as("CEX-01 empty slots attribute and empty slots in Ship section should be the same.")
+                .isTrue();
 
         softAssertion.assertAll();
     }
-
 }

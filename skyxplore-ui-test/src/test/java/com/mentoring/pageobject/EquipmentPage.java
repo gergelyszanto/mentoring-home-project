@@ -3,9 +3,9 @@ package com.mentoring.pageobject;
 import com.mentoring.config.Config;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 
 @Slf4j
@@ -13,22 +13,24 @@ public class EquipmentPage extends Page {
 
     private static final String PAGE_PATH = "/equipment";
 
+    private static final By shipEmptySlotsBy = By.xpath("//div[contains(text(),'Üres')]");
+
     // Ship section
     @FindBy(css = "#ship div[title *= 'BAT-01']")
-    private WebElement bat01ShipItem;
+    private WebElement shipBat01Item;
 
     @FindBy(css = "#ship div[title *= 'CEX-01']")
-    private WebElement cex01ShipItem;
+    private WebElement shipCex01Item;
 
-    @FindBy(xpath = "//div[@class='slot empty-slot']")
-    private WebElement emptyShipSlot;
+    @FindBy(xpath = "(//div[contains(text(),'Üres')])[1]")
+    private WebElement shipEmptySlot;
 
     // Storage section
-    @FindBy(xpath = "//div[@class='slot equipment-list-element']//span[contains(text(),'CEX-01')]")
-    private WebElement cex01StorageItem;
+    @FindBy(xpath = "(//div[@class='slot equipment-list-element'])[1]")
+    private WebElement storageCex01Item;
 
     @FindBy(xpath = "//div[@id='equipment-list']//span[contains(text(),'BAT-01')]")
-    private WebElement bat01StorageItem;
+    private WebElement storageBat01Item;
 
     EquipmentPage(WebDriver driver) {
         super(driver, PAGE_PATH);
@@ -43,43 +45,52 @@ public class EquipmentPage extends Page {
         return this;
     }
 
-    public void removeBat01ShipItem() {
+    public void removeShipBat01Item() {
         log.info("Removing BAT-01 item from Ship section by clicking it");
-        waitUntilClickable(bat01ShipItem).click();
+        waitUntilClickable(shipBat01Item).click();
+    }
+
+    @Step("Moving CEX-01 item from Storage section to Ship empty slot by dragging and dropping it")
+    public void moveStorageCex01ItemToShipEmptySlot() {
+        dragAndDrop(waitUntilVisible(storageCex01Item), waitUntilVisible(shipEmptySlot));
+    }
+
+    public int getShipCex01EmptySlotAttribute() {
+        String wholeAttr, emptySlotAttr;
+        String text = "Extra hely: ";
+
+        wholeAttr = waitUntilVisible(shipCex01Item).getAttribute("title");
+        int pos = wholeAttr.indexOf(text) + text.length();
+        emptySlotAttr = wholeAttr.substring(pos);
+        return Integer.parseInt(emptySlotAttr);
+    }
+
+    public int getShipEmptySlots() {
+        return driver.findElements(shipEmptySlotsBy).size();
     }
 
     @Step("Checking if BAT-01 item is visible in Ship section")
-    public boolean isBat01ShipItemVisible() {
-        return isElementDisplayed(bat01ShipItem);
+    public boolean isShipBat01ItemVisible() {
+        return isElementDisplayed(shipBat01Item);
     }
 
     @Step("Checking if CEX-01 item is visible in Ship section")
-    public boolean isCex01ShipItemVisible() {
-        return isElementDisplayed(cex01ShipItem);
+    public boolean isShipCex01ItemVisible() {
+        return isElementDisplayed(shipCex01Item);
     }
 
     @Step("Checking if empty slot is visible in Ship section")
-    public boolean isEmptyShipSlotVisible() {
-        return isElementDisplayed(emptyShipSlot);
+    public boolean isShipEmptySlotVisible() {
+        return isElementDisplayed(shipEmptySlot);
     }
 
     @Step("Checking if BAT-01 item is visible in Storage section")
-    public boolean isBat01StorageItemVisible() {
-        return isElementDisplayed(bat01StorageItem);
+    public boolean isStorageBat01ItemVisible() {
+        return isElementDisplayed(storageBat01Item);
     }
 
     @Step("Checking if CEX-01 item is visible in Storage section")
-    public boolean isCex01StorageItemVisible() {
-        return isElementDisplayed(cex01StorageItem);
+    public boolean isStorageCex01ItemVisible() {
+        return isElementDisplayed(storageCex01Item);
     }
-
-    @Step("Moving CEX-01 from Storage section to Ship empty slot")
-    public void moveCex01FromStorageToEmptyShipSlot() {
-        Actions action = new Actions(driver);
-
-        action.dragAndDrop(cex01StorageItem, emptyShipSlot)
-                .build()
-                .perform();
-    }
-
 }
