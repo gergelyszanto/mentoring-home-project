@@ -1,5 +1,6 @@
 package com.mentoring.framework;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -30,24 +31,26 @@ class DriverProvider {
     static WebDriver getInstance() throws MalformedURLException {
         switch (BROWSER) {
             case REMOTE_CHROME:
+                WebDriverManager.chromedriver().setup();
                 ChromeOptions capabilityRemoteChrome = new ChromeOptions();
                 capabilityRemoteChrome.setAcceptInsecureCerts(true);
-                RemoteWebDriver remoteWebDriver = new RemoteWebDriver(new URL(GRID_HUB_URL), capabilityRemoteChrome);
-                remoteWebDriver.setFileDetector(new LocalFileDetector());
-                browserVersion = remoteWebDriver.getCapabilities().getVersion();
+                WebDriver remoteWebDriver = new RemoteWebDriver(new URL(GRID_HUB_URL), capabilityRemoteChrome);
+                browserVersion = ((ChromeDriver) remoteWebDriver).getCapabilities().getVersion();
                 return remoteWebDriver;
             case FIREFOX:
+                WebDriverManager.firefoxdriver().setup();
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
-                System.setProperty("webdriver.gecko.driver", "drivers/firefox/geckodriver.exe");
-                FirefoxDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
-                browserVersion = firefoxDriver.getCapabilities().getVersion();
+                firefoxOptions.setAcceptInsecureCerts(true);
+                WebDriver firefoxDriver = new FirefoxDriver(firefoxOptions);
+                browserVersion = ((FirefoxDriver) firefoxDriver).getCapabilities().getVersion();
                 return firefoxDriver;
             case CHROME:
             default:
+                WebDriverManager.chromedriver().setup();
                 ChromeOptions capabilityChrome = new ChromeOptions();
-                System.setProperty("webdriver.chrome.driver", "drivers/chrome/chromedriver.exe");
-                ChromeDriver chromeDriver = new ChromeDriver(capabilityChrome);
-                browserVersion = chromeDriver.getCapabilities().getVersion();
+                capabilityChrome.setAcceptInsecureCerts(true);
+                WebDriver chromeDriver = new ChromeDriver(capabilityChrome);
+                browserVersion = ((ChromeDriver) chromeDriver).getCapabilities().getVersion();
                 return chromeDriver;
         }
     }

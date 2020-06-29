@@ -129,4 +129,5 @@ dependencies {
     testImplementation "org.assertj:assertj-core:3.11.1"
     testImplementation group: 'com.github.automatedowl', name: 'allure-environment-writer', version: '1.0.0'
     testImplementation group: 'org.awaitility', name: 'awaitility', version: '4.0.0-rc1'
+    testImplementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '4.0.0'
 }

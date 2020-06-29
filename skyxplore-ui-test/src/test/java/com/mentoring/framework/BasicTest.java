@@ -60,8 +60,7 @@ public class BasicTest {
 
     private void initializeDriver() {
         try {
-            LocalDriverManager.setWebDriver(DriverProvider.getInstance());
-            driver = LocalDriverManager.getDriver();
+            driver = DriverProvider.getInstance();
             if (driver == null) {
                 log.error("driver object is null !!!");
                 throw new AssertionError("driver object is null");
@@ -84,18 +83,18 @@ public class BasicTest {
 
     @AfterMethod(alwaysRun = true)
     public void postMethodActions(Method method, ITestResult testResult) {
-        LocalDriverManager.getDriver().quit();
-        LocalDriverManager.setWebDriver(null);
+        if (driver != null) {
+            driver.quit();
+        }
         driver = null;
     }
 
     @AfterClass(alwaysRun = true)
     public void teardown() {
-        if (LocalDriverManager.getDriver() != null) {
-            LocalDriverManager.getDriver().quit();
-            LocalDriverManager.setWebDriver(null);
-            driver = null;
+        if (driver != null) {
+            driver.quit();
         }
+        driver = null;
     }
 
     @AfterSuite(alwaysRun = true)
