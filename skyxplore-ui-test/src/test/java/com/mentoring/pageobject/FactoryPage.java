@@ -79,7 +79,7 @@ public class FactoryPage extends Page {
     @Step("Checking the queue process bar is visible.")
     public boolean isQueueProcessBarVisible() {
         try {
-            log.debug("Waiting for production queue job");
+            log.debug("Waiting for production queue job (before production)");
             Awaitility.await().pollInterval(500, TimeUnit.MILLISECONDS)
                     .atMost(15, TimeUnit.SECONDS)
                     .until(() -> getText(queueProcessBar).contains("00:"));
@@ -93,7 +93,7 @@ public class FactoryPage extends Page {
     @Step("Checking the queue is not visible anymore.")
     public boolean isQueueDisappeared() {
         try {
-            log.debug("Waiting for production queue job");
+            log.debug("Waiting for production queue job (after production)");
             Awaitility.await().pollInterval(500, TimeUnit.MILLISECONDS)
                     .atMost(15, TimeUnit.SECONDS)
                     .until(() -> (!isElementDisplayedNoWait(queueElement)));

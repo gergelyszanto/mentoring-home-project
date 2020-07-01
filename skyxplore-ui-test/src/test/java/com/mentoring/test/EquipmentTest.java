@@ -4,7 +4,7 @@ import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.database.DbUpdates;
-import com.mentoring.exceptions.ExtraFreeSlotDescriptionNotFoundException;
+import com.mentoring.exceptions.ExtraSlotsAttrNumberNotFoundException;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
@@ -63,7 +63,7 @@ public class EquipmentTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndEquipExtender() throws ExtraFreeSlotDescriptionNotFoundException {
+    public void createAndEquipExtender() throws ExtraSlotsAttrNumberNotFoundException {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
@@ -119,8 +119,8 @@ public class EquipmentTest extends BasicTest {
                 .as("After moving CEX-01 from Storage section, it should be visible in Ship section")
                 .isTrue();
         softAssertion.assertThat(equipPage.getShipEmptySlots())
-                .as("CEX-01 empty slots attribute and empty slots in Ship section should be the same.")
-                .isEqualTo(equipPage.getNumberOfExtraFreeSlotsFromCex01ItemDescription());
+                .as("CEX-01 extra free slots attribute and empty slots in Ship section should be the same.")
+                .isEqualTo(equipPage.getNumberOfExtraSlotsFromCex01ItemDescription());
 
         softAssertion.assertAll();
     }
