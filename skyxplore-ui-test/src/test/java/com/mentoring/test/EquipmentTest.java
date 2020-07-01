@@ -62,7 +62,7 @@ public class EquipmentTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndSetUpAnEquipment() {
+    public void createAndEquipExtender() {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
@@ -117,9 +117,9 @@ public class EquipmentTest extends BasicTest {
         assertThat(equipPage.isShipCex01ItemVisible())
                 .as("After moving CEX-01 from Storage section, it should be visible in Ship section")
                 .isTrue();
-        assertThat(equipPage.getShipEmptySlots() == equipPage.getShipCex01EmptySlotAttribute())
+        softAssertion.assertThat(equipPage.getShipEmptySlots())
                 .as("CEX-01 empty slots attribute and empty slots in Ship section should be the same.")
-                .isTrue();
+                .isEqualTo(equipPage.getNumberOfFreeSlotsFromCex01ItemDescription());
 
         softAssertion.assertAll();
     }

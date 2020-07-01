@@ -8,6 +8,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Slf4j
 public class EquipmentPage extends Page {
 
@@ -45,6 +48,7 @@ public class EquipmentPage extends Page {
         return this;
     }
 
+    @Step("Removing BAT-01 item from Ship section by clicking it.")
     public void removeShipBat01Item() {
         log.info("Removing BAT-01 item from Ship section by clicking it");
         waitUntilClickable(shipBat01Item).click();
@@ -55,16 +59,19 @@ public class EquipmentPage extends Page {
         dragAndDrop(waitUntilVisible(storageCex01Item), waitUntilVisible(shipEmptySlot));
     }
 
-    public int getShipCex01EmptySlotAttribute() {
-        String wholeAttr, emptySlotAttr;
-        String text = "Extra hely: ";
+    @Step("Getting the number of extra free slots from CEX-01 item description")
+    public int getNumberOfFreeSlotsFromCex01ItemDescription() {
+        String attr = waitUntilVisible(shipCex01Item).getAttribute("title");
 
-        wholeAttr = waitUntilVisible(shipCex01Item).getAttribute("title");
-        int pos = wholeAttr.indexOf(text) + text.length();
-        emptySlotAttr = wholeAttr.substring(pos);
-        return Integer.parseInt(emptySlotAttr);
+        Pattern pattern = Pattern.compile("(?<=Extra hely: )[0-9]+");
+        Matcher matcher = pattern.matcher(attr);
+
+        String slot = matcher.find() ? matcher.group(0) : "-1";
+
+        return Integer.parseInt(slot);
     }
 
+    @Step("Getting the number of empty slots in Ship section")
     public int getShipEmptySlots() {
         return driver.findElements(shipEmptySlotsBy).size();
     }
