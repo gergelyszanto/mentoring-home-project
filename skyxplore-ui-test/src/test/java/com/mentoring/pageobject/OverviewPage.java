@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 public class OverviewPage extends Page {
 
+    @FindBy(id = "equipment-button")
+    private WebElement equipmentButton;
+
     @FindBy(id = "hangar-button")
     private WebElement hangarButton;
 
@@ -24,6 +27,12 @@ public class OverviewPage extends Page {
 
     OverviewPage(WebDriver driver) {
         super(driver, PAGE_PATH);
+    }
+
+    @Step("Opening equipment page.")
+    public EquipmentPage openEquipmentPage() {
+        waitUntilClickable(equipmentButton).click();
+        return new EquipmentPage(driver).waitUntilPageLoads();
     }
 
     @Step("Opening hangar page.")
