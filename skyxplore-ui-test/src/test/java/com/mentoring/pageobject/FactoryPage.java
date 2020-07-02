@@ -37,7 +37,7 @@ public class FactoryPage extends Page {
     @FindBy(css = ".queue-process .process-bar-text")
     private WebElement queueProcessBar;
 
-    public FactoryPage(WebDriver driver) {
+    FactoryPage(WebDriver driver) {
         super(driver, PAGE_PATH);
     }
 

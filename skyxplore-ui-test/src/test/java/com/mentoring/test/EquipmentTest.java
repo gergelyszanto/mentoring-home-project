@@ -84,7 +84,6 @@ public class EquipmentTest extends BasicTest {
                 .as("Queue process bar should be visible.")
                 .isTrue();
 
-        log.info("Updating DB: Set queue process end-time to finish the production.");
         factoryId = DbSelects.getFactoryId(database, user.getEmail(), characterName);
         DbUpdates.setProductionEndTimeByFactoryId(database, factoryId, "0");
 
@@ -96,7 +95,7 @@ public class EquipmentTest extends BasicTest {
                 .as("Queue should be disappeared")
                 .isTrue();
 
-        EquipmentPage equipPage = new FactoryPage(driver)
+        EquipmentPage equipPage = factoryPage
                 .openOverviewPage()
                 .openEquipmentPage();
         assertThat(equipPage.isStorageCex01ItemVisible())

@@ -84,6 +84,7 @@ public class DbSelects {
         String userId = getUserIdByEmailAddress(database, email);
         String characterId = getCharacterIdByCharacterNameAndUserId(database, characterName, userId);
         String factoryId = getFactoryIdByCharacterId(database, characterId);
+        log.info("Getting Factory ID: {} by User ID: {} and Character ID: {}", factoryId, userId, characterId);
         return factoryId;
     }
 

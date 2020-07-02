@@ -15,7 +15,7 @@ public class DbUpdates {
             "UPDATE product SET end_time = ? " +
                     "WHERE factory_id = ?";
 
-    @Step("Updating production queue end time to be finished in the database.")
+    @Step("Updating production queue end-time.")
     public static void setProductionEndTimeByFactoryId(Database connection, String factoryId, String value) {
         connection.runUpdateLongColumnValue(
                 UPDATE_PRODUCT_END_TIME_BY_FACTORY_ID,
