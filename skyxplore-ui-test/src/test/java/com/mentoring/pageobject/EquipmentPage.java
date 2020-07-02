@@ -1,7 +1,6 @@
 package com.mentoring.pageobject;
 
 import com.mentoring.config.Config;
-import com.mentoring.exceptions.ExtraFreeSlotsNumberNotFoundException;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
@@ -61,7 +60,7 @@ public class EquipmentPage extends Page {
     }
 
     @Step("Getting the number of extra free slots from CEX-01 item description")
-    public int getCex01ItemExtraFreeSlots() throws ExtraFreeSlotsNumberNotFoundException {
+    public int getCex01ItemExtraFreeSlots() throws AssertionError {
         String attr = waitUntilVisible(shipCex01Item).getAttribute("title");
 
         Pattern pattern = Pattern.compile("(?<=Extra hely: )[0-9]+");
@@ -71,7 +70,7 @@ public class EquipmentPage extends Page {
         if(matcher.find()) {
             slot = matcher.group(0);
         } else {
-            throw new ExtraFreeSlotsNumberNotFoundException(
+            throw new AssertionError(
                     ("Number of extra free slots description is not found:\n" + attr));
         }
         return Integer.parseInt(slot);

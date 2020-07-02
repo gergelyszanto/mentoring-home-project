@@ -4,7 +4,6 @@ import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.database.DbUpdates;
-import com.mentoring.exceptions.ExtraFreeSlotsNumberNotFoundException;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
 import com.mentoring.framework.BasicTest;
 import com.mentoring.generator.User;
@@ -63,7 +62,7 @@ public class EquipmentTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndEquipExtender() throws ExtraFreeSlotsNumberNotFoundException {
+    public void createAndEquipExtender() throws AssertionError {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
