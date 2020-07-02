@@ -60,7 +60,7 @@ public class EquipmentPage extends Page {
     }
 
     @Step("Getting the number of extra free slots from CEX-01 item description")
-    public int getCex01ItemExtraFreeSlots() throws AssertionError {
+    public int getCex01ItemExtraFreeSlots() {
         String attr = waitUntilVisible(shipCex01Item).getAttribute("title");
 
         Pattern pattern = Pattern.compile("(?<=Extra hely: )[0-9]+");

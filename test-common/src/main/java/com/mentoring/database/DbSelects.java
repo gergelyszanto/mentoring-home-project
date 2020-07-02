@@ -2,8 +2,6 @@ package com.mentoring.database;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.SQLException;
-
 @Slf4j
 public class DbSelects {
 
@@ -87,5 +85,4 @@ public class DbSelects {
         log.info("Getting Factory ID: {} by User ID: {} and Character ID: {}", factoryId, userId, characterId);
         return factoryId;
     }
-
 }

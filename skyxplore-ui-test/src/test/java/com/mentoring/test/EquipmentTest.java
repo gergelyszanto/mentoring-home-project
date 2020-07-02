@@ -21,8 +21,6 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.sql.SQLException;
-
 import static com.mentoring.model.Features.EQUIPMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,7 +34,7 @@ public class EquipmentTest extends BasicTest {
     private String factoryId;
 
     @BeforeMethod(alwaysRun = true)
-    private void setup() throws SQLException {
+    private void setup() {
         connectToDB();
         softAssertion = new SoftAssertions();
     }
@@ -62,7 +60,7 @@ public class EquipmentTest extends BasicTest {
     @Severity(SeverityLevel.BLOCKER)
     @Feature(EQUIPMENT)
     @Test(groups = {REGRESSION})
-    public void createAndEquipExtender() throws AssertionError {
+    public void createAndEquipExtender() {
         String characterName = UserUtils.generateRandomCharacterName();
         User user = new User();
 
