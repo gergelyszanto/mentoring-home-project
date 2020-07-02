@@ -70,8 +70,7 @@ public class EquipmentPage extends Page {
         if(matcher.find()) {
             slot = matcher.group(0);
         } else {
-            throw new AssertionError(
-                    ("Number of extra free slots description is not found:\n" + attr));
+            throw new AssertionError("Number of extra free slots description is not found:\n" + attr);
         }
         return Integer.parseInt(slot);
     }
