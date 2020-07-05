@@ -22,13 +22,13 @@ public class CharacterTest extends BaseApiTest {
                 .as("All characters list should contain created character response.")
                 .contains(characterEndpoint.getCharacterResponse());
 
-        String updated_name = UserUtils.generateRandomCharacterName();
-        characterEndpoint.updateCharacter(user.getAuthCookie(), characterId, updated_name, 200);
+        String updatedName = UserUtils.generateRandomCharacterName();
+        characterEndpoint.updateCharacter(user.getAuthCookie(), characterId, updatedName, 200);
 
         characterEndpoint.getAllCharacters(user.getAuthCookie(), 200);
         Assertions.assertThat(characterEndpoint.getAllCharactersResponse().get(0).getCharacterName())
                 .as("Character should be successfully updated.")
-                .isEqualTo(updated_name);
+                .isEqualTo(updatedName);
 
         characterEndpoint.deleteCharacter(user.getAuthCookie(), characterId, 200);
         characterEndpoint.getAllCharacters(user.getAuthCookie(), 200);

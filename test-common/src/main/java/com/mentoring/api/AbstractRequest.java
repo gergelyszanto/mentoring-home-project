@@ -34,6 +34,18 @@ public abstract class AbstractRequest {
             return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
 
+    public Response sendPostRequest(String path, Object requestBody, int expectedStatusCode) {
+        AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
+        RestAssured.baseURI = Config.getBaseUrl();
+
+        Response response = RequestBuilder.builder()
+                .requestBody(requestBody)
+                .build()
+                .createRequest(attachmentHandler, Method.POST, path);
+
+        return validateResponse(attachmentHandler, response, expectedStatusCode);
+    }
+
     public Response sendGetRequest(Cookies cookies, String path, int expectedStatusCode) {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();

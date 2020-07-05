@@ -22,6 +22,6 @@ public class UserEndpoint extends AbstractRequest {
     }
 
     public Response sendRegistrationRequest(CreateUserRequest requestBody, int expectedResponseCode) {
-        return sendPostRequest(null, USER_PATH, requestBody, expectedResponseCode);
+        return sendPostRequest(USER_PATH, requestBody, expectedResponseCode);
     }
 }

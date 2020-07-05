@@ -64,7 +64,7 @@ public class User extends AbstractRequest {
         regData.put("password", password);
         regData.put("email", email);
 
-        return sendPostRequest(null, REGISTRATION_PATH, regData, 200);
+        return sendPostRequest(REGISTRATION_PATH, regData, 200);
     }
 
     @Step("Precondition: Logging in with user: {userName} and password: {password})")
@@ -73,7 +73,7 @@ public class User extends AbstractRequest {
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        return sendPostRequest(null, LOGIN_PATH, loginData, 200);
+        return sendPostRequest(LOGIN_PATH, loginData, 200);
     }
 
     @Step("Precondition: Creating character: {characterName}")

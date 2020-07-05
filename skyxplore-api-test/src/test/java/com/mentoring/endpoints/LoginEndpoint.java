@@ -15,6 +15,6 @@ public class LoginEndpoint extends AbstractRequest {
                 .password(password)
                 .userName(username)
                 .build();
-        return sendPostRequest(null, LOGIN_PATH, loginRequest, expectedResponseCode);
+        return sendPostRequest(LOGIN_PATH, loginRequest, expectedResponseCode);
     }
 }
