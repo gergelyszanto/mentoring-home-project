@@ -13,6 +13,14 @@ public class TestListener extends BaseApiTest implements ITestListener {
         return iTestResult.getMethod().getConstructorOrMethod().getName();
     }
 
+    @SuppressWarnings("UnusedReturnValue")
+    @Attachment(value = "Test Log", type = "text/plain")
+    public String stopCatch() {
+        String result = MultithreadedConsoleOutputCatcher.getContent();
+        MultithreadedConsoleOutputCatcher.stopCatch();
+        return result;
+    }
+
     @Attachment(value = "{0}", type = "text/plain")
     private String saveTextLog(String message) {
         return message;
@@ -22,26 +30,27 @@ public class TestListener extends BaseApiTest implements ITestListener {
     public void onTestFailure(ITestResult iTestResult) {
         log.warn("Test '{}' failed.", getTestMethodName(iTestResult));
         saveTextLog(getTestMethodName(iTestResult) + " failed.");
+        stopCatch();
     }
 
     @Override
     public void onTestStart(ITestResult result) {
-
+        MultithreadedConsoleOutputCatcher.startCatch ();
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
-
+        stopCatch();
     }
 
     @Override
     public void onTestSkipped(ITestResult result) {
-
+        stopCatch();
     }
 
     @Override
     public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
-
+        stopCatch();
     }
 
     @Override
