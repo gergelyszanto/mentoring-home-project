@@ -94,7 +94,7 @@ public class IndexPage extends Page {
         waitUntilClickable(submitLoginButton).click();
     }
 
-    @Step("Filling registrastion form with username: {username}, password: {password} and email address: {emailAddress}")
+    @Step("Filling registration form with username: {username}, password: {password} and email address: {emailAddress}")
     public IndexPage fillRegistrationForm(String username, String password, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);
@@ -103,7 +103,7 @@ public class IndexPage extends Page {
         return this;
     }
 
-    @Step("Filling registrastion form with username: {username}, password: {password}, confirm password: {confirmPassword} and email address: {emailAddress}")
+    @Step("Filling registration form with username: {username}, password: {password}, confirm password: {confirmPassword} and email address: {emailAddress}")
     public IndexPage fillRegistrationForm(String username, String password, String confirmPassword, String emailAddress) {
         enterRegistrationUsername(username);
         enterRegistrationPassword(password);

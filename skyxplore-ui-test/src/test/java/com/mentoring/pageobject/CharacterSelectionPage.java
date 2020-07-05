@@ -156,22 +156,22 @@ public class CharacterSelectionPage extends Page {
         return this;
     }
 
-    @Step("Asserting if character name is marked as invalid.")
+    @Step("Checking if character name is marked as invalid.")
     public boolean isCreateCharacterNameInvalid() {
         return isElementDisplayed(invalidCreateCharacterName);
     }
 
-    @Step("Asserting create character button state.")
+    @Step("Checking create character button state.")
     public boolean isCreateCharacterButtonEnabled() {
         return createCharacterButton.isEnabled();
     }
 
-    @Step("Asserting if character name is marked as invalid.")
+    @Step("Checking if character name is marked as invalid.")
     public boolean isRenameNewCharacterNameInvalid() {
         return isElementDisplayed(invalidNewCharacterName);
     }
 
-    @Step("Asserting rename character button state.")
+    @Step("Checking rename character button state.")
     public boolean isRenameCharacterButtonEnabled() {
         return renameCharacterButton.isEnabled();
     }
