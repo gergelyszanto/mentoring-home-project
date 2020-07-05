@@ -5,7 +5,7 @@ import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.database.DbUpdates;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.generator.User;
 import com.mentoring.pageobject.EquipmentPage;
 import com.mentoring.pageobject.FactoryPage;
@@ -25,7 +25,7 @@ import static com.mentoring.model.Features.EQUIPMENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
-public class EquipmentTest extends BasicTest {
+public class EquipmentTest extends BaseUiTest {
 
     private static final String DEFAULT_QUANTITY = "1";
 
