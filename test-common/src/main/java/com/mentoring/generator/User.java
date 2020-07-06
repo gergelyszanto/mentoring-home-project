@@ -1,144 +1,100 @@
 package com.mentoring.generator;
 
+import com.mentoring.api.AbstractRequest;
 import com.mentoring.utilities.UserUtils;
-import com.mentoring.config.Config;
 import io.qameta.allure.Step;
-import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
+import io.restassured.http.Cookie;
+import io.restassured.http.Cookies;
+import io.restassured.response.Response;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static io.restassured.RestAssured.given;
-
 @Slf4j
-public class User {
+public class User extends AbstractRequest {
 
     private static final String PASSWORD = "Test1234!";
-    private static final String REGISTRATION_PATH_DEV = "/api/user";
-    private static final String LOGIN_PATH_DEV = "/api/login";
-    private static final String CHARACTER_PATH_DEV = "/api/character";
-    private static final String LOGOUT_PATH_DEV = "/api/logout";
-    private static final String FRIEND_REQUEST = "/api/friend/request";
+    private static final String REGISTRATION_PATH = "/api/user";
+    private static final String LOGIN_PATH = "/api/login";
+    private static final String CHARACTER_PATH = "/api/character";
+    private static final String FRIEND_REQUEST_PATH = "/api/friend/request";
 
     @Getter
     private String userName;
+
     @Getter
     private String password;
+
     @Getter
     private String email;
+
+    @Getter
+    private String userId;
+
+    @Getter
+    private String accessToken;
+
+    @Getter
+    private Cookies authCookie;
 
     public User() {
         this.userName = UserUtils.generateRandomUsername();
         this.password = PASSWORD;
         this.email = UserUtils.generateRandomEmail();
         registerUser(userName, password, email);
+        Response response = loginUser(userName, password);
+        this.userId = response.getDetailedCookie("userid").getValue();
+        this.accessToken = response.getDetailedCookie("accesstokenid").getValue();
+        this.authCookie = response.getDetailedCookies();
     }
 
     public User(String userName, String password, String email) {
         this.userName = userName;
         this.password = password;
         this.email = email;
-        registerUser(userName, password, email);
+        this.userId = registerUser(userName, password, email).getDetailedCookie("userid").toString();
     }
 
-    @Step("Posting user registration...")
-    private void registerUser(String username, String password, String email) {
+    @Step("Precondition: Posting user registration...")
+    private Response registerUser(String username, String password, String email) {
         Map<String, String> regData = new HashMap<>();
         regData.put("username", username);
         regData.put("password", password);
         regData.put("email", email);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-            .urlEncodingEnabled(true)
-            .contentType(ContentType.JSON)
-            .body(regData)
-            .when()
-            .post(getRegistrationPath())
-            .then()
-            .statusCode(200);
-        log.info("User registered:\n\tUsername: {}\n\tEmail: {}\n\tPassword: {}", username, email, password);
+        return sendPostRequest(REGISTRATION_PATH, regData, 200);
     }
 
-    @Step("Precondition step: Logging in with user: {userName} and password: {password})")
-    public void loginUser(String userName, String password) {
+    @Step("Precondition: Logging in with user: {userName} and password: {password})")
+    public Response loginUser(String userName, String password) {
         Map<String, String> loginData = new HashMap<>();
         loginData.put("userName", userName);
         loginData.put("password", password);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(loginData)
-                .when()
-                .post(getLoginPath())
-                .then()
-                .statusCode(200);
-        log.info("User logged in:\n\tUsername: {}\n\tPassword: {}", userName, password);
+        return sendPostRequest(LOGIN_PATH, loginData, 200);
     }
 
-    @Step("Creating character: {characterName}")
+    @Step("Precondition: Creating character: {characterName}")
     public void createCharacter(String characterName, String accessToken, String userId) {
+        Cookie accessTokenCookie = new Cookie.Builder("accesstokenid", accessToken).setSecured(true).build();
+        Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
         Map<String, String> characterData = new HashMap<>();
         characterData.put("characterName", characterName);
+        Cookies cookies = new Cookies(accessTokenCookie, userIdToken);
 
-        RestAssured.baseURI = Config.getBaseUrl();
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(characterData)
-                .cookie("accesstokenid", accessToken)
-                .cookie("userid", userId)
-                .when()
-                .post(getCharacterPath())
-                .then()
-                .statusCode(200);
-        log.info("User character created:\n\tCharacter name: {}", characterName);
+        sendPostRequest(cookies, CHARACTER_PATH, characterData, 200);
     }
 
-    @Step("Send friend request from: {characterIdFrom} to: {characterIdTo}")
+    @Step("API util: Send friend request from: {characterIdFrom} to: {characterIdTo}")
     public void sendFriendRequest(String characterIdFrom, String accessToken, String userId, String characterIdTo) {
         Map<String, String> character = new HashMap<>();
         character.put("value", characterIdTo);
-
-        RestAssured.baseURI = Config.getBaseUrl();
-
-        given()
-                .urlEncodingEnabled(true)
-                .contentType(ContentType.JSON)
-                .body(character)
-                .cookie("userid", userId)
-                .cookie("accesstokenid", accessToken)
-                .cookie("characterid", characterIdFrom)
-                .when()
-                .put(getFriendRequest())
-                .then()
-                .statusCode(200);
-        log.info("Friend request sent to:\n\tCharacter id: {}", characterIdTo);
-    }
-
-
-    private static String getRegistrationPath() {
-        return REGISTRATION_PATH_DEV;
-    }
-
-    private static String getLoginPath() {
-        return LOGIN_PATH_DEV;
-    }
-
-    private static String getCharacterPath() {
-        return CHARACTER_PATH_DEV;
-    }
-
-    private static String getLogoutPath() {
-        return LOGOUT_PATH_DEV;
-    }
-
-    private static String getFriendRequest() {
-        return FRIEND_REQUEST;
+        Cookie accessTokenCookie = new Cookie.Builder("accesstokenid", accessToken).setSecured(true).build();
+        Cookie userIdToken = new Cookie.Builder("userid", userId).setSecured(true).build();
+        Cookie characterId = new Cookie.Builder("characterid", characterIdFrom).setSecured(true).build();
+        Cookies cookies = new Cookies(accessTokenCookie, userIdToken, characterId);
+        sendPutRequest(cookies, FRIEND_REQUEST_PATH, character, 200);
     }
 }

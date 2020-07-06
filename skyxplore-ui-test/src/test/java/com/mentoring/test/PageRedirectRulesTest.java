@@ -1,6 +1,6 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbUpdates;
 import com.mentoring.utilities.UserUtils;
@@ -32,7 +32,7 @@ import org.testng.annotations.Test;
 import static com.mentoring.model.Features.PAGE_REDIRECTS;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PageRedirectRulesTest extends BasicTest {
+public class PageRedirectRulesTest extends BaseUiTest {
 
     private static final String GOOGLE = "https://www.google.com";
     private Database database;
