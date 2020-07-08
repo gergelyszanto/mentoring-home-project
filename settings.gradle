@@ -1,3 +1,4 @@
 rootProject.name = 'mentoring-home-project'
 include 'test-common'
 include 'skyxplore-ui-test'
+include 'skyxplore-api-test'

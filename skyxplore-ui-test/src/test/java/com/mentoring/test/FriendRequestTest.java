@@ -4,7 +4,7 @@ import com.mentoring.config.Config;
 import com.mentoring.database.Database;
 import com.mentoring.database.DbSelects;
 import com.mentoring.exceptions.EnvironmentNotSupportedException;
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.generator.User;
 import com.mentoring.messages.Messages;
 import com.mentoring.pageobject.CommunityPage;
@@ -22,12 +22,10 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.sql.SQLException;
-
 import static com.mentoring.model.Features.FRIEND_REQUEST;
 
 @Slf4j
-public class FriendRequestTest extends BasicTest {
+public class FriendRequestTest extends BaseUiTest {
 
     private static final String FRIEND_LIST_ASSERTION_MESSAGE = " should appear in friend list.";
 
@@ -54,7 +52,7 @@ public class FriendRequestTest extends BasicTest {
     }
 
     @BeforeMethod(alwaysRun = true)
-    private void setup() throws SQLException {
+    private void setup() {
         connectToDB();
         softAssertion = new SoftAssertions();
 
@@ -66,7 +64,7 @@ public class FriendRequestTest extends BasicTest {
         userIdForUserA = DbSelects.getUserIdByEmailAddress(database, userA.getEmail());
         characterNameA = UserUtils.generateRandomCharacterName();
         userA.createCharacter(characterNameA, accessTokenIdForUserA, userIdForUserA);
-        characterIdA = DbSelects.getCharacterIdByCharacterName(database, characterNameA);
+        characterIdA = DbSelects.getCharacterIdByCharacterNameAndUserId(database, characterNameA, userIdForUserA);
 
         log.debug("\n\n****userB:****");
         // create userB, login and create a character for it with RestAPI
@@ -76,7 +74,7 @@ public class FriendRequestTest extends BasicTest {
         userIdForUserB = DbSelects.getUserIdByEmailAddress(database, userB.getEmail());
         characterNameB = UserUtils.generateRandomCharacterName();
         userB.createCharacter(characterNameB, accessTokenIdForUserB, userIdForUserB);
-        characterIdB = DbSelects.getCharacterIdByCharacterName(database, characterNameB);
+        characterIdB = DbSelects.getCharacterIdByCharacterNameAndUserId(database, characterNameB, userIdForUserB);
     }
 
     private void connectToDB() {
@@ -225,5 +223,4 @@ public class FriendRequestTest extends BasicTest {
 
         softAssertion.assertAll();
     }
-
 }

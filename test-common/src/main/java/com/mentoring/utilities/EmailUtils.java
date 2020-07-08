@@ -22,11 +22,12 @@ public class EmailUtils {
 
     private static final String FOLDER = "IP address change";
     private static final String HOST = "IMAP.gmail.com";
+    private static final String MAIL_STORE_TYPE = "IMAP";
     private static final String USERNAME = "learn.ta.2019@gmail.com";
     private static final String PASSWORD = "VGVzdDEyMzQh";
 
     public static String getIpAddressFromEmail() {
-        String emailContent = getLastEmailContent(HOST, USERNAME);
+        String emailContent = getLastEmailContent(HOST, MAIL_STORE_TYPE, USERNAME);
         String ipAddress = "";
 
         // find the ip address right after 'SkyXplore: http://'
@@ -41,7 +42,7 @@ public class EmailUtils {
         return ipAddress;
     }
 
-    private static String getLastEmailContent(String host, String user) {
+    private static String getLastEmailContent(String host, String storeType, String user) {
         try {
             //create properties field
             Properties properties = new Properties();

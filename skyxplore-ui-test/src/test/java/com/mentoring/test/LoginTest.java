@@ -1,6 +1,6 @@
 package com.mentoring.test;
 
-import com.mentoring.framework.BasicTest;
+import com.mentoring.framework.BaseUiTest;
 import com.mentoring.generator.User;
 import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.NotificationContainer;
@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 import static com.mentoring.model.Features.LOGIN;
 
 @Slf4j
-public class LoginTest extends BasicTest {
+public class LoginTest extends BaseUiTest {
 
     private static final String VALID_PASSWORD = "Test1234!";
     private static final String WRONG_PASSWORD = "test1234!";

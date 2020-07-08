@@ -35,11 +35,11 @@ public class Database {
         }
     }
 
-    String runSelectStringValue(String queryString, Consumer<PreparedStatement> paraMapper, TableColumn resultColumn) {
+    String runSelectStringValue(String queryString, Consumer<PreparedStatement> param, TableColumn resultColumn) {
         try {
             String result = "";
             PreparedStatement statement = connection.prepareStatement(queryString);
-            paraMapper.accept(statement);
+            param.accept(statement);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 result = resultSet.getString(resultColumn.columnName());
@@ -52,7 +52,26 @@ public class Database {
         }
     }
 
-    void runUpdateLongColumnValue(String queryString, Consumer<PreparedStatement> stringMapper, Consumer<PreparedStatement> intMapper, TableColumn resultColumn) {
+    String runSelectStringValue(String queryString, Consumer<PreparedStatement> param1,
+                                Consumer<PreparedStatement> param2, TableColumn resultColumn) {
+        try {
+            String result = "";
+            PreparedStatement statement = connection.prepareStatement(queryString);
+            param1.accept(statement);
+            param2.accept(statement);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                result = resultSet.getString(resultColumn.columnName());
+            }
+            statement.close();
+            return result;
+        } catch (SQLException e) {
+            log.error("Error running database query: " + queryString);
+            throw new AssertionError(e);
+        }
+    }
+
+    void runUpdateLongColumnValue(String queryString, Consumer<PreparedStatement> stringMapper, Consumer<PreparedStatement> intMapper) {
         try {
             PreparedStatement statement = connection.prepareStatement(queryString);
             stringMapper.accept(statement);
@@ -65,7 +84,7 @@ public class Database {
         }
     }
 
-    Consumer<PreparedStatement> getSingleStringMapper(int paramIndex, String value){
+    Consumer<PreparedStatement> getSingleStringMapper(int paramIndex, String value) {
         return statement -> {
             try {
                 statement.setString(paramIndex, value);
@@ -75,7 +94,7 @@ public class Database {
         };
     }
 
-    Consumer<PreparedStatement> getSingleDoubleMapper(int paramIndex, double value){
+    Consumer<PreparedStatement> getSingleDoubleMapper(int paramIndex, double value) {
         return statement -> {
             try {
                 statement.setDouble(paramIndex, value);
