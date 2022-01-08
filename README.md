@@ -1,8 +1,9 @@
 # mentoring-home-project
 
 ### Description
-This is a UI test automation framework for web application called 'SkyXplore'.
-More on SUT setup: https://docs.google.com/document/d/1jCLJbRgxdRNUktoMjbmOjZXWzvuCbZDO2fOiSjAPfsM
+
+This is a UI test automation framework for web application called 'SkyXplore'. More on SUT
+setup: https://docs.google.com/document/d/1jCLJbRgxdRNUktoMjbmOjZXWzvuCbZDO2fOiSjAPfsM
 
 ### Prerequisites
 
@@ -10,16 +11,16 @@ More on SUT setup: https://docs.google.com/document/d/1jCLJbRgxdRNUktoMjbmOjZXWz
 * Gradle 4.7
 * Latest Google Chrome
 * IntelliJ IDEA with plugins added:
-    * Lombok 
+    * Lombok
     * .ignore
     * CheckStyle-IDEA
 
 ### Environment variables
 
-Environment variable name | Possible values | Comment
---- | --- | ---
-BROWSER | chrome, remote_chrome, firefox | For now only chrome is supported. Fallback browser is 'chrome'.
-ENVIRONMENT | skyxplore-localhost, skyxplore-prod | -
+| Environment variable name | Possible values                     | Comment                                                         |
+|---------------------------|-------------------------------------|-----------------------------------------------------------------|
+| BROWSER                   | chrome, remote_chrome, firefox      | For now only chrome is supported. Fallback browser is 'chrome'. |
+| ENVIRONMENT               | skyxplore-localhost, skyxplore-prod | -                                                               |
 
 ### Generating Allure test-report
 
