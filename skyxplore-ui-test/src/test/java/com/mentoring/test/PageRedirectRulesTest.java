@@ -11,7 +11,7 @@ import com.mentoring.pageobject.CommunityPage;
 import com.mentoring.pageobject.EquipmentPage;
 import com.mentoring.pageobject.FactoryPage;
 import com.mentoring.pageobject.GamePage;
-import com.mentoring.pageobject.HangarPage;
+import com.mentoring.pageobject.HangarPageNormal;
 import com.mentoring.pageobject.IndexPage;
 import com.mentoring.pageobject.LobbyPage;
 import com.mentoring.pageobject.LobbyQueuePage;
@@ -41,7 +41,7 @@ public class PageRedirectRulesTest extends BaseUiTest {
     public static Object[][] pageUrls() {
         return new Object[][]{
                 {AccountPage.getPageUrl()}, {CharacterSelectionPage.getPageUrl()}, {CommunityPage.getPageUrl()},
-                {EquipmentPage.getPageUrl()}, {FactoryPage.getPageUrl()}, {GamePage.getPageUrl()}, {HangarPage.getPageUrl()},
+                {EquipmentPage.getPageUrl()}, {FactoryPage.getPageUrl()}, {GamePage.getPageUrl()}, {HangarPageNormal.getPageUrl()},
                 {LobbyPage.getPageUrl()}, {LobbyQueuePage.getPageUrl()}, {OverviewPage.getPageUrl()}, {ShopPage.getPageUrl()},
                 {IndexPage.getPageUrl()}
         };
@@ -142,8 +142,8 @@ public class PageRedirectRulesTest extends BaseUiTest {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), EquipmentPage.getPageUrl());
         } else if (pageUrl.equals(FactoryPage.getPageUrl())) {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), FactoryPage.getPageUrl());
-        } else if (pageUrl.equals(HangarPage.getPageUrl())) {
-            UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), HangarPage.getPageUrl());
+        } else if (pageUrl.equals(HangarPageNormal.getPageUrl())) {
+            UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), HangarPageNormal.getPageUrl());
         } else if (pageUrl.equals(ShopPage.getPageUrl())) {
             UrlAssertions.assertCurrentUrlMatchExpectedUrl(driver.getCurrentUrl(), ShopPage.getPageUrl());
         } else if (pageUrl.equals(CharacterSelectionPage.getPageUrl())) {
