@@ -2,16 +2,15 @@ package com.mentoring.test;
 
 import com.mentoring.framework.BaseUiTest;
 import com.mentoring.generator.User;
-import com.mentoring.pageobject.IndexPage;
-import com.mentoring.pageobject.NotificationContainer;
+import com.mentoring.pageobject.*;
 import com.mentoring.messages.Messages;
 import com.mentoring.test.assertionsteps.CommonAssertions;
 import com.mentoring.utilities.UserUtils;
-import com.mentoring.pageobject.CharacterSelectionPage;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -115,5 +114,21 @@ public class LoginTest extends BaseUiTest {
         CommonAssertions.assertNotificationMessageIsCorrect(softAssertion, notificationContainer, Messages.EMPTY_CREDENTIALS);
 
         softAssertion.assertAll();
+    }
+
+    @Test
+    public void testLoginWithAccessTokenStrategy() {
+        Login login = new Login();
+        login.setLoginStrategy(new LoginAccessTokenStrategy());
+        CharacterSelectionPage characterSelectionPage = login.login(driver, new IndexPage(driver), new User());
+        Assertions.assertThat(characterSelectionPage.isLogOutButtonVisible()).isTrue();
+    }
+
+    @Test
+    public void testLoginFromFrontendStrategy() {
+        Login login = new Login();
+        login.setLoginStrategy(new LoginFrontendAuthStrategy());
+        CharacterSelectionPage characterSelectionPage = login.login(driver, new IndexPage(driver), new User());
+        Assertions.assertThat(characterSelectionPage.isLogOutButtonVisible()).isTrue();
     }
 }
