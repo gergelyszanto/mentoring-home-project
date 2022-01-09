@@ -5,5 +5,5 @@ import org.openqa.selenium.WebDriver;
 
 public interface ILoginStrategy {
 
-    public CharacterSelectionPage login(WebDriver driver, IndexPage indexPage, User user);
+    CharacterSelectionPage login(WebDriver driver, IndexPage indexPage, User user);
 }
