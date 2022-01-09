@@ -25,11 +25,10 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.POST, path)
             .cookies(cookies)
             .requestBody(requestBody)
-            .build()
-            .createRequest(attachmentHandler, Method.POST, path);
+            .build();
 
             return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -38,10 +37,9 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.POST, path)
                 .requestBody(requestBody)
-                .build()
-                .createRequest(attachmentHandler, Method.POST, path);
+                .build();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -50,10 +48,9 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.GET, path)
             .cookies(cookies)
-            .build()
-            .createRequest(attachmentHandler, Method.GET, path);
+            .build();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -62,10 +59,9 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.DELETE, path)
             .cookies(cookies)
-            .build()
-            .createRequest(attachmentHandler, Method.DELETE, path);
+            .build();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -74,11 +70,10 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.PUT, path)
             .cookies(cookies)
             .requestBody(requestBody)
-            .build()
-            .createRequest(attachmentHandler, Method.PUT, path);
+            .build();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }
@@ -87,11 +82,10 @@ public abstract class AbstractRequest {
         AllureAttachmentHandler attachmentHandler = new AllureAttachmentHandler();
         RestAssured.baseURI = Config.getBaseUrl();
 
-        Response response = RequestBuilder.builder()
+        Response response = new RequestBuilder(attachmentHandler, Method.PATCH, path)
             .cookies(cookies)
             .requestBody(requestBody)
-            .build()
-            .createRequest(attachmentHandler, Method.PATCH, path);
+            .build();
 
         return validateResponse(attachmentHandler, response, expectedStatusCode);
     }

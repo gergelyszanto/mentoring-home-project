@@ -9,26 +9,44 @@ import io.restassured.http.Cookies;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
 import static io.restassured.RestAssured.given;
 
+
 @Slf4j
-@Builder
 public class RequestBuilder {
 
+    private final AllureAttachmentHandler attachmentHandler;
+    private final Method method;
+    private final String path;
     private Cookies cookies;
     private Object requestBody;
 
-    Response createRequest(AllureAttachmentHandler attachmentHandler, Method method, String path) {
-        log.info("Sending {} request to \"{}\" endpoint.",method.name() , path);
+    public RequestBuilder(AllureAttachmentHandler attachmentHandler, Method method, String path) {
+        this.attachmentHandler = attachmentHandler;
+        this.method = method;
+        this.path = path;
+    }
+
+    public RequestBuilder cookies(Cookies cookies) {
+        this.cookies = cookies;
+        return this;
+    }
+
+    public RequestBuilder requestBody(Object requestBody) {
+        this.requestBody = requestBody;
+        return this;
+    }
+
+    Response build() {
+        log.info("Sending {} request to \"{}\" endpoint.", method.name(), path);
 
         RequestSpecification request = given()
-            .urlEncodingEnabled(true)
-            .contentType(ContentType.JSON);
+                .urlEncodingEnabled(true)
+                .contentType(ContentType.JSON);
         attachmentHandler.attachJson(method.name().concat(" Request (").concat(path).concat(")"),
-            convertPoJoToJson(requestBody));
+                convertPoJoToJson(requestBody));
         if (requestBody != null) {
             request.body(requestBody);
             log.info("Request body:\n{}", convertPoJoToJson(requestBody));
